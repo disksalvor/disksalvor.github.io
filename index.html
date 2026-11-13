@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DiskSalvor: free, no-limit data recovery for failing drives (open source)</title>
+<meta name="description" content="Free data recovery for failing hard drives, USB drives and SD cards on Windows. No file limits, no paid upgrade, no account. Open source (MIT) and read-only: it never writes to your drive.">
+<meta name="keywords" content="free data recovery, data recovery no limit, open source data recovery, failing hard drive recovery, recover files from RAW drive, drive needs formatting, bad sectors, external hard drive recovery, USB drive recovery, NTFS recovery, exFAT recovery, Windows">
+<link rel="canonical" href="https://disksalvor.com/">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-512.png">
+<meta name="theme-color" content="#0f2a4a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DiskSalvor">
+<meta property="og:url" content="https://disksalvor.com/">
+<meta property="og:title" content="DiskSalvor: free, no-limit data recovery for failing drives">
+<meta property="og:description" content="Get your files off a failing drive. Free, no file limits, open source, read-only. Round by round, explained in plain English.">
+<meta property="og:image" content="https://disksalvor.com/assets/social.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="DiskSalvor: free, no-limit data recovery for failing drives">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DiskSalvor: free, no-limit data recovery for failing drives">
+<meta name="twitter:description" content="Free, no file limits, open source, read-only. Gets your files off a failing drive, round by round.">
+<meta name="twitter:image" content="https://disksalvor.com/assets/social.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"SoftwareApplication","@id":"https://disksalvor.com/#app","name":"DiskSalvor","url":"https://disksalvor.com/",
+  "description":"Free, open-source, read-only data recovery for failing drives on Windows: no file limits, no paid upgrade. It reads failing drives gently, copies the easy files first and goes back for the rest round by round.",
+  "applicationCategory":"UtilitiesApplication","applicationSubCategory":"Data recovery","operatingSystem":"Windows 10, Windows 11",
+  "isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "image":"https://disksalvor.com/assets/social.png","screenshot":"https://disksalvor.com/assets/running.webp",
+  "featureList":["Free with no file or size limits","Open source (MIT)","Read-only: never writes to the drive being rescued","Automatic rescue, round by round","Direct reads with its own time limits on failing drives","Skips weak areas and comes back to them last","Never reads the same bad spot twice","Recovers file names and folders on NTFS, FAT and exFAT","Careful retry of damaged files","Plain-English drive condition"],
+  "publisher":{"@id":"https://disksalvor.com/#org"}},
+ {"@type":"Organization","@id":"https://disksalvor.com/#org","name":"DiskSalvor","url":"https://disksalvor.com/","logo":"https://disksalvor.com/assets/icon-512.png","email":"hello@disksalvor.com","sameAs":["https://github.com/disksalvor"]},
+ {"@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"Is DiskSalvor really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. No trial, no file or size limits, no paid edition and no account. It's open source under the MIT licence."}},
+  {"@type":"Question","name":"Can DiskSalvor make my drive worse?","acceptedAnswer":{"@type":"Answer","text":"DiskSalvor never writes to the drive it rescues. Reading a failing drive does wear it, so DiskSalvor reads as little as possible: weak areas last, nothing twice, rests when the drive struggles, and stops when it's getting worse."}},
+  {"@type":"Question","name":"Will DiskSalvor repair my drive?","acceptedAnswer":{"@type":"Answer","text":"No, on purpose: with failing hardware the files come first. Once they're safe, its report says what to do with the drive."}},
+  {"@type":"Question","name":"Does DiskSalvor work on Mac or Linux?","acceptedAnswer":{"@type":"Answer","text":"Windows only for now. Other platforms are planned, and help is welcome."}}]}
+]}
+</script>
+<style>
+@font-face{font-family:"Plex";src:url(assets/fonts/ibm-plex-sans-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Plex";src:url(assets/fonts/ibm-plex-sans-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Plex";src:url(assets/fonts/ibm-plex-sans-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Plex";src:url(assets/fonts/ibm-plex-sans-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(assets/fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+:root{
+  --navy:#0f2a4a;--navy2:#13335a;--navy-line:#25466f;--on-navy:#e8eef6;--on-navy-muted:#a9b9cf;
+  --blue:#244fb3;--brass:#c8913e;--brass-ink:#8a5e22;--brass-soft:#f6efe2;
+  --bg:#ffffff;--band:#f4f5f7;--ink:#121c2b;--muted:#556074;--line:#d8dde5;
+  --good:#1f7a4f;--warn:#a2620c;--bad:#a83232;
+  /* names the Help pages (and older styles) use */
+  --panel:var(--bg);--panel2:var(--band);--accent:var(--blue);--accent-soft:#e9eef8;--good-soft:#e3f1e9;--warn-soft:#f8ead3;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0c1522;--band:#111c2b;--ink:#e6ebf2;--muted:#9aa7ba;--line:#24344a;--blue:#7ea3f2;--brass-soft:#2a2216;--brass-ink:#d9a95c;
+  --good:#5cc28d;--warn:#e0a94f;--bad:#ef7b7b;--navy:#08121f;--navy2:#0d1a2c;--navy-line:#22344d;
+  --accent-soft:#1a2740;--good-soft:#173326;--warn-soft:#3a2c14}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 "Plex",system-ui,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-underline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mono{font-family:"PlexMono",ui-monospace,Consolas,monospace}
+.eyebrow{font:500 12.5px/1 "PlexMono",ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--brass)}
+h1,h2,h3{font-weight:600;letter-spacing:-.015em;margin:0}
+h1{font-size:52px;line-height:1.08}
+h2{font-size:36px;line-height:1.15;margin-bottom:14px}
+h3{font-size:18px;line-height:1.3;margin-bottom:6px}
+p{margin:0 0 14px}
+.sub{color:var(--muted);font-size:18px;max-width:720px}
+/* header */
+.topbar{background:var(--navy);color:var(--on-navy-muted);font:13px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.04em}
+.topbar .wrap{display:flex;gap:22px;height:34px;align-items:center;overflow:hidden;white-space:nowrap}
+.topbar b{color:var(--brass);font-weight:500}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand img{width:34px;height:34px}
+.nav nav{margin-left:auto;display:flex;gap:26px;align-items:center}
+.nav nav a{color:var(--ink);text-decoration:none;font-size:15px;font-weight:500}
+.nav nav a:hover{color:var(--blue)}
+.nav nav a.cta{background:var(--navy);color:#fff;padding:10px 18px;border-radius:4px}
+.nav nav .soon{color:var(--muted);font-size:15px;font-weight:500;cursor:default;display:inline-flex;align-items:center;gap:6px}
+.nav nav .soon small{font:600 10.5px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:3px 5px}
+@media (prefers-color-scheme:dark){.nav nav a.cta{background:var(--blue);color:#0c1522}}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:4px;font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent}
+.btn.pri{background:var(--brass);color:#1b1206}
+.btn.pri:hover{filter:brightness(1.06)}
+.btn.ghost{border-color:rgba(255,255,255,.35);color:#fff}
+.btn.ghost:hover{border-color:#fff}
+.btn .arr{transition:transform .15s}.btn:hover .arr{transform:translateX(3px)}
+/* hero: navy band */
+.hero{background:var(--navy);color:var(--on-navy);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center;padding-top:72px;padding-bottom:84px}
+.hero .eyebrow{color:var(--brass)}
+.hero h1{color:#fff}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.hero .lead{color:var(--on-navy-muted);font-size:19px;margin:22px 0 30px;max-width:560px}
+.hero .btns{display:flex;gap:14px;flex-wrap:wrap}
+.hero .fine{color:var(--on-navy-muted);font-size:14px;margin-top:22px;max-width:560px}
+.frame{background:#0a1d34;border:1px solid var(--navy-line);border-radius:6px;padding:10px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.frame .dots{display:flex;gap:6px;padding:2px 2px 10px}.frame .dots i{width:9px;height:9px;border-radius:50%;background:var(--navy-line)}
+.frame img{display:block;width:100%;height:auto;border-radius:3px}
+/* facts strip under the hero */
+.facts{border-bottom:1px solid var(--line)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.facts .wrap>div{padding:22px 20px;border-left:1px solid var(--line);font-size:14.5px;color:var(--muted)}
+.facts .wrap>div:first-child{border-left:none;padding-left:0}
+.facts b{display:block;color:var(--ink);font-weight:600;font-size:15.5px}
+section{padding:96px 0}
+section.band{background:var(--band)}
+/* result: heading left, numbers right */
+.split{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.nums{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink)}
+.nums div{padding:26px 22px 26px 0;border-bottom:1px solid var(--line)}
+.nums div:nth-child(odd){border-right:1px solid var(--line)}
+.nums div:nth-child(even){padding-left:24px}
+.nums b{display:block;font:600 48px/1 "Plex",system-ui,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.025em;color:var(--navy);margin-bottom:10px}
+@media (prefers-color-scheme:dark){.nums b{color:#fff}}
+.nums span{color:var(--muted);font-size:15px}
+/* why: three columns with a brass rule */
+.whys{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:40px}
+.whys div{border-top:3px solid var(--brass);padding-top:22px}
+.whys h3{font-size:20px;margin-bottom:10px}
+.whys p{color:var(--muted);margin:0}
+/* free: text left, definition rows right */
+.rows{border-top:1px solid var(--line)}
+.rows div{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line)}
+.rows h3{font-size:15px;text-transform:uppercase;letter-spacing:.08em;font-family:"PlexMono",monospace;font-weight:500;color:var(--brass-ink)}
+.rows p{margin:0;color:var(--muted)}
+/* how: timeline left, screenshot right */
+.how{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.timeline{list-style:none;margin:28px 0 0;padding:0;counter-reset:s}
+.timeline li{position:relative;padding:0 0 26px 64px}
+.timeline li::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;width:40px;height:40px;border:1px solid var(--line);background:var(--band);display:grid;place-items:center;font:500 14px/1 "PlexMono",monospace;color:var(--brass-ink);border-radius:50%;z-index:1}
+.timeline li::after{content:"";position:absolute;left:20px;top:40px;bottom:0;width:1px;background:var(--line)}
+.timeline li:last-child::after{display:none}
+.timeline p{color:var(--muted);margin:0}
+.sticky{position:sticky;top:110px}
+.sticky .frame{background:var(--navy)}
+.caption{font-size:13.5px;color:var(--muted);margin-top:10px}
+/* built: icon list, two columns, no boxes */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 48px;margin-top:40px}
+.feat .ic{width:48px;height:48px;border-radius:4px;background:var(--brass-soft);color:var(--brass-ink);display:grid;place-items:center;margin-bottom:16px}
+.feat p{color:var(--muted);margin:0;font-size:15.5px}
+/* tools: navy band, ruled grid */
+.dark{background:var(--navy);color:var(--on-navy)}
+.dark h2{color:#fff}.dark .sub{color:var(--on-navy-muted)}.dark .eyebrow{color:var(--brass)}
+.ruled{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;border-top:1px solid var(--navy-line);border-left:1px solid var(--navy-line)}
+.ruled div{padding:28px 26px;border-right:1px solid var(--navy-line);border-bottom:1px solid var(--navy-line)}
+.ruled h3{color:#fff}
+.ruled .k{font:500 12px/1 "PlexMono",monospace;color:var(--brass);letter-spacing:.1em;display:block;margin-bottom:14px}
+.ruled p{color:var(--on-navy-muted);margin:0;font-size:15px}
+/* compare */
+.tablewrap{overflow-x:auto;margin-top:36px;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:15px;background:var(--bg)}
+th,td{padding:14px 14px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+th:first-child,td:first-child{text-align:left;width:34%}
+thead th{font:500 12.5px/1.35 "PlexMono",monospace;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:var(--band)}
+thead th.us{color:var(--ink);box-shadow:inset 0 3px 0 var(--brass)}
+td.us{background:var(--brass-soft);font-weight:600}
+tr:last-child td{border-bottom:none}
+.y{color:var(--good);font-weight:700}.n{color:var(--muted)}.p{color:var(--warn);font-weight:700}
+.half{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid var(--warn);background:linear-gradient(90deg,var(--warn) 50%,transparent 50%);vertical-align:-2px}
+.note{font-size:13.5px;color:var(--muted);margin-top:12px}
+.ahead{margin-top:56px;display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
+.ahead ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.ahead li{padding:16px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15.5px}
+.ahead li b{color:var(--ink)}
+/* right tool / lab */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
+.pair > div{padding:36px}
+.pair > div + div{border-left:1px solid var(--line)}
+.pair h3{font-size:20px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pair .tag{font:500 11.5px/1 "PlexMono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-radius:3px}
+.pair .ok .tag{background:#e3f1e9;color:var(--good)}.pair .lab .tag{background:#f8ead3;color:var(--warn)}
+@media (prefers-color-scheme:dark){.pair .ok .tag{background:#173326}.pair .lab .tag{background:#3a2c14}}
+.pair ul{margin:0;padding-left:20px;color:var(--muted)}.pair li{margin:6px 0}
+/* contribute */
+.contrib{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:32px}
+.contrib div{border-top:3px solid var(--brass);padding-top:20px}
+.contrib p{color:var(--muted);margin:0}
+/* guides: link list */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-top:32px;border-top:1px solid var(--line)}
+.links a{display:block;padding:20px 28px 20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);position:relative}
+.links a::after{content:"→";position:absolute;right:4px;top:20px;color:var(--brass-ink);transition:transform .15s}
+.links a:hover::after{transform:translateX(3px)}
+.links a:hover h3{color:var(--blue)}
+.links p{color:var(--muted);font-size:15px;margin:0}
+.more{margin-top:24px;font-weight:600}
+/* faq */
+.faq{display:grid;grid-template-columns:.7fr 1.3fr;gap:64px}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+details:first-child{border-top:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 22px/1 "PlexMono",monospace;color:var(--brass-ink)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin:12px 0 0}
+/* footer */
+footer{background:var(--navy);color:var(--on-navy-muted);padding:64px 0 36px;font-size:15px}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+footer h4{font:500 12px/1 "PlexMono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin:6px 0 16px}
+footer a{color:var(--on-navy);text-decoration:none;display:block;margin:0 0 10px}
+footer a:hover{text-decoration:underline}
+footer .brand{color:#fff;margin-bottom:14px}
+footer .legal{border-top:1px solid var(--navy-line);margin-top:44px;padding-top:22px;display:flex;gap:20px;flex-wrap:wrap;font-size:13.5px}
+@media (max-width:980px){
+  .hero .wrap,.split,.how,.ahead,.faq{grid-template-columns:1fr;gap:36px}
+  .feat,.ruled,.links{grid-template-columns:1fr 1fr}
+  .whys{grid-template-columns:1fr;gap:28px}
+  footer .cols{grid-template-columns:1fr 1fr}
+  .sticky{position:static}
+}
+@media (max-width:640px){
+  h1{font-size:38px}h2{font-size:29px}
+  .nav{flex-wrap:wrap;height:auto;gap:8px 20px;padding:10px 0}
+  .nav nav{margin-left:0;width:100%;justify-content:space-between;gap:10px}.nav nav a{font-size:15px}.nav nav a.cta{padding:7px 12px}
+  .nav nav .soon{display:none}
+  section{padding:64px 0}
+  .wrap{padding:0 16px}
+  .hero .wrap{padding-top:48px;padding-bottom:56px}
+  .facts .wrap{grid-template-columns:1fr 1fr}
+  .facts .wrap>div:nth-child(3){border-left:none;padding-left:0}
+  .facts .wrap>div{border-top:1px solid var(--line)}
+  .facts .wrap>div:nth-child(-n+2){border-top:none}
+  .nums{grid-template-columns:1fr}.nums div:nth-child(odd){border-right:none}.nums div:nth-child(even){padding-left:0}
+  .nums b{font-size:38px}
+  .rows div{grid-template-columns:1fr;gap:6px}
+  .feat,.ruled,.links,.contrib,.whys{grid-template-columns:1fr}
+  .pair{grid-template-columns:1fr}.pair > div + div{border-left:none;border-top:1px solid var(--line)}
+  .pair > div{padding:26px}
+  .topbar span:nth-child(n+3){display:none}
+  footer .cols{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap"><span><b>●</b> Free · no file limits · no account</span><span>Open source (MIT)</span><span>Read-only by design</span><span>Windows 10 and 11</span></div></div>
+<header><div class="wrap nav">
+  <a class="brand" href="#"><img src="assets/logo.svg" alt="">DiskSalvor</a>
+  <nav><span class="soon" title="Coming soon: try DiskSalvor on a simulated failing drive, right here in your browser. Nothing to install." aria-disabled="true">Sandbox<small>soon</small></span><a href="help/">Help</a><a href="help/questions/">FAQ</a><a href="support/">Support</a><a class="cta" href="https://github.com/disksalvor">GitHub</a></nav>
+</div></header>
+
+<main>
+<div class="hero"><div class="wrap">
+  <div>
+    <p class="eyebrow">Data recovery for failing drives</p>
+    <h1>Get your files off a failing drive. <em>Free, no limits.</em></h1>
+    <p class="lead">Your drive "needs formatting", crawls, or keeps disconnecting. DiskSalvor gets your files off it without making things worse: it reads gently, takes the easy files first, goes back for the rest round by round, and tells you what it's doing and why.</p>
+    <div class="btns"><a class="btn pri" href="https://github.com/disksalvor">Follow on GitHub <span class="arr">→</span></a><a class="btn ghost" href="#how">How it works</a></div>
+    <p class="fine">No file limits · no size limits · no paid "Pro" edition · no account · no ads or tracking. The source code goes public on GitHub after the current round of testing.</p>
+  </div>
+  <div class="frame"><div class="dots"><i></i><i></i><i></i></div><img src="assets/running.webp" width="1600" height="1075" alt="DiskSalvor, free data recovery for failing drives: the automatic rescue screen with files found, files safe, and each round"></div>
+</div></div>
+<div class="facts"><div class="wrap"><div><b>Read-only</b>Never writes to the drive it rescues</div><div><b>Gentle on failing drives</b>Its own time limits; weak areas last</div><div><b>Resumable</b>Stop any time; what's read is kept</div><div><b>Plain English</b>Says what's wrong and what to do</div></div></div>
+
+<section id="result"><div class="wrap split">
+  <div><p class="eyebrow">Proven on real hardware</p><h2>A real failing drive</h2><p class="sub">A 2 TB WD USB drive whose boot sector and the start of its file index were unreadable: Windows only offered to format it. What DiskSalvor got back:</p></div>
+  <div class="nums"><div><b>18,273</b><span>files recovered (92.5 GB), with their folder names</span></div><div><b>99.99%</b><span>of everything read came back fine</span></div><div><b>~3 s</b><span>per bad spot, instead of Windows' 104 s of retries</span></div><div><b>215</b><span>damaged files made whole again by the careful retry</span></div></div>
+</div></section>
+
+<section id="why" class="band"><div class="wrap">
+  <p class="eyebrow">Our purpose</p><h2>Why DiskSalvor</h2><p class="sub" style="font-size:22px;color:var(--ink);max-width:820px">When a drive fails, the last thing you need is a hassle trying to get your family photos and documents back.</p>
+  <div class="whys"><div><h3>Why it exists</h3><p>It started with a failing drive of our own, and no tool that did the job well: trials that stop at 2 GB, apps that hammer a weak drive for hours, advice that makes things worse. We needed a calm, careful way to get everything back, so we built it.</p></div><div><h3>Why it's free</h3><p>What's on a failing drive is often irreplaceable. Getting it back shouldn't depend on paying before you even know what can be saved. No trial, no file limits, no "Pro" edition.</p></div><div><h3>Why open source</h3><p>A recovery tool needs full access to your drive. Open source (MIT) means anyone can check that it only reads, and anyone can improve it for the next kind of failing drive.</p></div></div>
+</div></section>
+
+<section id="free"><div class="wrap split">
+  <div><p class="eyebrow">No limits</p><h2>Free data recovery, with no limits. Really.</h2><p class="sub">Most "free" recovery apps stop after 100 MB to 2 GB and ask you to pay for the rest. DiskSalvor recovers everything it can reach, at no cost, and its source code is open (MIT), so anyone can check exactly what it does to your drive: it only reads.</p></div>
+  <div class="rows"><div><h3>Drives</h3><p>External USB hard drives (WD My Passport, Seagate, Toshiba and others), internal hard drives and SSDs, USB sticks, SD and camera cards, and disk images.</p></div><div><h3>File systems</h3><p>Lists files and folders on <b>NTFS</b>, <b>FAT32</b> and <b>exFAT</b>, including when Windows calls the drive <b>RAW</b> or says it <b>needs formatting</b>. Other file systems (ext4, APFS, HFS+ and more) are recognised and named, but their files can't be listed yet.</p></div><div><h3>Symptoms</h3><p>"You need to format the disk", "the parameter is incorrect", drives that crawl, freeze, disconnect, or have <b>bad sectors</b>. Clicking or grinding: see a lab.</p></div></div>
+</div></section>
+
+<section id="how" class="band"><div class="wrap how">
+  <div><p class="eyebrow">How it works</p><h2>Round by round, by itself</h2><p class="sub">Pick the drive and a folder on another drive, and choose <b>Rescue it for me</b>. DiskSalvor runs every round by itself, copying after each one. Or go step by step and start each round yourself.</p>
+    <ol class="timeline"><li><h3>A first look, with a light touch</h3><p>The drive's own health log, what Windows has already logged about it (bad blocks, retries, disconnects: on a memory card, often the only sign it's failing), and a single timed read. If the drive clicks or isn't detected, DiskSalvor says so and stops: that's a job for a recovery lab.</p></li><li><h3>The file list, skipping the weak parts</h3><p>Where the drive struggles, DiskSalvor moves on and comes back later. Nothing it reads is ever read twice, even after a restart.</p></li><li><h3>Copy what reads easily, most important first</h3><p>Photos, documents, whatever matters most to you, in the order you choose. With dates and folders kept.</p></li><li><h3>Go back for what was skipped</h3><p>Slowly and carefully, piece by piece, as long as it keeps finding files. Lost folder names are searched for where your data is first.</p></li><li><h3>A careful retry of damaged files</h3><p>Only the missing pieces are read again, and patched into the copies you already have.</p></li><li><h3>A report you can keep</h3><p>What was recovered, what's missing and why, the drive's condition, and what to do (and not do) with it next.</p></li></ol></div>
+  <div class="sticky"><div class="frame"><div class="dots"><i></i><i></i><i></i></div><img src="assets/done.webp" alt="A finished rescue in DiskSalvor: what was found, what's safe, and what still has unreadable parts" loading="lazy"></div>
+    <p class="caption">A finished rescue: what was found, what's safe, and what still has unreadable parts.</p></div>
+</div></section>
+
+
+<section id="tools" class="dark"><div class="wrap">
+  <p class="eyebrow">Professional toolkit</p><h2>For experts: every tool, free</h2><p class="sub">Next to the guided rescue, the tools a data recovery professional reaches for. Like the rescue, they only read the drive, they use what the rescue already learned (so looking around doesn't read it again), and each one explains what it shows.</p>
+  <div class="ruled"><div><span class="k">01</span><h3>Hex editor, explained</h3><p>The raw sectors, with every known structure (partition tables, boot sectors, file records) coloured field by field. Point at a byte to see what it means. Read-only.</p></div><div><span class="k">02</span><h3>Read map and problem areas</h3><p>The whole disk as a strip: what read fine, slowly, or not at all. Each bad area shows which structures and which of your files it hits.</p></div><div><span class="k">03</span><h3>File browser and preview</h3><p>Every file the drive still knows about, deleted ones too, with how likely each is to come back. Search, preview photos, PDFs and more, or save a single file.</p></div><div><span class="k">04</span><h3>Lost-partition scan</h3><p>Searches the disk for file systems a damaged partition table no longer points to, and rates how sure each find is.</p></div><div><span class="k">05</span><h3>Safe copy (imaging)</h3><p>One copy of the whole failing drive, easy parts first, with a map of what's still missing. Stop it and resume any time.</p></div><div><span class="k">06</span><h3>Health log and drive tests</h3><p>The drive's own S.M.A.R.T. log in plain English, what Windows has logged about it, and timed test reads at any spot to see how it fails.</p></div><div><span class="k">07</span><h3>Cluster map</h3><p>Which parts of a volume are in use: where your data is, and how much empty space a safe copy can skip.</p></div><div><span class="k">08</span><h3>Event log</h3><p>Every unreadable sector, hang and slow read, with where it was and how long it took.</p></div><div><span class="k">09</span><h3>Reports and exports</h3><p>A disk report, the full file list as a spreadsheet, raw sectors as a file, and the run's own log.</p></div></div>
+</div></section>
+
+<section id="compare"><div class="wrap">
+  <p class="eyebrow">Comparison</p><h2>How it compares</h2><p class="sub">The tools people reach for today, and where DiskSalvor is different. Prices and free limits as checked in November 2026; they change, so check each vendor before relying on them.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th class="us">DiskSalvor</th><th>EaseUS, Disk Drill, Stellar</th><th>Recuva</th><th>R-Studio, DMDE</th><th>TestDisk / PhotoRec</th><th>ddrescue, OpenSuperClone</th></tr></thead>
+    <tbody>
+      <tr><td>Free, with no recovery limit</td><td class="us y">✓</td><td class="n">✗ <span class="small">100 MB–2 GB free</span></td><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Open source</td><td class="us y" title="MIT licence; the code goes public on GitHub after the current round of testing">✓ <small>(soon)</small></td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Keeps file names and folders</td><td class="us y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td><span class="half" title="partly"></span></td><td class="n">✗</td></tr>
+      <tr><td>File preview before you recover (photos, PDFs, text, music, video)</td><td class="us y">✓</td><td class="y">✓</td><td><span class="half" title="Recuva: pictures"></span></td><td><span class="half" title="R-Studio previews many types"></span></td><td class="n">✗</td><td class="n">✗</td></tr>
+      <tr><td>Built for failing drives: own time limits, weak areas last</td><td class="us y">✓</td><td class="n">✗</td><td class="n">✗</td><td><span class="half" title="partly"></span></td><td class="n">✗</td><td class="y">✓</td></tr>
+      <tr><td>Never reads the same bad spot twice</td><td class="us y">✓</td><td><span class="half" title="partly"></span></td><td class="n">✗</td><td><span class="half" title="partly"></span></td><td><span class="half" title="partly"></span></td><td class="y">✓</td></tr>
+      <tr><td>Files straight off the drive: no spare drive as big as it, no second tool</td><td class="us y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="n">✗</td></tr>
+      <tr><td>Easiest files first, round by round, automatic</td><td class="us y">✓</td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td><td><span class="half" title="partly"></span></td></tr>
+      <tr><td>Retries only the missing pieces of damaged files</td><td class="us y">✓</td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td></tr>
+      <tr><td>Drive health check built in (what CrystalDiskInfo shows), explained in plain English</td><td class="us y">✓</td><td><span class="half" title="Disk Drill has one; EaseUS and Stellar sell it as a separate app"></span></td><td class="n">✗</td><td><span class="half" title="R-Studio shows the raw values"></span></td><td class="n">✗</td><td class="n">✗</td></tr>
+      <tr><td>Safe copy (image) of the whole drive</td><td class="us y">✓</td><td><span class="half" title="Disk Drill: byte-to-byte backup"></span></td><td class="n">✗</td><td class="y">✓</td><td><span class="half" title="TestDisk can create an image"></span></td><td class="y">✓</td></tr>
+      <tr><td>Expert tools: hex editor, disk maps, lost-partition search</td><td class="us y">✓</td><td class="n">✗</td><td class="n">✗</td><td class="y">✓</td><td><span class="half" title="TestDisk: lost-partition search, command line"></span></td><td><span class="half" title="a map of what was copied (with ddrescueview)"></span></td></tr>
+      <tr><td>Says what's wrong with the drive, in plain English</td><td class="us y">✓</td><td><span class="half" title="partly"></span></td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td><td class="n">✗</td></tr>
+      <tr><td>A Windows app anyone can use</td><td class="us y">✓</td><td class="y">✓</td><td class="y">✓</td><td><span class="half" title="partly"></span></td><td><span class="half" title="partly"></span></td><td class="n">✗ <span class="small">Linux, command line</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><span class="y">✓</span> yes · <span class="half"></span> partly · ✗ no. Product names belong to their owners and are used only for comparison.</p>
+  <div class="ahead"><div><h3 style="font-size:24px">Where others are still ahead, for now</h3><p class="sub" style="font-size:16px">DiskSalvor is new and growing fast. If something you need is on this list, <a href="support/#report">ask for it</a>: requests decide what comes next.</p></div>
+    <ul><li><b>More file systems.</b> DiskSalvor lists files on NTFS, FAT and exFAT; R-Studio, DMDE and others cover far more for now, and RAID. More are being added fast: <a href="mailto:hello@disksalvor.com?subject=Please%20add%20a%20file%20system%3A%20">request the one you need</a></li><li><b>Files whose record is lost, found by their content.</b> Every file the drive still lists is rescued, whatever its type. When a file's entry in the drive's index is gone, DiskSalvor can find it by its content for the common types so far (JPEG, PNG, GIF, HEIC, WebP, MP4, MOV, AVI, WAV, PDF, Word, Excel, PowerPoint, ZIP, 7z, SQLite), and more are being added fast; PhotoRec knows more than 480. <a href="mailto:hello@disksalvor.com?subject=Please%20add%20a%20file%20type%3A%20">Request the ones you need</a></li><li><b>Years of use.</b> The others have been around for years. DiskSalvor is new: every change is tested against simulated failing drives, and its real rescue of a failing 2 TB WD drive is shown above.</li><li><b>Repairing the drive's file system.</b> TestDisk and DMDE can rewrite a damaged boot sector or partition table so Windows opens the drive again. DiskSalvor doesn't, on purpose: on a failing drive the files come first, and a repair writes to it. A repair step after the files are safe is planned.</li><li><b>Bootable rescue, and file preview for more types.</b> Several offer a boot USB for a computer that won't start; DiskSalvor doesn't yet. DiskSalvor previews photos, PDFs, text, music and video before you recover them; EaseUS, Disk Drill and Stellar also preview Office documents and camera raw photos. <a href="mailto:hello@disksalvor.com?subject=Please%20add%3A%20">Ask for what you need</a></li><li><b>Hardware-level rescue.</b> For drives with failing heads, OpenSuperClone (with the right setup) and lab equipment can skip a bad head or power-cycle a stuck drive. That's beyond any normal recovery app, DiskSalvor included.</li><li><b>Windows only</b> for now. Linux and macOS are planned. <a href="mailto:hello@disksalvor.com?subject=Please%20add%20support%20for%3A%20">Ask for yours</a></li></ul></div>
+</div></section>
+
+
+
+<section id="support" class="band"><div class="wrap">
+  <p class="eyebrow">Help and support</p><h2>Help for a failing drive, free</h2><p class="sub">Plain-English guides, whatever tool you end up using. If your drive is failing right now: don't format it, don't run CHKDSK or "Scan and fix", and don't keep retrying the copy.</p>
+  <div class="links" style="grid-template-columns:repeat(2,1fr)"><a href="help/get-help/"><h3>What to do first</h3><p>Asks to be formatted, not detected, 0 bytes, clicking, very slow: six questions that lead to what to do, and when only a recovery lab can help.</p></a><a href="help/"><h3>Help</h3><p>Using DiskSalvor screen by screen, and how drives work, illustrated.</p></a><a href="help/questions/"><h3>FAQ</h3><p>Is it really free, is it safe on a failing drive, what it can and can't recover.</p></a><a href="support/"><h3>Support</h3><p>E-mail us, report a problem, or ask for a drive, file system or file type DiskSalvor doesn't handle yet.</p></a></div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div><a class="brand" href="#"><img src="assets/logo.svg" alt="" style="width:30px;height:30px">DiskSalvor</a>
+      <p>Free, open-source rescue of files from failing drives.</p><p style="font-size:13.5px"><i>Salvor</i> (noun): someone who saves a ship's cargo from a wreck.</p></div>
+    <div><h4>Product</h4><a href="#how">How it works</a><a href="#tools">Expert tools</a><a href="#compare">How it compares</a><a href="#result">Results</a></div>
+    <div><h4>Help</h4><a href="help/get-help/">What to do first</a><a href="help/using-disksalvor/">Using DiskSalvor</a><a href="help/how-drives-work/">How drives work</a><a href="help/questions/">FAQ</a><a href="support/">Support</a></div>
+    <div><h4>Project</h4><a href="security/">Security</a><a href="https://github.com/disksalvor">GitHub</a><a href="mailto:hello@disksalvor.com">hello@disksalvor.com</a></div>
+  </div>
+  <div class="legal"><span>© 2026 DiskSalvor contributors</span><span>MIT licence</span><span>Provided as is, without warranty.</span><span>Product names belong to their owners.</span></div>
+</div></footer>
+</body>
+</html>

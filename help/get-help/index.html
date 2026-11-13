@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Failing or unreadable drive? What to do first | DiskSalvor</title>
+<meta name="description" content="A drive that clicks, isn't detected, shows the wrong size, asks to be formatted or keeps freezing: what it means, what to do first, and what never to do.">
+<link rel="canonical" href="https://disksalvor.com/help/get-help/">
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/icon-512.png">
+<meta name="theme-color" content="#0f2a4a">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DiskSalvor">
+<meta property="og:url" content="https://disksalvor.com/help/get-help/">
+<meta property="og:title" content="Failing or unreadable drive? What to do first | DiskSalvor">
+<meta property="og:description" content="A drive that clicks, isn't detected, shows the wrong size, asks to be formatted or keeps freezing: what it means, what to do first, and what never to do.">
+<meta property="og:image" content="https://disksalvor.com/assets/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Get help now","name":"Failing or unreadable drive? What to do first | DiskSalvor","description":"A drive that clicks, isn't detected, shows the wrong size, asks to be formatted or keeps freezing: what it means, what to do first, and what never to do.","url":"https://disksalvor.com/help/get-help/","inLanguage":"en","dateModified":"2026-11-10","isPartOf":{"@type":"WebSite","name":"DiskSalvor","url":"https://disksalvor.com/"},"publisher":{"@type":"Organization","@id":"https://disksalvor.com/#org","name":"DiskSalvor","url":"https://disksalvor.com/"},"author":{"@type":"Organization","@id":"https://disksalvor.com/#org","name":"DiskSalvor","url":"https://disksalvor.com/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DiskSalvor","item":"https://disksalvor.com/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://disksalvor.com/help/"},{"@type":"ListItem","position":3,"name":"Get help now","item":"https://disksalvor.com/help/get-help/"}]}]}
+</script>
+<style>
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(/assets/fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(/assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+:root{
+  --navy:#0f2a4a;--navy2:#13335a;--navy-line:#25466f;--on-navy:#e8eef6;--on-navy-muted:#a9b9cf;
+  --blue:#244fb3;--brass:#c8913e;--brass-ink:#8a5e22;--brass-soft:#f6efe2;
+  --bg:#ffffff;--band:#f4f5f7;--ink:#121c2b;--muted:#556074;--line:#d8dde5;
+  --good:#1f7a4f;--warn:#a2620c;--bad:#a83232;
+  /* names the Help pages (and older styles) use */
+  --panel:var(--bg);--panel2:var(--band);--accent:var(--blue);--accent-soft:#e9eef8;--good-soft:#e3f1e9;--warn-soft:#f8ead3;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0c1522;--band:#111c2b;--ink:#e6ebf2;--muted:#9aa7ba;--line:#24344a;--blue:#7ea3f2;--brass-soft:#2a2216;--brass-ink:#d9a95c;
+  --good:#5cc28d;--warn:#e0a94f;--bad:#ef7b7b;--navy:#08121f;--navy2:#0d1a2c;--navy-line:#22344d;
+  --accent-soft:#1a2740;--good-soft:#173326;--warn-soft:#3a2c14}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 "Plex",system-ui,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-underline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mono{font-family:"PlexMono",ui-monospace,Consolas,monospace}
+.eyebrow{font:500 12.5px/1 "PlexMono",ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--brass)}
+h1,h2,h3{font-weight:600;letter-spacing:-.015em;margin:0}
+h1{font-size:52px;line-height:1.08}
+h2{font-size:36px;line-height:1.15;margin-bottom:14px}
+h3{font-size:18px;line-height:1.3;margin-bottom:6px}
+p{margin:0 0 14px}
+.sub{color:var(--muted);font-size:18px;max-width:720px}
+/* header */
+.topbar{background:var(--navy);color:var(--on-navy-muted);font:13px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.04em}
+.topbar .wrap{display:flex;gap:22px;height:34px;align-items:center;overflow:hidden;white-space:nowrap}
+.topbar b{color:var(--brass);font-weight:500}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand img{width:34px;height:34px}
+.nav nav{margin-left:auto;display:flex;gap:26px;align-items:center}
+.nav nav a{color:var(--ink);text-decoration:none;font-size:15px;font-weight:500}
+.nav nav a:hover{color:var(--blue)}
+.nav nav a.cta{background:var(--navy);color:#fff;padding:10px 18px;border-radius:4px}
+.nav nav .soon{color:var(--muted);font-size:15px;font-weight:500;cursor:default;display:inline-flex;align-items:center;gap:6px}
+.nav nav .soon small{font:600 10.5px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:3px 5px}
+@media (prefers-color-scheme:dark){.nav nav a.cta{background:var(--blue);color:#0c1522}}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:4px;font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent}
+.btn.pri{background:var(--brass);color:#1b1206}
+.btn.pri:hover{filter:brightness(1.06)}
+.btn.ghost{border-color:rgba(255,255,255,.35);color:#fff}
+.btn.ghost:hover{border-color:#fff}
+.btn .arr{transition:transform .15s}.btn:hover .arr{transform:translateX(3px)}
+/* hero: navy band */
+.hero{background:var(--navy);color:var(--on-navy);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center;padding-top:72px;padding-bottom:84px}
+.hero .eyebrow{color:var(--brass)}
+.hero h1{color:#fff}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.hero .lead{color:var(--on-navy-muted);font-size:19px;margin:22px 0 30px;max-width:560px}
+.hero .btns{display:flex;gap:14px;flex-wrap:wrap}
+.hero .fine{color:var(--on-navy-muted);font-size:14px;margin-top:22px;max-width:560px}
+.frame{background:#0a1d34;border:1px solid var(--navy-line);border-radius:6px;padding:10px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.frame .dots{display:flex;gap:6px;padding:2px 2px 10px}.frame .dots i{width:9px;height:9px;border-radius:50%;background:var(--navy-line)}
+.frame img{display:block;width:100%;height:auto;border-radius:3px}
+/* facts strip under the hero */
+.facts{border-bottom:1px solid var(--line)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.facts .wrap>div{padding:22px 20px;border-left:1px solid var(--line);font-size:14.5px;color:var(--muted)}
+.facts .wrap>div:first-child{border-left:none;padding-left:0}
+.facts b{display:block;color:var(--ink);font-weight:600;font-size:15.5px}
+section{padding:96px 0}
+section.band{background:var(--band)}
+/* result: heading left, numbers right */
+.split{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.nums{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink)}
+.nums div{padding:26px 22px 26px 0;border-bottom:1px solid var(--line)}
+.nums div:nth-child(odd){border-right:1px solid var(--line)}
+.nums div:nth-child(even){padding-left:24px}
+.nums b{display:block;font:600 48px/1 "Plex",system-ui,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.025em;color:var(--navy);margin-bottom:10px}
+@media (prefers-color-scheme:dark){.nums b{color:#fff}}
+.nums span{color:var(--muted);font-size:15px}
+/* why: three columns with a brass rule */
+.whys{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:40px}
+.whys div{border-top:3px solid var(--brass);padding-top:22px}
+.whys h3{font-size:20px;margin-bottom:10px}
+.whys p{color:var(--muted);margin:0}
+/* free: text left, definition rows right */
+.rows{border-top:1px solid var(--line)}
+.rows div{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line)}
+.rows h3{font-size:15px;text-transform:uppercase;letter-spacing:.08em;font-family:"PlexMono",monospace;font-weight:500;color:var(--brass-ink)}
+.rows p{margin:0;color:var(--muted)}
+/* how: timeline left, screenshot right */
+.how{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.timeline{list-style:none;margin:28px 0 0;padding:0;counter-reset:s}
+.timeline li{position:relative;padding:0 0 26px 64px}
+.timeline li::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;width:40px;height:40px;border:1px solid var(--line);background:var(--band);display:grid;place-items:center;font:500 14px/1 "PlexMono",monospace;color:var(--brass-ink);border-radius:50%;z-index:1}
+.timeline li::after{content:"";position:absolute;left:20px;top:40px;bottom:0;width:1px;background:var(--line)}
+.timeline li:last-child::after{display:none}
+.timeline p{color:var(--muted);margin:0}
+.sticky{position:sticky;top:110px}
+.sticky .frame{background:var(--navy)}
+.caption{font-size:13.5px;color:var(--muted);margin-top:10px}
+/* built: icon list, two columns, no boxes */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 48px;margin-top:40px}
+.feat .ic{width:48px;height:48px;border-radius:4px;background:var(--brass-soft);color:var(--brass-ink);display:grid;place-items:center;margin-bottom:16px}
+.feat p{color:var(--muted);margin:0;font-size:15.5px}
+/* tools: navy band, ruled grid */
+.dark{background:var(--navy);color:var(--on-navy)}
+.dark h2{color:#fff}.dark .sub{color:var(--on-navy-muted)}.dark .eyebrow{color:var(--brass)}
+.ruled{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;border-top:1px solid var(--navy-line);border-left:1px solid var(--navy-line)}
+.ruled div{padding:28px 26px;border-right:1px solid var(--navy-line);border-bottom:1px solid var(--navy-line)}
+.ruled h3{color:#fff}
+.ruled .k{font:500 12px/1 "PlexMono",monospace;color:var(--brass);letter-spacing:.1em;display:block;margin-bottom:14px}
+.ruled p{color:var(--on-navy-muted);margin:0;font-size:15px}
+/* compare */
+.tablewrap{overflow-x:auto;margin-top:36px;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:15px;background:var(--bg)}
+th,td{padding:14px 14px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+th:first-child,td:first-child{text-align:left;width:34%}
+thead th{font:500 12.5px/1.35 "PlexMono",monospace;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:var(--band)}
+thead th.us{color:var(--ink);box-shadow:inset 0 3px 0 var(--brass)}
+td.us{background:var(--brass-soft);font-weight:600}
+tr:last-child td{border-bottom:none}
+.y{color:var(--good);font-weight:700}.n{color:var(--muted)}.p{color:var(--warn);font-weight:700}
+.half{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid var(--warn);background:linear-gradient(90deg,var(--warn) 50%,transparent 50%);vertical-align:-2px}
+.note{font-size:13.5px;color:var(--muted);margin-top:12px}
+.ahead{margin-top:56px;display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
+.ahead ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.ahead li{padding:16px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15.5px}
+.ahead li b{color:var(--ink)}
+/* right tool / lab */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
+.pair > div{padding:36px}
+.pair > div + div{border-left:1px solid var(--line)}
+.pair h3{font-size:20px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pair .tag{font:500 11.5px/1 "PlexMono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-radius:3px}
+.pair .ok .tag{background:#e3f1e9;color:var(--good)}.pair .lab .tag{background:#f8ead3;color:var(--warn)}
+@media (prefers-color-scheme:dark){.pair .ok .tag{background:#173326}.pair .lab .tag{background:#3a2c14}}
+.pair ul{margin:0;padding-left:20px;color:var(--muted)}.pair li{margin:6px 0}
+/* contribute */
+.contrib{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:32px}
+.contrib div{border-top:3px solid var(--brass);padding-top:20px}
+.contrib p{color:var(--muted);margin:0}
+/* guides: link list */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-top:32px;border-top:1px solid var(--line)}
+.links a{display:block;padding:20px 28px 20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);position:relative}
+.links a::after{content:"→";position:absolute;right:4px;top:20px;color:var(--brass-ink);transition:transform .15s}
+.links a:hover::after{transform:translateX(3px)}
+.links a:hover h3{color:var(--blue)}
+.links p{color:var(--muted);font-size:15px;margin:0}
+.more{margin-top:24px;font-weight:600}
+/* faq */
+.faq{display:grid;grid-template-columns:.7fr 1.3fr;gap:64px}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+details:first-child{border-top:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 22px/1 "PlexMono",monospace;color:var(--brass-ink)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin:12px 0 0}
+/* footer */
+footer{background:var(--navy);color:var(--on-navy-muted);padding:64px 0 36px;font-size:15px}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+footer h4{font:500 12px/1 "PlexMono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin:6px 0 16px}
+footer a{color:var(--on-navy);text-decoration:none;display:block;margin:0 0 10px}
+footer a:hover{text-decoration:underline}
+footer .brand{color:#fff;margin-bottom:14px}
+footer .legal{border-top:1px solid var(--navy-line);margin-top:44px;padding-top:22px;display:flex;gap:20px;flex-wrap:wrap;font-size:13.5px}
+@media (max-width:980px){
+  .hero .wrap,.split,.how,.ahead,.faq{grid-template-columns:1fr;gap:36px}
+  .feat,.ruled,.links{grid-template-columns:1fr 1fr}
+  .whys{grid-template-columns:1fr;gap:28px}
+  footer .cols{grid-template-columns:1fr 1fr}
+  .sticky{position:static}
+}
+@media (max-width:640px){
+  h1{font-size:38px}h2{font-size:29px}
+  .nav{flex-wrap:wrap;height:auto;gap:8px 20px;padding:10px 0}
+  .nav nav{margin-left:0;width:100%;justify-content:space-between;gap:10px}.nav nav a{font-size:15px}.nav nav a.cta{padding:7px 12px}
+  .nav nav .soon{display:none}
+  section{padding:64px 0}
+  .wrap{padding:0 16px}
+  .hero .wrap{padding-top:48px;padding-bottom:56px}
+  .facts .wrap{grid-template-columns:1fr 1fr}
+  .facts .wrap>div:nth-child(3){border-left:none;padding-left:0}
+  .facts .wrap>div{border-top:1px solid var(--line)}
+  .facts .wrap>div:nth-child(-n+2){border-top:none}
+  .nums{grid-template-columns:1fr}.nums div:nth-child(odd){border-right:none}.nums div:nth-child(even){padding-left:0}
+  .nums b{font-size:38px}
+  .rows div{grid-template-columns:1fr;gap:6px}
+  .feat,.ruled,.links,.contrib,.whys{grid-template-columns:1fr}
+  .pair{grid-template-columns:1fr}.pair > div + div{border-left:none;border-top:1px solid var(--line)}
+  .pair > div{padding:26px}
+  .topbar span:nth-child(n+3){display:none}
+  footer .cols{grid-template-columns:1fr}
+}
+
+:root{--text:var(--ink);--cell-ok:#9fb3cc;--cell-unread:#e9edf2;--cell-bad:#d14b4b}
+@media (prefers-color-scheme:dark){:root{--cell-ok:#4f6684;--cell-unread:#262c37;--cell-bad:#c24848}}
+main.wrap{padding-top:36px;padding-bottom:72px}
+.hsec,.hbooks a,.hubcard,.hnote{border-radius:6px}
+.pagehead{background:var(--navy);position:relative;overflow:hidden}
+.pagehead::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px}
+.pagehead .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:44px}
+.pagehead h1{color:#fff;font-size:42px;margin:6px 0 0}
+.pagehead .crumbs{color:var(--on-navy-muted);font:500 12.5px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;margin:0}
+.pagehead .crumbs a{color:var(--brass);text-decoration:none}
+@media (max-width:640px){.pagehead h1{font-size:30px}.pagehead .wrap{padding-top:28px;padding-bottom:30px}}
+
+.help p{color:var(--ink);margin:0 0 14px}
+.help .muted{color:var(--muted)}
+.diagram{overflow-x:auto;margin:10px 0 14px}
+.help svg{width:100%;min-width:620px;height:auto;display:block;overflow:visible}
+.help svg text{fill:var(--ink);font:13px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.help svg .sm{font-size:12.5px;fill:var(--muted)}
+.help svg .b{font-weight:700}
+.help .meta{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.help .idx{fill:#f3e3b5;stroke:#b8902b;stroke-width:1.2}
+.help .data{fill:var(--cell-ok);stroke:var(--line)}
+.help .free{fill:var(--cell-unread);stroke:var(--line)}
+.help .bad{fill:var(--cell-bad);stroke:var(--bad)}
+.help .bak{fill:var(--good-soft);stroke:var(--good);stroke-width:1.2}
+.help .ln{stroke:var(--muted);stroke-width:1.4;fill:none}
+.help .arr{stroke:var(--accent);stroke-width:1.6;fill:none;marker-end:url(#ah)}
+.help .arrb{stroke:var(--bad);stroke-width:1.6;fill:none;marker-end:url(#ahb)}
+@media (prefers-color-scheme:dark){.help .idx{fill:#4a3b12;stroke:#d8b04a}}
+.help table{min-width:560px;font-size:14.5px;margin:6px 0 14px}
+.help th,.help td{text-align:left;vertical-align:top;padding:8px 10px}
+.help th{color:var(--muted);font-size:13px;background:var(--panel2)}
+.help tr:last-child td{border-bottom:1px solid var(--line)}
+.updated{color:var(--muted);font-size:14px;margin-top:8px}
+.qlist{max-width:860px;margin:6px 0 22px}.qlist details p{font-size:16px}
+.box.warn{border-left:4px solid var(--brass);background:var(--panel2);padding:14px 18px;margin:8px 0 22px;border-radius:4px}
+.sup{max-width:860px;margin:30px 0 0}.sup h2{font-size:24px;margin:0 0 8px}.sup p{margin:0 0 10px}
+.hubgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0 10px}
+.hubcard{display:block;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 20px;text-decoration:none;color:var(--ink)}
+.hubcard:hover{border-color:var(--accent)}
+.hubcard b{display:block;font-size:20px;color:var(--accent);margin-bottom:6px}.hubcard span{display:block;color:var(--muted);font-size:15px}
+.hubcard ul{margin:12px 0 0;padding-left:18px;font-size:14.5px}
+.wrap{max-width:1180px}
+@media (max-width:900px){.hubgrid{grid-template-columns:1fr}.nav nav{display:flex}}
+@media (max-width:700px){.diagram::after{content:"Swipe sideways to see the whole diagram";display:block;font-size:12.5px;color:var(--muted);margin-top:4px}}</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap"><span><b>●</b> Free · no file limits · no account</span><span>Open source (MIT)</span><span>Read-only by design</span><span>Windows 10 and 11</span></div></div>
+<header><div class="wrap nav">
+  <a class="brand" href="/"><img src="/assets/logo.svg" alt="">DiskSalvor</a>
+  <nav><span class="soon" title="Coming soon: try DiskSalvor on a simulated failing drive, right here in your browser. Nothing to install." aria-disabled="true">Sandbox<small>soon</small></span><a href="/help/">Help</a><a href="/help/questions/">FAQ</a><a href="/support/">Support</a><a class="cta" href="https://github.com/disksalvor">GitHub</a></nav>
+</div></header>
+<div class="pagehead"><div class="wrap">
+  <p class="crumbs"><a href="/">DiskSalvor</a> › <a href="/help/">Help</a></p>
+  <h1>Get help now</h1>
+</div></div>
+<main class="wrap">
+  <p class="hlead">Something's wrong with a drive and you need the files on it. Start here: four rules that keep things from getting worse, then six questions that lead to what to do.</p>
+<style>
+.hbooks{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px}
+.hbooks a{display:block;flex:1 1 200px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-decoration:none;color:inherit;background:var(--panel)}
+.hbooks a b{display:block;font-size:16px}.hbooks a span{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.hbooks a:hover{border-color:var(--accent)}
+.hbooks a.cur{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.hgrid{display:grid;grid-template-columns:220px minmax(0,1fr);gap:26px;align-items:start}
+.htoc{position:sticky;top:14px;font-size:14.5px;line-height:1.35;max-height:calc(100vh - 28px);overflow:auto}
+.htoc a.hback{display:block;font-weight:650;color:var(--accent);text-decoration:none;margin:0 0 14px;padding:0;border:0}
+.htoc b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 0 8px}
+.htoc a{display:block;padding:5px 0 5px 10px;border-left:2px solid var(--line);color:inherit;text-decoration:none}
+.htoc a:hover{border-left-color:var(--accent);color:var(--accent)}
+.hsec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin:0 0 18px;scroll-margin-top:14px}
+.hsec>h2{margin:0 0 10px;font-size:23px}
+.hsec h3{font-size:17px;margin:18px 0 6px}
+.hsec p,.hsec li{font-size:16px;line-height:1.55}
+.hsec{overflow-wrap:anywhere}.hsec table{overflow-wrap:normal}
+.hsteps{padding-left:22px;margin:8px 0 14px}.hsteps li{margin:0 0 8px;padding-left:4px}
+.hnote{border-left:4px solid var(--info,#4b5568);background:var(--info-soft,#eef1f5);border-radius:8px;padding:10px 14px;margin:12px 0;font-size:15.5px;line-height:1.5}
+.hnote.warn{border-left-color:#b8902b;background:rgba(184,144,43,.12)}
+.hnote.bad{border-left-color:var(--bad);background:rgba(209,75,75,.10)}
+.hshot{margin:14px 0 18px}.hshot img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;display:block}
+.hshot figcaption{font-size:14px;color:var(--muted);margin-top:6px}
+.hqa{border-top:1px solid var(--line);padding-top:4px}.hqa:first-of-type{border-top:0}
+.hqa h3{margin:12px 0 4px}
+.hlead{font-size:17px;color:var(--muted);max-width:820px;margin:0 0 6px}
+.hmain{min-width:0}
+@media (max-width:640px){.hbooks{gap:6px}.hbooks a{flex:1 1 30%;padding:8px 10px}.hbooks a b{font-size:14px}.hbooks a span{display:none}}
+@media (max-width:900px){.hgrid{grid-template-columns:minmax(0,1fr)}.htoc{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:6px}
+ .htoc b{width:100%}.htoc a{border:1px solid var(--line);border-radius:99px;padding:4px 10px}.hsec{padding:16px}}
+</style><div class="hbooks"><a href="/help/get-help/" class="cur"><b>Get help now</b><span>Something's wrong with a drive</span></a><a href="/help/using-disksalvor/" class=""><b>Using DiskSalvor</b><span>How a rescue goes, screen by screen</span></a><a href="/help/how-drives-work/" class=""><b>How drives work</b><span>Illustrated: what's inside, what goes wrong</span></a></div><div class="hgrid"><nav class="htoc"><b>On this page</b><a href="#h-situations" >What's wrong with your drive?</a><a href="#h-prompts" >Windows pop-ups: what to click</a><a href="#h-lab" >When to go to a recovery lab</a><a href="#h-fix" >Can the drive be fixed afterwards?</a></nav><div class="hmain"><section class="hsec help" id="h-situations"><h2>What's wrong with your drive?</h2><style>
+.sit-rules{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:4px 0 22px}
+.sit-rule{background:var(--warn-soft);border-radius:12px;padding:12px 14px}
+.sit-rule b{display:block;font-size:15.5px;margin-bottom:2px}
+.sit-rule span{font-size:14px;color:var(--muted)}
+.sit-flow{list-style:none;margin:6px 0 26px;padding:0;counter-reset:q}
+.sit-q{position:relative;display:grid;grid-template-columns:38px 1fr;gap:14px;padding-bottom:18px}
+.sit-q::before{counter-increment:q;content:counter(q);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--info,#4b5568);color:#fff;font-weight:750;font-size:15px;z-index:1}
+.sit-q:not(:last-child)::after{content:"";position:absolute;left:15px;top:34px;bottom:0;width:2px;background:var(--line)}
+.sit-q h4{margin:4px 0 2px;font-size:17px;line-height:1.35}
+.sit-q .sit-hint{font-size:14px;color:var(--muted);margin:0 0 8px}
+.sit-ans{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sit-go{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:5px 13px;font-size:14.5px;font-weight:600;text-decoration:none}
+.sit-go:hover{outline:2px solid var(--accent)}
+.sit-go i{font-style:normal;font-weight:400;opacity:.8}
+.sit-no{font-size:14px;color:var(--muted)}
+.sit-out{border:1px solid var(--line);border-left:5px solid var(--info,#4b5568);border-radius:12px;padding:16px 18px 12px;margin:16px 0;scroll-margin-top:80px}
+.sit-out.s3{border-left-color:var(--bad)}.sit-out.s2{border-left-color:var(--warn)}.sit-out.s1{border-left-color:var(--info,#4b5568)}
+.sit-out h3{margin:0 0 12px;font-size:19px;line-height:1.3}
+.sit-row{display:grid;grid-template-columns:96px 1fr;gap:12px;margin-bottom:10px}
+.sit-lab{font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.sit-row p{margin:0}
+.sit-row ol{margin:0;padding-left:20px}.sit-row li{margin-bottom:6px}
+.sit-avoid{background:var(--warn-soft);border-radius:10px;padding:10px 12px}
+.sit-ds{background:var(--info-soft,#eef1f5);border-radius:10px;padding:10px 12px}
+.sit-ds .sit-more{display:block;margin-top:6px;font-size:14px}
+.sit-back{font-size:14px}
+@media (max-width:700px){.sit-rules{grid-template-columns:1fr}.sit-row{grid-template-columns:1fr;gap:2px}}
+</style>
+   <p>First, four rules. Then answer the questions in order: each one either sends you to what to do, or on to the next question.</p>
+   <h3 style="margin:18px 0 8px">Before you try anything</h3>
+   <div class="sit-rules">
+    <div class="sit-rule"><b>Stop writing to the drive</b><span>Don't save, install or copy anything onto it. New data can land on what you're trying to get back.</span></div>
+    <div class="sit-rule"><b>Don't Format, Initialize or run CHKDSK</b><span>They all write to the drive. "Scan and fix" is CHKDSK too.</span></div>
+    <div class="sit-rule"><b>Save rescued files to another drive</b><span>Never back onto the drive you're rescuing.</span></div>
+    <div class="sit-rule"><b>Don't keep retrying a frozen copy</b><span>Each retry makes a failing drive read its worst spots again.</span></div>
+   </div>
+   <h3 style="margin:0 0 12px" id="sit-top">The questions</h3>
+   <ol class="sit-flow">
+    <li class="sit-q"><div><h4>Is it clicking, grinding, beeping, or not spinning up?</h4><div class="sit-ans"><a class="sit-go"  href="#sit-noise" onclick="var e=document.getElementById('sit-noise');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>Yes →</i> Mechanical problem</a><span class="sit-no">No: next question ↓</span></div></div></li>
+    <li class="sit-q"><div><h4>Does it appear in Disk Management?</h4><p class="sit-hint">Right-click Start, then Disk Management. A drive can be listed there even without a letter in Explorer.</p><div class="sit-ans"><a class="sit-go"  href="#sit-missing" onclick="var e=document.getElementById('sit-missing');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>No →</i> Not detected</a><span class="sit-no">Yes: next question ↓</span></div></div></li>
+    <li class="sit-q"><div><h4>Is its size right?</h4><p class="sit-hint">The size Disk Management shows should be close to the size on the label.</p><div class="sit-ans"><a class="sit-go"  href="#sit-size" onclick="var e=document.getElementById('sit-size');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>No: 0 bytes, a few MB, "No media" →</i> Wrong size</a><span class="sit-no">Yes: next question ↓</span></div></div></li>
+    <li class="sit-q"><div><h4>Can you open it in Explorer?</h4><div class="sit-ans"><a class="sit-go"  href="#sit-raw" onclick="var e=document.getElementById('sit-raw');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>No: "format the disk", RAW, "parameter is incorrect" →</i> Won't open</a><a class="sit-go"  href="#sit-crypt" onclick="var e=document.getElementById('sit-crypt');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>It asks for a BitLocker key →</i> Encrypted</a><span class="sit-no">Yes: next question ↓</span></div></div></li>
+    <li class="sit-q"><div><h4>Does it freeze, crawl, give copy errors or disconnect?</h4><div class="sit-ans"><a class="sit-go"  href="#sit-slow" onclick="var e=document.getElementById('sit-slow');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>Yes →</i> Failing drive</a><span class="sit-no">No: next question ↓</span></div></div></li>
+    <li class="sit-q"><div><h4>Are files missing?</h4><div class="sit-ans"><a class="sit-go"  href="#sit-deleted" onclick="var e=document.getElementById('sit-deleted');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>Deleted →</i> Deleted files</a><a class="sit-go"  href="#sit-formatted" onclick="var e=document.getElementById('sit-formatted');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>Formatted →</i> Formatted by mistake</a><a class="sit-go"  href="#sit-locked" onclick="var e=document.getElementById('sit-locked');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}"><i>Card is locked →</i> Write-protected card</a></div></div></li>
+   </ol>
+
+   <div class="sit-out s3" id="sit-noise">
+  <h3>Clicking, grinding, beeping or not spinning: a mechanical problem</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>The read heads, the motor, or the platters. Software can't fix this, and running the drive can scrape the platters and destroy the data for good.</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li><b>Unplug it now</b> and leave it unplugged.</li><li>If it's a small portable drive that <b>beeps</b>, try it once on a different USB port directly on the computer (or a powered USB hub). Some beep only because the port can't give them enough power. If it still beeps, stop.</li><li>If the files matter, contact a <b>data recovery lab</b> with a clean room. Most give a free quote first, and many charge nothing if nothing can be recovered. Expect several hundred dollars or more for a mechanical repair.</li><li>Tell the lab what happened (dropped, power cut, started clicking) and how long it ran since.</li></ol></div>
+  
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">Don't open the case, freeze it, tap it, or keep powering it on to "see if it comes back". Each try can make the lab's job harder or impossible.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div>
+
+   <div class="sit-out s2" id="sit-missing">
+  <h3>The drive isn't detected</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>Most often something simple: a worn cable, a weak USB port, or a drive that needs more power. Less often the drive's electronics or its USB bridge (the small board that turns USB into the drive's own connection).</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li><b>Try a different cable.</b> Cables, especially the wide USB 3 "micro-B" plugs on portable drives, fail far more often than drives do.</li><li><b>Plug it straight into the computer</b>, into a different port (on a desktop, one at the back), without a hub or dock.</li><li>On a laptop, <b>plug in the charger</b>: some ports give less power on battery. A 3.5" desktop drive needs its own power adapter, switched on.</li><li>Listen and feel: does it spin up (a soft hum, a slight vibration)? If there's no sound at all, or it clicks, see the mechanical problem above.</li><li><b>Try another computer.</b> If it shows up there, the first computer's port or driver is the problem.</li><li>Still nothing: for a USB stick or memory card, try another reader; if it's dead everywhere, only a lab can read the memory chips directly. For a drive in a case, the case's USB board may have failed; see the note below before opening it.</li></ol></div>
+  
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">Many WD My Passport and My Book drives encrypt everything in their USB board, and some have USB built onto the drive itself: taking the drive out of its case can make the data unreadable. Check the model first, or ask a lab.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div>
+
+   <div class="sit-out s2" id="sit-size">
+  <h3>Detected, but the size is wrong</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>0 bytes, a few megabytes, or "No media": the drive's own controller (on flash drives and cards) or the USB bridge has a fault, or a card reader has no card in it. The data itself is usually still there.</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li>Check the card is fully in, then try <b>a different card reader or adapter</b>.</li><li>For a drive in a USB case, try a different USB port and cable first.</li><li>If a memory card or USB stick shows a wrong size in every reader, its controller has failed. Software can't fix that; a lab can read its memory chips directly.</li></ol></div>
+  
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">Don't click Initialize, Format, or create a new partition when Windows offers: on a wrong-size drive, that writes new structures over the real ones.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div>
+
+   <div class="sit-out s2" id="sit-raw">
+  <h3>The drive won't open: "You need to format the disk", RAW, "The parameter is incorrect"</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>Usually the file system's index is damaged, often after the drive was unplugged or the computer lost power while writing. The files themselves are usually untouched. Sometimes the cause is bad sectors right where the index sits, which means the drive is also failing.</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li>Click <b>Cancel</b> on any Format or Initialize prompt.</li><li><b>Check the drive's health first</b>: read its health log (S.M.A.R.T.). That decides the next step.</li><li><b>Healthy drive</b> (no reallocated or pending sectors): the damage is only in the file system. Use a recovery tool that reads the index directly, and copy the files to another drive.</li><li><b>Failing drive</b> (pending or reallocated sectors, slow or hanging reads): treat it as fragile. Copy the most important files first with a tool that skips bad spots and comes back later, or make an image of the whole drive first and recover from the image.</li><li><b>Only after every file you need is safe</b>, repair or reformat the drive, if it's healthy enough to keep.</li></ol></div>
+  <div class="sit-row"><div class="sit-lab">DiskSalvor</div><div class="sit-ds">Made for this. Its first look reads the drive's health log, then it reads the damaged index directly (it works when Windows calls the drive RAW) and copies your files, with their names and folders, to another drive. It never writes to the drive you're rescuing. Choose the drive, then <b>Rescue it for me</b>. Other tools that can do this: TestDisk, DMDE, R-Studio.<span class="sit-more"><a href="/#how">How DiskSalvor works</a> · free, open source; the download arrives after the current testing (<a href="https://github.com/disksalvor">follow on GitHub</a>)</span></div></div>
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">Don't run CHKDSK or "Scan and fix" first: on a damaged index it can delete the records it can't make sense of, and with them the names of your files.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div>
+
+   <div class="sit-out s1" id="sit-crypt">
+  <h3>It asks for a BitLocker key, or the drive reads as noise</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>The drive is encrypted. BitLocker needs your password or its 48-digit recovery key. Some WD drives encrypt in their USB board even with no password set, so they only read through that same board.</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li><b>BitLocker:</b> if you've lost the password, find the recovery key: on a Microsoft account it's listed at account.microsoft.com/devices/recoverykey; it may also be printed, saved to a file, or held by your work's IT department.</li><li>Once unlocked, the drive works like any other: go back to the questions.</li><li><b>WD drive taken out of its case</b> and now unreadable: put it back in its own case (or an identical model's).</li></ol></div>
+  
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">Without the key or the original USB board, no recovery tool can read encrypted data. Don't format the drive while you look for the key.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div>
+
+   <div class="sit-out s3" id="sit-slow">
+  <h3>It opens, but freezes, crawls, gives copy errors or disconnects</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>The drive has weak or bad sectors. Each time Windows hits one, the drive retries for up to half a minute and Windows retries too, which is why Explorer says "Not responding". Every retry wears the weak spots further.</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li><b>Stop the copy that's freezing.</b> If Explorer won't cancel, unplug the drive: that's safe while you're only reading from it.</li><li>Read its <b>health log</b>: pending and reallocated sectors confirm the drive is failing.</li><li>Decide what matters most, and <b>copy that first</b>, in small batches, with a tool that skips bad spots instead of retrying them (even robocopy can be told not to retry: /R:0 /W:0).</li><li>Keep it cool, lying flat and still, plugged straight into the computer with a good cable. If it disconnects, try another cable and port.</li><li>Once the important files are safe, go back for the rest, or make a full image while the drive still reads.</li></ol></div>
+  <div class="sit-row"><div class="sit-lab">DiskSalvor</div><div class="sit-ds">Built for exactly this. <b>Rescue it for me</b> copies the easiest files first, gives up on a bad spot after seconds instead of minutes, comes back for it in later rounds, rests the drive when it struggles, and stops if it gets worse. Everything is remembered, so you can stop and continue at any time. To image the whole drive instead: ddrescue or OpenSuperClone.<span class="sit-more"><a href="/#how">How DiskSalvor works</a> · free, open source; the download arrives after the current testing (<a href="https://github.com/disksalvor">follow on GitHub</a>)</span></div></div>
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">Don't run a full surface test, defragment, or CHKDSK on it now: each reads or writes the whole drive, including every weak spot.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div>
+
+   <div class="sit-out s2" id="sit-deleted">
+  <h3>Files deleted by mistake</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>Deleting only marks a file's space as free. The contents stay until something new is written there. On SSDs it's different: Windows tells the SSD the space is free (TRIM), and the SSD usually erases it within minutes.</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li><b>Check the backups that may already have it</b>: the Recycle Bin; OneDrive, Google Drive or Dropbox (their own recycle bins keep deleted files for weeks); File History or Previous Versions (right-click the folder, then Properties, then Previous Versions); a phone's cloud backup for photos.</li><li><b>Stop using the drive.</b> On the system drive (C:) that means as little as possible: every program you run writes to it. Don't install a recovery tool onto that drive.</li><li>Run a recovery tool from another drive, and save what it finds to <b>another drive</b>. PhotoRec and Recuva are free.</li><li>Recently deleted, not yet overwritten files usually come back with their names. Files found only by their content (photos, documents) come back without names or folders.</li></ol></div>
+  <div class="sit-row"><div class="sit-lab">DiskSalvor</div><div class="sit-ds">Shows the deleted files still listed in the drive's index (NTFS, FAT32, exFAT), with how likely each is to come back, and copies them to another drive: in <b>Get your files</b>, tick the option to include deleted files. For files whose index entry is gone, PhotoRec searches by content and knows far more file types.<span class="sit-more"><a href="/#how">How DiskSalvor works</a> · free, open source; the download arrives after the current testing (<a href="https://github.com/disksalvor">follow on GitHub</a>)</span></div></div>
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">On an internal SSD, if the backups above don't have it, the chances are low. On hard drives, memory cards and USB sticks, they're good if you stop writing straight away.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div>
+
+   <div class="sit-out s2" id="sit-formatted">
+  <h3>The drive was formatted by mistake</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>A quick format writes a new, empty index over the start of the drive. A full format (Windows Vista and later) also overwrites every sector with zeros.</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li><b>Stop writing to it.</b></li><li><b>Quick format on a hard drive, card or stick:</b> the old file system is usually still there behind the new one. A tool that searches for the previous file system (TestDisk, DMDE, R-Studio) can often bring back files with their names; failing that, search by content (PhotoRec).</li><li><b>Full format, or any format of an SSD:</b> the data is gone. Check backups and cloud copies instead.</li><li><b>A full format you stopped partway</b> (cancelled, or the drive unplugged): what it hadn't reached yet is still there. The file list at the start is gone, so names and folders are lost, but photos and documents can be found by their content.</li></ol></div>
+  <div class="sit-row"><div class="sit-lab">DiskSalvor</div><div class="sit-ds"><b>Find what's missing › Find files by their content</b> works even when the drive has no readable file system left (a format stopped partway): it searches the partition itself. <b>Rescue it for me</b> does it by itself when there's no file list to read (on a drive with signs of trouble it asks first: that search reads the whole partition). While it runs it shows how much it has searched, how fast, about how long is left and how many files it has found. When the start of the partition was erased (a wipe stopped partway), it checks small samples to find where the erased part ends and searches from there: the samples are all blank, so nothing is likely to be in it. The result says what was skipped; a <b>Thorough</b> rescue reads all of it.<span class="sit-more"><a href="/#how">How DiskSalvor works</a> · free, open source; the download arrives after the current testing (<a href="https://github.com/disksalvor">follow on GitHub</a>)</span></div></div>
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">Don't format it again "to start over", and don't copy the files back onto the same drive. A format keeps running after you close its window or press Ctrl+C: only unplugging the drive stops it.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div>
+
+   <div class="sit-out s1" id="sit-locked">
+  <h3>A memory card says it's write-protected</h3>
+  <div class="sit-row"><div class="sit-lab">Probably</div><p>Either the small lock switch on the side of an SD card slid down, or the card has worn out and locked itself read-only, which flash cards do at the end of their life.</p></div>
+  <div class="sit-row"><div class="sit-lab">Do this</div><ol><li>Check the switch: slide it up (towards the contacts), and try again.</li><li>If it still says write-protected, <b>copy everything off it now</b>, while it still reads.</li><li>Then replace the card. A card that locked itself won't be reliable again.</li></ol></div>
+  
+  <div class="sit-row"><div class="sit-lab">Avoid</div><p class="sit-avoid">Don't try tools that "remove write protection" or format it before your files are copied.</p></div>
+  <a class="sit-back"  href="#sit-top" onclick="var e=document.getElementById('sit-top');if(e){e.scrollIntoView({behavior:'smooth',block:'start'});return false}">↑ Back to the questions</a></div></section>
+<section class="hsec help" id="h-prompts"><h2>Windows pop-ups: what to click</h2>
+   <div style="overflow-x:auto"><table><tr><th>Pop-up</th><th>What it means</th><th>Click</th></tr><tr><td>"You need to format the disk in drive G: before you can use it"</td><td>Windows can't recognise the file system (RAW). The data is usually still there.</td><td><b>Cancel</b>. Never Format.</td></tr><tr><td>"Do you want to scan and fix G:?" / "There's a problem with this drive"</td><td>The dirty flag is set (removed without ejecting, or power lost while writing).</td><td>On a healthy drive: copy your files first, then fix. On a failing drive: <b>don't</b> scan. Close it.</td></tr><tr><td>Disk Management: "You must initialize a disk before Logical Disk Manager can access it"</td><td>No partition table Windows recognises.</td><td><b>Cancel</b>. Initializing writes a new empty table.</td></tr><tr><td>"The parameter is incorrect" / "The file or directory is corrupted and unreadable"</td><td>Windows read damaged structures.</td><td>Close it. Recover with a raw reader.</td></tr><tr><td>"Location is not available" / "I/O device error"</td><td>The drive failed to read, or dropped off.</td><td>Stop. Check cable and power; then a careful copy.</td></tr><tr><td>"Please insert a disk into USB Drive"</td><td>A card reader with no card, or a stick whose controller lost its flash</td><td>Check the card. For sticks: usually a hardware fault.</td></tr><tr><td>Explorer "Not responding" while copying</td><td>The drive is retrying a bad spot internally.</td><td>Don't keep retrying. Use a tool that skips bad areas.</td></tr></table></div></section>
+<section class="hsec help" id="h-lab"><h2>When to go to a recovery lab</h2>
+  <p>Software reads what the drive can still deliver. Go to a lab (a company with a clean room) instead when:</p>
+  <ol class="hsteps"><li>It <b>clicks, grinds, beeps</b> or doesn't spin up.</li><li>It isn't detected on any computer, with another cable and enough power.</li><li>It was <b>dropped while running</b>, got wet, or was in a fire.</li><li>DiskSalvor calls it <b>Degrading</b> or <b>Physical failure</b> and files you can't replace are still missing.</li></ol>
+  <div class="hnote warn">Most labs give a free quote; many charge nothing if nothing can be recovered. A mechanical repair usually costs several hundred dollars or more. Every hour the drive runs before that can make it harder.</div>
+  <p>Don't open the drive, freeze it or keep powering it on to see if it comes back.</p></section>
+<section class="hsec help" id="h-fix"><h2>Can the drive be fixed afterwards?</h2>
+   <div style="overflow-x:auto"><table><tr><th>Problem</th><th>Can it be fixed?</th><th>When</th></tr><tr><td>Boot sector damaged, backup intact</td><td>✓ Easy: copy the backup back (one sector)</td><td>After your data is safe</td></tr><tr><td>GPT damaged, backup intact</td><td>✓ Easy: rebuild from the copy</td><td>After your data is safe</td></tr><tr><td>MBR damaged</td><td>~ The partitions can usually be found by a scan and the table rewritten</td><td>After your data is safe</td></tr><tr><td>Start of the NTFS index damaged</td><td>~ CHKDSK rebuilds from the mirror if it's intact; otherwise it may delete what it can't place</td><td>Only after everything is copied, or reformat and copy back</td></tr><tr><td>Dirty flag / interrupted writes</td><td>✓ "Scan and fix" on a healthy drive</td><td>After copying the latest files</td></tr><tr><td>Soft bad sectors (interrupted write)</td><td>✓ A full format rewrites them; check the health log afterwards</td><td>After your data is safe</td></tr><tr><td>Physical bad sectors, growing</td><td>✗ Replace the drive</td><td>Copy first, then replace</td></tr><tr><td>SD card or stick gone read-only</td><td>✗ It locked itself to protect your data: copy and replace</td><td>Now</td></tr><tr><td>Clicking, grinding, not spinning</td><td>✗ Needs a recovery lab (clean room, parts)</td><td>Stop using it now</td></tr><tr><td>SSD shows a tiny wrong size or vanishes</td><td>✗ Firmware fault: a lab, or the maker's support</td><td>Stop using it</td></tr></table></div></section></div></div>
+  <p class="updated">Last updated 2026-11-10 · Something wrong or unclear on this page? <a href="mailto:hello@disksalvor.com?subject=Help%20page:%20Get%20help%20now">Tell us</a>.</p>
+</main>
+<footer><div class="wrap">
+  <div class="cols">
+    <div><a class="brand" href="/"><img src="/assets/logo.svg" alt="" style="width:30px;height:30px">DiskSalvor</a>
+      <p>Free, open-source rescue of files from failing drives.</p><p style="font-size:13.5px"><i>Salvor</i> (noun): someone who saves a ship's cargo from a wreck.</p></div>
+    <div><h4>Product</h4><a href="/#how">How it works</a><a href="/#tools">Expert tools</a><a href="/#compare">How it compares</a><a href="/#result">Results</a></div>
+    <div><h4>Help</h4><a href="/help/get-help/">What to do first</a><a href="/help/using-disksalvor/">Using DiskSalvor</a><a href="/help/how-drives-work/">How drives work</a><a href="/help/questions/">FAQ</a><a href="/support/">Support</a></div>
+    <div><h4>Project</h4><a href="/security/">Security</a><a href="https://github.com/disksalvor">GitHub</a><a href="mailto:hello@disksalvor.com">hello@disksalvor.com</a></div>
+  </div>
+  <div class="legal"><span>© 2026 DiskSalvor contributors</span><span>MIT licence</span><span>Provided as is, without warranty.</span><span>Product names belong to their owners.</span></div>
+</div></footer>
+</body>
+</html>

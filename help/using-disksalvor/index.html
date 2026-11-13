@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Using DiskSalvor: rescue files from a failing drive, step by step | DiskSalvor</title>
+<meta name="description" content="Install DiskSalvor, run a rescue, read the drive's condition and the report, make a safe copy, and answers to common questions.">
+<link rel="canonical" href="https://disksalvor.com/help/using-disksalvor/">
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/icon-512.png">
+<meta name="theme-color" content="#0f2a4a">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DiskSalvor">
+<meta property="og:url" content="https://disksalvor.com/help/using-disksalvor/">
+<meta property="og:title" content="Using DiskSalvor: rescue files from a failing drive, step by step | DiskSalvor">
+<meta property="og:description" content="Install DiskSalvor, run a rescue, read the drive's condition and the report, make a safe copy, and answers to common questions.">
+<meta property="og:image" content="https://disksalvor.com/assets/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Using DiskSalvor","name":"Using DiskSalvor: rescue files from a failing drive, step by step | DiskSalvor","description":"Install DiskSalvor, run a rescue, read the drive's condition and the report, make a safe copy, and answers to common questions.","url":"https://disksalvor.com/help/using-disksalvor/","inLanguage":"en","dateModified":"2026-11-10","isPartOf":{"@type":"WebSite","name":"DiskSalvor","url":"https://disksalvor.com/"},"publisher":{"@type":"Organization","@id":"https://disksalvor.com/#org","name":"DiskSalvor","url":"https://disksalvor.com/"},"author":{"@type":"Organization","@id":"https://disksalvor.com/#org","name":"DiskSalvor","url":"https://disksalvor.com/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DiskSalvor","item":"https://disksalvor.com/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://disksalvor.com/help/"},{"@type":"ListItem","position":3,"name":"Using DiskSalvor","item":"https://disksalvor.com/help/using-disksalvor/"}]}]}
+</script>
+<style>
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(/assets/fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(/assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+:root{
+  --navy:#0f2a4a;--navy2:#13335a;--navy-line:#25466f;--on-navy:#e8eef6;--on-navy-muted:#a9b9cf;
+  --blue:#244fb3;--brass:#c8913e;--brass-ink:#8a5e22;--brass-soft:#f6efe2;
+  --bg:#ffffff;--band:#f4f5f7;--ink:#121c2b;--muted:#556074;--line:#d8dde5;
+  --good:#1f7a4f;--warn:#a2620c;--bad:#a83232;
+  /* names the Help pages (and older styles) use */
+  --panel:var(--bg);--panel2:var(--band);--accent:var(--blue);--accent-soft:#e9eef8;--good-soft:#e3f1e9;--warn-soft:#f8ead3;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0c1522;--band:#111c2b;--ink:#e6ebf2;--muted:#9aa7ba;--line:#24344a;--blue:#7ea3f2;--brass-soft:#2a2216;--brass-ink:#d9a95c;
+  --good:#5cc28d;--warn:#e0a94f;--bad:#ef7b7b;--navy:#08121f;--navy2:#0d1a2c;--navy-line:#22344d;
+  --accent-soft:#1a2740;--good-soft:#173326;--warn-soft:#3a2c14}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 "Plex",system-ui,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-underline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mono{font-family:"PlexMono",ui-monospace,Consolas,monospace}
+.eyebrow{font:500 12.5px/1 "PlexMono",ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--brass)}
+h1,h2,h3{font-weight:600;letter-spacing:-.015em;margin:0}
+h1{font-size:52px;line-height:1.08}
+h2{font-size:36px;line-height:1.15;margin-bottom:14px}
+h3{font-size:18px;line-height:1.3;margin-bottom:6px}
+p{margin:0 0 14px}
+.sub{color:var(--muted);font-size:18px;max-width:720px}
+/* header */
+.topbar{background:var(--navy);color:var(--on-navy-muted);font:13px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.04em}
+.topbar .wrap{display:flex;gap:22px;height:34px;align-items:center;overflow:hidden;white-space:nowrap}
+.topbar b{color:var(--brass);font-weight:500}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand img{width:34px;height:34px}
+.nav nav{margin-left:auto;display:flex;gap:26px;align-items:center}
+.nav nav a{color:var(--ink);text-decoration:none;font-size:15px;font-weight:500}
+.nav nav a:hover{color:var(--blue)}
+.nav nav a.cta{background:var(--navy);color:#fff;padding:10px 18px;border-radius:4px}
+.nav nav .soon{color:var(--muted);font-size:15px;font-weight:500;cursor:default;display:inline-flex;align-items:center;gap:6px}
+.nav nav .soon small{font:600 10.5px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:3px 5px}
+@media (prefers-color-scheme:dark){.nav nav a.cta{background:var(--blue);color:#0c1522}}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:4px;font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent}
+.btn.pri{background:var(--brass);color:#1b1206}
+.btn.pri:hover{filter:brightness(1.06)}
+.btn.ghost{border-color:rgba(255,255,255,.35);color:#fff}
+.btn.ghost:hover{border-color:#fff}
+.btn .arr{transition:transform .15s}.btn:hover .arr{transform:translateX(3px)}
+/* hero: navy band */
+.hero{background:var(--navy);color:var(--on-navy);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center;padding-top:72px;padding-bottom:84px}
+.hero .eyebrow{color:var(--brass)}
+.hero h1{color:#fff}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.hero .lead{color:var(--on-navy-muted);font-size:19px;margin:22px 0 30px;max-width:560px}
+.hero .btns{display:flex;gap:14px;flex-wrap:wrap}
+.hero .fine{color:var(--on-navy-muted);font-size:14px;margin-top:22px;max-width:560px}
+.frame{background:#0a1d34;border:1px solid var(--navy-line);border-radius:6px;padding:10px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.frame .dots{display:flex;gap:6px;padding:2px 2px 10px}.frame .dots i{width:9px;height:9px;border-radius:50%;background:var(--navy-line)}
+.frame img{display:block;width:100%;height:auto;border-radius:3px}
+/* facts strip under the hero */
+.facts{border-bottom:1px solid var(--line)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.facts .wrap>div{padding:22px 20px;border-left:1px solid var(--line);font-size:14.5px;color:var(--muted)}
+.facts .wrap>div:first-child{border-left:none;padding-left:0}
+.facts b{display:block;color:var(--ink);font-weight:600;font-size:15.5px}
+section{padding:96px 0}
+section.band{background:var(--band)}
+/* result: heading left, numbers right */
+.split{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.nums{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink)}
+.nums div{padding:26px 22px 26px 0;border-bottom:1px solid var(--line)}
+.nums div:nth-child(odd){border-right:1px solid var(--line)}
+.nums div:nth-child(even){padding-left:24px}
+.nums b{display:block;font:600 48px/1 "Plex",system-ui,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.025em;color:var(--navy);margin-bottom:10px}
+@media (prefers-color-scheme:dark){.nums b{color:#fff}}
+.nums span{color:var(--muted);font-size:15px}
+/* why: three columns with a brass rule */
+.whys{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:40px}
+.whys div{border-top:3px solid var(--brass);padding-top:22px}
+.whys h3{font-size:20px;margin-bottom:10px}
+.whys p{color:var(--muted);margin:0}
+/* free: text left, definition rows right */
+.rows{border-top:1px solid var(--line)}
+.rows div{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line)}
+.rows h3{font-size:15px;text-transform:uppercase;letter-spacing:.08em;font-family:"PlexMono",monospace;font-weight:500;color:var(--brass-ink)}
+.rows p{margin:0;color:var(--muted)}
+/* how: timeline left, screenshot right */
+.how{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.timeline{list-style:none;margin:28px 0 0;padding:0;counter-reset:s}
+.timeline li{position:relative;padding:0 0 26px 64px}
+.timeline li::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;width:40px;height:40px;border:1px solid var(--line);background:var(--band);display:grid;place-items:center;font:500 14px/1 "PlexMono",monospace;color:var(--brass-ink);border-radius:50%;z-index:1}
+.timeline li::after{content:"";position:absolute;left:20px;top:40px;bottom:0;width:1px;background:var(--line)}
+.timeline li:last-child::after{display:none}
+.timeline p{color:var(--muted);margin:0}
+.sticky{position:sticky;top:110px}
+.sticky .frame{background:var(--navy)}
+.caption{font-size:13.5px;color:var(--muted);margin-top:10px}
+/* built: icon list, two columns, no boxes */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 48px;margin-top:40px}
+.feat .ic{width:48px;height:48px;border-radius:4px;background:var(--brass-soft);color:var(--brass-ink);display:grid;place-items:center;margin-bottom:16px}
+.feat p{color:var(--muted);margin:0;font-size:15.5px}
+/* tools: navy band, ruled grid */
+.dark{background:var(--navy);color:var(--on-navy)}
+.dark h2{color:#fff}.dark .sub{color:var(--on-navy-muted)}.dark .eyebrow{color:var(--brass)}
+.ruled{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;border-top:1px solid var(--navy-line);border-left:1px solid var(--navy-line)}
+.ruled div{padding:28px 26px;border-right:1px solid var(--navy-line);border-bottom:1px solid var(--navy-line)}
+.ruled h3{color:#fff}
+.ruled .k{font:500 12px/1 "PlexMono",monospace;color:var(--brass);letter-spacing:.1em;display:block;margin-bottom:14px}
+.ruled p{color:var(--on-navy-muted);margin:0;font-size:15px}
+/* compare */
+.tablewrap{overflow-x:auto;margin-top:36px;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:15px;background:var(--bg)}
+th,td{padding:14px 14px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+th:first-child,td:first-child{text-align:left;width:34%}
+thead th{font:500 12.5px/1.35 "PlexMono",monospace;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:var(--band)}
+thead th.us{color:var(--ink);box-shadow:inset 0 3px 0 var(--brass)}
+td.us{background:var(--brass-soft);font-weight:600}
+tr:last-child td{border-bottom:none}
+.y{color:var(--good);font-weight:700}.n{color:var(--muted)}.p{color:var(--warn);font-weight:700}
+.half{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid var(--warn);background:linear-gradient(90deg,var(--warn) 50%,transparent 50%);vertical-align:-2px}
+.note{font-size:13.5px;color:var(--muted);margin-top:12px}
+.ahead{margin-top:56px;display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
+.ahead ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.ahead li{padding:16px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15.5px}
+.ahead li b{color:var(--ink)}
+/* right tool / lab */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
+.pair > div{padding:36px}
+.pair > div + div{border-left:1px solid var(--line)}
+.pair h3{font-size:20px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pair .tag{font:500 11.5px/1 "PlexMono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-radius:3px}
+.pair .ok .tag{background:#e3f1e9;color:var(--good)}.pair .lab .tag{background:#f8ead3;color:var(--warn)}
+@media (prefers-color-scheme:dark){.pair .ok .tag{background:#173326}.pair .lab .tag{background:#3a2c14}}
+.pair ul{margin:0;padding-left:20px;color:var(--muted)}.pair li{margin:6px 0}
+/* contribute */
+.contrib{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:32px}
+.contrib div{border-top:3px solid var(--brass);padding-top:20px}
+.contrib p{color:var(--muted);margin:0}
+/* guides: link list */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-top:32px;border-top:1px solid var(--line)}
+.links a{display:block;padding:20px 28px 20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);position:relative}
+.links a::after{content:"→";position:absolute;right:4px;top:20px;color:var(--brass-ink);transition:transform .15s}
+.links a:hover::after{transform:translateX(3px)}
+.links a:hover h3{color:var(--blue)}
+.links p{color:var(--muted);font-size:15px;margin:0}
+.more{margin-top:24px;font-weight:600}
+/* faq */
+.faq{display:grid;grid-template-columns:.7fr 1.3fr;gap:64px}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+details:first-child{border-top:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 22px/1 "PlexMono",monospace;color:var(--brass-ink)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin:12px 0 0}
+/* footer */
+footer{background:var(--navy);color:var(--on-navy-muted);padding:64px 0 36px;font-size:15px}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+footer h4{font:500 12px/1 "PlexMono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin:6px 0 16px}
+footer a{color:var(--on-navy);text-decoration:none;display:block;margin:0 0 10px}
+footer a:hover{text-decoration:underline}
+footer .brand{color:#fff;margin-bottom:14px}
+footer .legal{border-top:1px solid var(--navy-line);margin-top:44px;padding-top:22px;display:flex;gap:20px;flex-wrap:wrap;font-size:13.5px}
+@media (max-width:980px){
+  .hero .wrap,.split,.how,.ahead,.faq{grid-template-columns:1fr;gap:36px}
+  .feat,.ruled,.links{grid-template-columns:1fr 1fr}
+  .whys{grid-template-columns:1fr;gap:28px}
+  footer .cols{grid-template-columns:1fr 1fr}
+  .sticky{position:static}
+}
+@media (max-width:640px){
+  h1{font-size:38px}h2{font-size:29px}
+  .nav{flex-wrap:wrap;height:auto;gap:8px 20px;padding:10px 0}
+  .nav nav{margin-left:0;width:100%;justify-content:space-between;gap:10px}.nav nav a{font-size:15px}.nav nav a.cta{padding:7px 12px}
+  .nav nav .soon{display:none}
+  section{padding:64px 0}
+  .wrap{padding:0 16px}
+  .hero .wrap{padding-top:48px;padding-bottom:56px}
+  .facts .wrap{grid-template-columns:1fr 1fr}
+  .facts .wrap>div:nth-child(3){border-left:none;padding-left:0}
+  .facts .wrap>div{border-top:1px solid var(--line)}
+  .facts .wrap>div:nth-child(-n+2){border-top:none}
+  .nums{grid-template-columns:1fr}.nums div:nth-child(odd){border-right:none}.nums div:nth-child(even){padding-left:0}
+  .nums b{font-size:38px}
+  .rows div{grid-template-columns:1fr;gap:6px}
+  .feat,.ruled,.links,.contrib,.whys{grid-template-columns:1fr}
+  .pair{grid-template-columns:1fr}.pair > div + div{border-left:none;border-top:1px solid var(--line)}
+  .pair > div{padding:26px}
+  .topbar span:nth-child(n+3){display:none}
+  footer .cols{grid-template-columns:1fr}
+}
+
+:root{--text:var(--ink);--cell-ok:#9fb3cc;--cell-unread:#e9edf2;--cell-bad:#d14b4b}
+@media (prefers-color-scheme:dark){:root{--cell-ok:#4f6684;--cell-unread:#262c37;--cell-bad:#c24848}}
+main.wrap{padding-top:36px;padding-bottom:72px}
+.hsec,.hbooks a,.hubcard,.hnote{border-radius:6px}
+.pagehead{background:var(--navy);position:relative;overflow:hidden}
+.pagehead::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px}
+.pagehead .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:44px}
+.pagehead h1{color:#fff;font-size:42px;margin:6px 0 0}
+.pagehead .crumbs{color:var(--on-navy-muted);font:500 12.5px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;margin:0}
+.pagehead .crumbs a{color:var(--brass);text-decoration:none}
+@media (max-width:640px){.pagehead h1{font-size:30px}.pagehead .wrap{padding-top:28px;padding-bottom:30px}}
+
+.help p{color:var(--ink);margin:0 0 14px}
+.help .muted{color:var(--muted)}
+.diagram{overflow-x:auto;margin:10px 0 14px}
+.help svg{width:100%;min-width:620px;height:auto;display:block;overflow:visible}
+.help svg text{fill:var(--ink);font:13px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.help svg .sm{font-size:12.5px;fill:var(--muted)}
+.help svg .b{font-weight:700}
+.help .meta{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.help .idx{fill:#f3e3b5;stroke:#b8902b;stroke-width:1.2}
+.help .data{fill:var(--cell-ok);stroke:var(--line)}
+.help .free{fill:var(--cell-unread);stroke:var(--line)}
+.help .bad{fill:var(--cell-bad);stroke:var(--bad)}
+.help .bak{fill:var(--good-soft);stroke:var(--good);stroke-width:1.2}
+.help .ln{stroke:var(--muted);stroke-width:1.4;fill:none}
+.help .arr{stroke:var(--accent);stroke-width:1.6;fill:none;marker-end:url(#ah)}
+.help .arrb{stroke:var(--bad);stroke-width:1.6;fill:none;marker-end:url(#ahb)}
+@media (prefers-color-scheme:dark){.help .idx{fill:#4a3b12;stroke:#d8b04a}}
+.help table{min-width:560px;font-size:14.5px;margin:6px 0 14px}
+.help th,.help td{text-align:left;vertical-align:top;padding:8px 10px}
+.help th{color:var(--muted);font-size:13px;background:var(--panel2)}
+.help tr:last-child td{border-bottom:1px solid var(--line)}
+.updated{color:var(--muted);font-size:14px;margin-top:8px}
+.qlist{max-width:860px;margin:6px 0 22px}.qlist details p{font-size:16px}
+.box.warn{border-left:4px solid var(--brass);background:var(--panel2);padding:14px 18px;margin:8px 0 22px;border-radius:4px}
+.sup{max-width:860px;margin:30px 0 0}.sup h2{font-size:24px;margin:0 0 8px}.sup p{margin:0 0 10px}
+.hubgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0 10px}
+.hubcard{display:block;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 20px;text-decoration:none;color:var(--ink)}
+.hubcard:hover{border-color:var(--accent)}
+.hubcard b{display:block;font-size:20px;color:var(--accent);margin-bottom:6px}.hubcard span{display:block;color:var(--muted);font-size:15px}
+.hubcard ul{margin:12px 0 0;padding-left:18px;font-size:14.5px}
+.wrap{max-width:1180px}
+@media (max-width:900px){.hubgrid{grid-template-columns:1fr}.nav nav{display:flex}}
+@media (max-width:700px){.diagram::after{content:"Swipe sideways to see the whole diagram";display:block;font-size:12.5px;color:var(--muted);margin-top:4px}}</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap"><span><b>●</b> Free · no file limits · no account</span><span>Open source (MIT)</span><span>Read-only by design</span><span>Windows 10 and 11</span></div></div>
+<header><div class="wrap nav">
+  <a class="brand" href="/"><img src="/assets/logo.svg" alt="">DiskSalvor</a>
+  <nav><span class="soon" title="Coming soon: try DiskSalvor on a simulated failing drive, right here in your browser. Nothing to install." aria-disabled="true">Sandbox<small>soon</small></span><a href="/help/">Help</a><a href="/help/questions/">FAQ</a><a href="/support/">Support</a><a class="cta" href="https://github.com/disksalvor">GitHub</a></nav>
+</div></header>
+<div class="pagehead"><div class="wrap">
+  <p class="crumbs"><a href="/">DiskSalvor</a> › <a href="/help/">Help</a></p>
+  <h1>Using DiskSalvor</h1>
+</div></div>
+<main class="wrap">
+  <p class="hlead">From starting DiskSalvor to checking your files: how a rescue goes, what the results mean, and answers to common questions.</p>
+<style>
+.hbooks{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px}
+.hbooks a{display:block;flex:1 1 200px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-decoration:none;color:inherit;background:var(--panel)}
+.hbooks a b{display:block;font-size:16px}.hbooks a span{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.hbooks a:hover{border-color:var(--accent)}
+.hbooks a.cur{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.hgrid{display:grid;grid-template-columns:220px minmax(0,1fr);gap:26px;align-items:start}
+.htoc{position:sticky;top:14px;font-size:14.5px;line-height:1.35;max-height:calc(100vh - 28px);overflow:auto}
+.htoc a.hback{display:block;font-weight:650;color:var(--accent);text-decoration:none;margin:0 0 14px;padding:0;border:0}
+.htoc b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 0 8px}
+.htoc a{display:block;padding:5px 0 5px 10px;border-left:2px solid var(--line);color:inherit;text-decoration:none}
+.htoc a:hover{border-left-color:var(--accent);color:var(--accent)}
+.hsec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin:0 0 18px;scroll-margin-top:14px}
+.hsec>h2{margin:0 0 10px;font-size:23px}
+.hsec h3{font-size:17px;margin:18px 0 6px}
+.hsec p,.hsec li{font-size:16px;line-height:1.55}
+.hsec{overflow-wrap:anywhere}.hsec table{overflow-wrap:normal}
+.hsteps{padding-left:22px;margin:8px 0 14px}.hsteps li{margin:0 0 8px;padding-left:4px}
+.hnote{border-left:4px solid var(--info,#4b5568);background:var(--info-soft,#eef1f5);border-radius:8px;padding:10px 14px;margin:12px 0;font-size:15.5px;line-height:1.5}
+.hnote.warn{border-left-color:#b8902b;background:rgba(184,144,43,.12)}
+.hnote.bad{border-left-color:var(--bad);background:rgba(209,75,75,.10)}
+.hshot{margin:14px 0 18px}.hshot img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;display:block}
+.hshot figcaption{font-size:14px;color:var(--muted);margin-top:6px}
+.hqa{border-top:1px solid var(--line);padding-top:4px}.hqa:first-of-type{border-top:0}
+.hqa h3{margin:12px 0 4px}
+.hlead{font-size:17px;color:var(--muted);max-width:820px;margin:0 0 6px}
+.hmain{min-width:0}
+@media (max-width:640px){.hbooks{gap:6px}.hbooks a{flex:1 1 30%;padding:8px 10px}.hbooks a b{font-size:14px}.hbooks a span{display:none}}
+@media (max-width:900px){.hgrid{grid-template-columns:minmax(0,1fr)}.htoc{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:6px}
+ .htoc b{width:100%}.htoc a{border:1px solid var(--line);border-radius:99px;padding:4px 10px}.hsec{padding:16px}}
+</style><div class="hbooks"><a href="/help/get-help/" class=""><b>Get help now</b><span>Something's wrong with a drive</span></a><a href="/help/using-disksalvor/" class="cur"><b>Using DiskSalvor</b><span>How a rescue goes, screen by screen</span></a><a href="/help/how-drives-work/" class=""><b>How drives work</b><span>Illustrated: what's inside, what goes wrong</span></a></div><div class="hgrid"><nav class="htoc"><b>On this page</b><a href="#h-start" >Install and start</a><a href="#h-auto" >Rescue it for me</a><a href="#h-rounds" >Step by step: the rounds</a><a href="#h-condition" >What the drive's condition means</a><a href="#h-results" >Your recovered files</a><a href="#h-filetypes" >File types: what knowing a type adds</a><a href="#h-safecopy" >Safe copy: an image of the whole drive</a><a href="#h-resume" >Stopping, resuming, and what DiskSalvor remembers</a><a href="#h-safety" >Is it safe? What DiskSalvor never does</a><a href="#h-staff" >For staff: rescuing other people's drives</a><a href="#h-engineers" >For recovery engineers: how the saved data is designed</a><a href="#h-trouble" >Questions and problems</a></nav><div class="hmain"><section class="hsec help" id="h-start"><h2>Install and start</h2>
+  <p>DiskSalvor runs on Windows 10 and 11. It needs Python, a free program it's written in.</p>
+  <ol class="hsteps"><li>Install <b>Python 3.9 or newer</b> from python.org. In the installer, tick <b>"Add python.exe to PATH"</b>.</li><li>Unzip DiskSalvor into a folder on your computer, for example Downloads. <b>Not</b> on the drive you want to rescue.</li><li>Double-click <b>Run DiskSalvor.bat</b>. A small black window opens (keep it open: closing it closes DiskSalvor) and your browser shows DiskSalvor. If you close the browser tab, press <b>O</b> in the black window to open it again.</li><li>Plug in the drive and pick it under <b>Choose the drive</b>. Windows asks for your OK the first time: reading a whole drive needs it. Disk images don't.</li></ol>
+  <div class="hnote ">DiskSalvor runs only on your computer. The browser is just its window: nothing is sent anywhere, and no other website can use it.</div>
+  <p>Want to try it first? Unzip <b>demo\DiskSalvor-demo-failing-drive.zip</b> and open the image with <b>Open a disk image</b>. It's a made-up failing drive, so you can watch a whole rescue without risking anything.</p>
+  <p class="muted small">For a Start-menu shortcut with the logo, run <b>tools\make-shortcut.bat</b> once.</p></section>
+<section class="hsec help" id="h-auto"><h2>Rescue it for me</h2>
+  <p>The simplest way: answer four questions, and DiskSalvor runs every step by itself, easiest files first, copying after each step.</p>
+  <figure class="hshot"><img src="/assets/setup.webp" alt="The Rescue it for me screen: where the files go, what matters most, how far to go" loading="lazy" width="1600" height="1075"><figcaption>Rescue it for me: one screen of choices, then Start.</figcaption></figure>
+  <ol class="hsteps"><li><b>Where should the files go?</b> A folder on a <b>different</b> drive with room for them. DiskSalvor refuses a folder on the drive you're rescuing, and checks the room before each copy.</li><li><b>What matters most?</b> (optional) Click the kinds of files in the order you care about them: Documents, Photos... They're copied first in every round, so if the drive gives out, they're already safe.</li><li><b>How far should it go?</b> <b>Standard</b> doesn't read the whole drive and usually gets almost everything. <b>Thorough</b> also searches the whole drive for files whose index entry is gone: hours on a big drive, and harder on it. When there's no file list at all (the drive was erased, or a format was stopped partway), searching by content is the only way, so Standard does it too (asking first on a drive with signs of trouble).</li><li><b>If the drive turns out to be healthy:</b> stop and say so, or copy the files anyway.</li></ol>
+  <figure class="hshot"><img src="/assets/running.webp" alt="A rescue in progress: each step with a tick, files found and files safe" loading="lazy" width="1600" height="1075"><figcaption>While it runs: each step, what it found, and how many files are safe already.</figcaption></figure>
+  <h3>While it runs</h3>
+  <p>Each step shows what it did, with <b>Details</b> read by read. <b>Pause</b> lets the read under way finish, then waits. <b>Stop</b> stops cleanly; nothing is lost and you can continue later. When the drive keeps hanging, DiskSalvor <b>rests it</b> with a countdown and tries again. It stops by itself if the drive disconnects or gets worse.</p>
+  <h3>When it's done</h3>
+  <p>You'll find your files in the folder you chose, with their folders and dates, and in its <b>DiskSalvor</b> folder, <b>rescue report.txt</b>: what was recovered, what's missing and why, and what to do with the drive now.</p>
+  <figure class="hshot"><img src="/assets/done.webp" alt="A finished rescue" loading="lazy" width="1600" height="1075"><figcaption>Finished: what was found, what's safe, and what still has unreadable parts.</figcaption></figure></section>
+<section class="hsec help" id="h-rounds"><h2>Step by step: the rounds</h2>
+  <p>Prefer to start each step yourself? Choose <b>I'd rather go step by step</b>. The left column then shows every step; the one to do next is marked <b>Next</b>.</p>
+  <div style="overflow-x:auto"><table><tr><th>Step</th><th>What it does</th><th>Worth it when</th></tr><tr><td><b>First look</b></td><td>The drive's health log, what Windows has already logged about the drive, and one timed read. Nothing more until you've seen the result.</td><td>Always first.</td></tr><tr><td><b>Health check</b></td><td>A few spread-out test reads, the partitions, and the file list (skipping weak spots for later).</td><td>Always. Skipped test reads on a drive already known to be failing.</td></tr><tr><td><b>1 · Copy what reads easily</b></td><td>Copies every listed file, most important first, in disk order (less head movement). Weak areas are skipped, not fought.</td><td>Always.</td></tr><tr><td><b>2 · The skipped part of the index</b></td><td>Goes back, slowly and piece by piece, for the parts of the file list it skipped.</td><td>If files were left out. Repeated while it still finds files.</td></tr><tr><td><b>3 · Folder names and missing pieces</b></td><td>Searches for lost folder names and index pieces, where your data is first.</td><td>If you see "Lost folder" entries, or files are missing, or the drive was quick-formatted (the old index's records are often still there).</td></tr><tr><td><b>4 · Careful retry of damaged files</b></td><td>Reads only the missing pieces of damaged copies, slowly, and patches them in.</td><td>If some files came out damaged.</td></tr><tr><td><b>5 · Deleted files the index still lists</b></td><td>Copies deleted files whose entry is still in the file index (including any round 3 found), with their names and folders, into their own <b>Deleted files</b> folder. Some may be partly overwritten. Rescue it for me does this too (a standard rescue leaves out files whose space has been reused since).</td><td>If files were deleted. Shown only when the index lists some.</td></tr><tr><td><b>6 · Files by their content</b></td><td>Searches the whole drive for photos (JPEG, PNG, GIF, HEIC, WebP), videos (MP4, MOV, AVI), WAV audio, PDFs, Office files, ZIP and 7z archives and SQLite databases whose index entry is gone. Rescue it for me saves each one to your destination as the search passes it, so the drive is read once and what's found is safe even if the drive gives out later in the search. Names and folders can't come back this way.</td><td>Only if important files are still missing. Long.</td></tr><tr><td><b>7 · After recovery</b></td><td>(Planned) test, reuse or wipe the drive.</td><td>Only once every file you need is safe.</td></tr></table></div>
+  <p>A round marked <b>Optional</b> isn't needed by anything DiskSalvor has seen, but is there if a file you expect is missing. On a drive that is new or nearly empty, with nothing deleted, DiskSalvor says so first (<b>This drive looks new</b>): there's nothing to rescue unless you expected files on it, and if you did, the searches for deleted and formatted-over files are one click away.</p>
+  <div class="hnote ">You can stop between steps and come back days later: what was read is kept, and isn't read again. See <a href="/help/using-disksalvor/#h-resume">Stopping and resuming</a>.</div></section>
+<section class="hsec help" id="h-condition"><h2>What the drive's condition means</h2>
+  <p>After the first look, and again as it learns more, DiskSalvor gives the drive a verdict, a severity and what to do. When the verdict changes, it says so.</p>
+  <div style="overflow-x:auto"><table><tr><th>Verdict</th><th>What it means</th><th>What to do</th></tr><tr><td><b>Healthy</b></td><td>Reads cleanly everywhere DiskSalvor looked, and the health log is clean.</td><td>Copy what you need. Nothing special.</td></tr><tr><td><b>File system damage</b></td><td>Every sector reads, but the map of the files is damaged (deleted, formatted, or unplugged while writing). The drive itself is fine.</td><td>Copy your files off first; repair or reformat only after that.</td></tr><tr><td><b>Connection problem</b></td><td>The surface reads fine, but data gets garbled or the drive drops off: cable, port, adapter or power.</td><td>Another cable and port; a powered hub for a 2.5" drive. Then carry on.</td></tr><tr><td><b>Soft failure</b></td><td>Most of the drive reads; some areas are weak or unreadable. Weak spots often read on a later, slower try.</td><td>Easy files first, then the rounds for the weak areas. Replace the drive afterwards.</td></tr><tr><td><b>Widespread weak spots</b></td><td>Trouble in many places across the disk, not one or two patches.</td><td>Most important files first. Avoid long whole-drive reads.</td></tr><tr><td><b>Degrading</b></td><td>New bad spots keep appearing: often a weakening read head. Every hour of use can cost data.</td><td>Only your most important files, now. A lab if irreplaceable files are still missing.</td></tr><tr><td><b>Physical failure</b></td><td>Clicking, not spinning, not detected, a wrong size, or it keeps disconnecting.</td><td>Stop powering it on. Only a recovery lab can help.</td></tr></table></div>
+  <p class="muted small">Why a verdict, not just numbers: the same 10 bad sectors can be a one-off scratch or the start of a head failure. The verdict comes from where the problems are, whether they're growing, and what the health log says. <a href="/help/how-drives-work/#h-smart">How the health log works</a>.</p>
+  <h3>What Windows has seen</h3>
+  <p>Windows keeps its own record of trouble with every drive: bad blocks, reads or writes it had to retry, sudden disconnects. The first look reads that record (nothing is read from the drive for it) and keeps only what happened while <i>this</i> drive was connected: Windows gives disk numbers in the order drives are plugged in, so DiskSalvor checks which drive had the number at the time. Problems grouped in one place point to the drive itself; on a memory card or stick, often where it was last written, which the drive's own tests can't see. Problems spread all over can just as well be the cable, the reader or the power.</p></section>
+<section class="hsec help" id="h-results"><h2>Your recovered files</h2>
+  <p>Files keep their names, folders and dates. Files on unreadable spots are copied anyway, with the unreadable parts filled with zeros, and marked <b>damaged</b> so you know which ones to check.</p>
+  <h3>In the destination folder</h3>
+  <div style="overflow-x:auto"><table><tr><th>File</th><th>What it is</th></tr><tr><td><b>DiskSalvor\rescue report.txt</b></td><td>The summary: what was recovered, what's missing and why, and what to do with the drive.</td></tr><tr><td><b>DiskSalvor copy report.csv</b></td><td>Every file with its result. Opens in Excel.</td></tr><tr><td><b>DiskSalvor damaged files.txt</b></td><td>The files that still have unreadable parts. The careful retry (round 4) works from this list.</td></tr><tr><td><b>DiskSalvor copy log.txt</b></td><td>What each copy did, in order.</td></tr><tr><td><b>Deleted files</b> (folder)</td><td>Deleted files you chose to copy, in their original folders, and what was in the drive's Recycle Bin (under <b>Recycle Bin</b>, with the names and folders it had before it was deleted). Kept apart so an old version never sits next to the current one. The copy report says for each how likely it is to be intact.</td></tr><tr><td><b>name.dspart</b></td><td>A file only partly copied when you stopped. The next copy continues it; you can ignore it.</td></tr></table></div>
+  <h3>What each result means</h3>
+  <div style="overflow-x:auto"><table><tr><th>Result</th><th>Meaning</th></tr><tr><td>ok</td><td>Copied whole: every piece read without a problem, and its size checked against the drive.</td></tr><tr><td>skipped</td><td>Already there from an earlier copy (same size and date), or moved into the folder found for it since.</td></tr><tr><td>damaged</td><td>Copied, but parts couldn't be read (or the file's map is incomplete). Those parts are zeros. Round 4 can often fill them in.</td></tr><tr><td>failed</td><td>Couldn't be written to the destination (full, or not allowed). The reason is in the report.</td></tr><tr><td>incomplete</td><td>You stopped part-way. The next copy continues it.</td></tr></table></div>
+  <p>If a file of yours with the same name is already in the folder, DiskSalvor never replaces it: the copy is saved next to it as <b>name (recovered).ext</b>, and the report says so.</p>
+  <p>Files Windows stored <b>compressed</b> (NTFS compression) are unpacked as they're copied. Files Windows stored <b>encrypted</b> (EFS) are copied as they are on the drive: they open only on the Windows account that encrypted them.</p></section>
+<section class="hsec help" id="h-filetypes"><h2>File types: what knowing a type adds</h2>
+  <p><b>DiskSalvor rescues every file it finds, whatever its type.</b> A file of a type DiskSalvor has never heard of comes back exactly like a photo does. Knowing a type doesn't decide <i>whether</i> a file is rescued; it opens up more ways to find it and handle it:</p>
+  <div style="overflow-x:auto"><table><tr><th>What DiskSalvor knows about a type</th><th>What that adds</th></tr><tr><td><b>Its name</b> (the extension, like .jpg)</td><td>It's sorted into a group, so you can choose, say, Photos first: on a failing drive, what's copied first is most likely to come back. It's counted on the rescue screen.</td></tr><tr><td><b>Its first bytes</b> (its signature)</td><td>It's recognised even when the name is wrong or missing, and a copy that doesn't look like what its name says is easier to spot as damaged.</td></tr><tr><td><b>Where a file of that type ends</b></td><td>It can be found by its content when the drive has lost its entry in the file index (it comes back without its name). Today: JPEG, PNG, GIF, PDF, and ZIP (which includes Word, Excel and PowerPoint files).</td></tr></table></div>
+  <h3>By name: the groups</h3>
+  <div style="overflow-x:auto"><table><tr><th>Group</th><th>Extensions</th></tr><tr><td><b>Documents</b></td><td>.csv · .doc · .docx · .eml · .key · .md · .msg · .numbers · .odp · .ods · .odt · .one · .pages · .pdf · .ppt · .pptx · .rtf · .txt · .xls · .xlsx</td></tr><tr><td><b>Photos</b></td><td>.arw · .bmp · .cr2 · .cr3 · .dng · .gif · .heic · .heif · .ithmb · .jpeg · .jpg · .nef · .orf · .png · .psd · .raw · .rw2 · .tif · .tiff · .webp</td></tr><tr><td><b>Video</b></td><td>.3gp · .avi · .m2ts · .m4v · .mkv · .mov · .mp4 · .mpeg · .mpg · .mts · .webm · .wmv</td></tr><tr><td><b>Audio</b></td><td>.aac · .aiff · .flac · .m4a · .mp3 · .ogg · .wav · .wma</td></tr><tr><td><b>Archives</b></td><td>.7z · .bz2 · .cab · .gz · .iso · .rar · .tar · .xz · .zip</td></tr><tr><td><b>Programs</b></td><td>.bat · .cmd · .com · .dll · .drv · .exe · .msi · .mui · .ps1 · .sys</td></tr><tr><td><b>Mail & data</b></td><td>.accdb · .db · .kdbx · .mbox · .mbx · .mdb · .ost · .pst · .qbw · .sqlite</td></tr></table></div>
+  <p class="muted small">Everything else is rescued under "Other". Common types without a group of their own (settings, logs, program code, web pages, fonts, shortcuts) count as known; the rest are listed as <b>new to DiskSalvor</b>, so they can be sent in.</p>
+  <h3>By content: what the first bytes say</h3>
+  <p>Most file types start with a few fixed bytes, a "signature" (a JPEG photo starts <code>FF D8 FF</code>, a PDF with <code>%PDF</code>). DiskSalvor recognises these:</p>
+  <div style="overflow-x:auto"><table><tr><th>Group</th><th>Recognised by their first bytes</th></tr><tr><td><b>Documents</b></td><td>DjVu document · PDF document · Rich Text document · PostScript document · Encapsulated PostScript (with preview) · Microsoft Office 97-2003 / Outlook message / other OLE file · Windows help (CHM) · Kindle / Mobipocket e-book</td></tr><tr><td><b>Photos</b></td><td>JPEG image · PNG image · GIF image · Windows bitmap (BMP) · Photoshop document · JPEG 2000 image · JPEG XL image · Fujifilm raw photo · Olympus raw photo · Panasonic raw photo · Canon raw photo (old) · Minolta raw photo · GIMP image · OpenEXR image · DICOM medical image · HEIC photo (iPhone) · HEIC photo · HEIF image · HEIF image sequence · AVIF image · Canon raw photo (CR3) · WebP image · Amiga image · TIFF image (also many camera raw photos: NEF, ARW, DNG) · Canon raw photo (CR2)</td></tr><tr><td><b>Video</b></td><td>Matroska / WebM video · Windows Media (ASF: WMV/WMA) · Flash video · MPEG video (program stream) · MPEG video · QuickTime video · MP4 video · iTunes video · 3GP phone video · 3GP2 phone video · Flash video (F4V) · MPEG-DASH video · Sony video · AVI video · MPEG transport stream video (camcorders, TV recordings)</td></tr><tr><td><b>Audio</b></td><td>MP3 audio (with tags) · FLAC audio · Ogg audio/video · MIDI music · AMR voice recording · Sun/NeXT audio · Monkey's Audio · WavPack audio · DSD audio · AAC audio · Audiobook · iTunes audio (protected) · WAV audio · CD audio track · AIFF audio · AIFF audio (compressed) · Amiga audio · MP3 audio</td></tr><tr><td><b>Archives</b></td><td>ZIP archive (also Word/Excel/PowerPoint, OpenDocument, EPUB, JAR, APK) · ZIP archive (empty) · RAR archive · RAR 5 archive · 7-Zip archive · gzip archive · bzip2 archive · xz archive · Zstandard archive · Microsoft cabinet · ARJ archive · LHA archive · TAR archive · Windows image (WIM)</td></tr><tr><td><b>Programs</b></td><td>Windows program or library (EXE/DLL) · Linux program (ELF) · Java class / macOS universal program · macOS program (Mach-O) · Android program (DEX) · WebAssembly</td></tr><tr><td><b>Mail & data</b></td><td>Outlook mail file (PST/OST) · SQLite database · Access database (MDB) · Access database (ACCDB) · KeePass password database · KeePass 1 password database · Contact card (vCard) · Calendar (iCalendar) · Outlook Express mail (DBX) · Windows Live / Outlook Express data</td></tr><tr><td><b>Other</b></td><td>Windows icon · Windows cursor · DirectDraw texture · Virtual hard disk (VHD) · Virtual hard disk (VHDX) · VMware virtual disk · QEMU virtual disk · Apple disk image · Apple installer package · Debian package · RPM package · Windows shortcut · Windows registry hive · Windows event log · Type library · Program debug database · TrueType font · OpenType font · Web font (WOFF) · Web font (WOFF2) · BitTorrent file · Apple binary property list · HDF4 data · HDF5 data · AutoCAD drawing · 3D model (STL, text) · 3D model (FBX) · Blender 3D scene · Animated cursor</td></tr></table></div>
+  <p class="muted small">Plus plain text, XML, HTML, JSON, e-mail and mailbox files, recognised by what the text looks like. The signatures come from public format specifications and public references (the <code>file</code> command's magic list, the UK National Archives' PRONOM registry, Gary Kessler's signature table).</p>
+  <h3>Teaching DiskSalvor a new type</h3>
+  <p>On <b>Rescue it for me</b>, open <b>File types</b>: types that are new to DiskSalvor are listed (already rescued, like everything else) with what their first bytes say, taken from a copy already on your destination (nothing more is read from the drive). <b>Send these types to the DiskSalvor team</b> opens an e-mail in your own mail program with the extensions, how many files have each, the guess, and the first 16 bytes of one file each. Never file names. You see the e-mail before it's sent; for text files those 16 bytes can be readable words, so check them.</p></section>
+<section class="hsec help" id="h-safecopy"><h2>Safe copy: an image of the whole drive</h2>
+  <p>A safe copy reads the drive once, easy parts first, into one big file (an image) on a healthy drive. After that, everything else happens on the copy, and the failing drive can be unplugged.</p>
+  <div class="diagram"><svg viewBox="0 0 900 170"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <rect x="20" y="30" width="860" height="34" class="data"/><rect x="300" y="30" width="60" height="34" class="bad"/><rect x="620" y="30" width="30" height="34" class="bad"/>
+ <text x="20" y="20" class="sm b">Pass 1: copy everything that reads easily; jump well past trouble</text>
+ <path d="M30 80 H290" class="arr"/><path d="M370 80 H610" class="arr"/><path d="M660 80 H870" class="arr"/>
+ <text x="20" y="108" class="sm b">Pass 2: come back to the skipped areas from their far end, in small steps</text>
+ <path d="M440 122 H372" class="arr"/><path d="M700 122 H662" class="arr"/>
+ <text x="20" y="150" class="sm b">Pass 3: trim the near edges, stop at the first hang. What's left stays marked "not tried yet" for a later go.</text>
+ <path d="M262 162 H296" class="arr"/><path d="M590 162 H616" class="arr"/>
+</svg></div>
+  <h3>When to make one</h3>
+  <p>When the drive is <b>degrading</b>, or when you expect to need several passes (a search by content, say): every pass on the copy is a pass the failing drive doesn't have to survive. For a drive with a few weak spots, the rounds above are usually enough.</p>
+  <h3>Room it needs</h3>
+  <p><b>Only your data</b> copies the used parts of the drive. On an NTFS destination that takes about as much room as the data; exFAT and FAT32 can't store the empty parts as nothing, so they need the drive's full size. <b>Everything</b> always needs the full size.</p>
+  <div class="hnote ">It can stop and resume any time, even after a restart: a map next to the image (<b>.dsmap.json</b>) records what's copied. Areas next to a hang are left as "not tried yet"; press <b>Resume</b> later to try them again. Then open the image in DiskSalvor instead of the drive.</div></section>
+<section class="hsec help" id="h-resume"><h2>Stopping, resuming, and what DiskSalvor remembers</h2>
+  <p>Everything DiskSalvor learns about a drive is saved as it goes: the file list, which areas are unreadable or weak, what was copied where. When you open the same drive again, it offers to pick up from there, without reading anything from the drive.</p>
+  <ol class="hsteps"><li>Stop any time with <b>Stop</b>, or quit with <b>Q</b> in the black window. Closing the laptop is fine too.</li><li>Next time, open the same drive. Choose <b>Use the saved results</b>, then continue the rescue where it stopped. For a card, a stick or a drive without a serial number of its own, DiskSalvor first shows the drive the notes came from and asks whether it's the same one; it also compares the drive's first sectors, and never offers one drive's notes to another.</li><li>To start from zero (for a test), use <b>Start over</b> and tick <b>forget what was learned</b>. The old notes are kept as a dated backup.</li><li>To delete the notes for good (when you hand a drive back to its owner), use <b>Reports &amp; exports › Delete for good</b>. Your recovered files aren't touched.</li></ol>
+  <p>The notes are kept <b>with the rescue</b>: in the destination you choose, DiskSalvor makes a folder for the drive, named by what makes it unique (its model, size, serial number and exact size), with your files in it and a <b>DiskSalvor</b> folder holding the notes (<b>drive.disksalvor</b>), the drive's log (<b>drive log.txt</b>, every run) and the rescue report. Nothing is saved about a drive before you choose a destination. On this computer, DiskSalvor's own folder (<b>%LOCALAPPDATA%\DiskSalvor</b>: paste that into File Explorer's address bar, or press <b>Open DiskSalvor's folder</b> in Reports &amp; exports) keeps only the list of its rescues (which drive went where), its settings, and its own logs (a new one each start, kept 7 days). So a rescue is one folder you can move, back up or take to another computer, and a new version of DiskSalvor, unzipped anywhere, finds everything from before.</p></section>
+<section class="hsec help" id="h-safety"><h2>Is it safe? What DiskSalvor never does</h2>
+  <ol class="hsteps"><li><b>It never writes to the drive it rescues.</b> Every command it sends to a drive passes an allow-list first: reading sectors, and reading the health log. Anything else is refused before it leaves DiskSalvor.</li><li><b>It never copies onto the same drive.</b> A destination on the drive being rescued is refused, and so is one Windows can't confirm is elsewhere.</li><li><b>It never replaces your other files.</b> A file of yours with the same name gets the copy saved next to it, as <b>name (recovered).ext</b>. A safe copy won't replace a file that isn't one of its own copies of this drive. The careful retry (round 4) leaves alone any copy you have opened and saved since.</li><li><b>Nothing leaves your computer,</b> and only the browser tab DiskSalvor opened can use it: other websites, and other programs on your computer, are refused.</li><li><b>It doesn't fight a failing drive.</b> Its own time limit on every read (seconds, not Windows' minutes), weak areas skipped and tried last, and it stops when the drive gets worse.</li></ol>
+  <p class="muted small">One detail for experts: to ask a drive how long it retries a bad sector (Drive tests › Identify), DiskSalvor uses the drive's SCT command mailbox. Technically that's a "write log" command, but it goes to the drive's command mailbox, writes no sector of your data and changes no setting.</p></section>
+<section class="hsec help" id="h-staff"><h2>For staff: rescuing other people's drives</h2>
+  <p>A routine for help desks and anyone who rescues drives for others. It keeps the drive safe before DiskSalvor even starts, and leaves nothing of the owner's behind afterwards.</p>
+  <ol class="hsteps"><li><b>Before you plug the drive in,</b> stop Windows from opening it. When Windows mounts a damaged NTFS drive it replays the drive's journal, which writes to it, and Explorer, search indexing and antivirus all start reading it. Connect your destination drive first, then in a Command Prompt run as administrator type <code>mountvol /N</code> (new drives don't get mounted). DiskSalvor reads the drive directly and doesn't need it mounted. Afterwards, <code>mountvol /E</code> turns it back on. Never click Format, or Scan and fix.</li><li><b>Connect it straight to the computer</b>: no hub, a good cable, and its own power supply if it has one.</li><li><b>Start DiskSalvor, pick the drive</b> and read the first-look verdict.</li><li><b>Healthy, or a few weak spots:</b> <a href="/help/using-disksalvor/#h-auto">Rescue it for me</a>, into a <b>new, empty folder on a different physical drive</b>.</li><li><b>Degrading, clicking, or getting worse:</b> stop, and decide between a <a href="/help/using-disksalvor/#h-safecopy">safe copy</a> and a <a href="/help/get-help/#h-lab">recovery lab</a>.</li><li><b>Check the result:</b> open a sample of the recovered files, above all the ones listed as damaged.</li><li><b>Hand the files over,</b> then delete what DiskSalvor kept about the drive: Reports &amp; exports › <b>Delete for good</b>.</li></ol>
+  <div class="hnote ">Two programs reading one weak drive slow each other down, so DiskSalvor runs one reading job at a time and says so if you start another.</div></section>
+<section class="hsec help" id="h-engineers"><h2>For recovery engineers: how the saved data is designed</h2>
+  <p>Everything DiskSalvor learns about a drive is in one open, documented file you can read with your own tools: <b>drive.disksalvor</b>, in the <b>DiskSalvor</b> folder of the drive's rescue. It's a standard <b>SQLite</b> database: open it in DB Browser for SQLite, the <code>sqlite3</code> command, Python's built-in <code>sqlite3</code>, or anything else that reads SQLite. Nothing in it is specific to DiskSalvor's code, and nothing in it can run code.</p>
+  <h3>Built to last</h3>
+  <p>The file is designed to stay readable as DiskSalvor grows (new drive types, new file systems, new facts): every table holds <b>documents</b>, a few fixed columns to find things by plus a JSON column (<code>doc</code>) with everything else. New attributes are only ever added; a version that meets one it doesn't know keeps it; file systems are named by plain names (<code>ntfs</code>, <code>fat</code>, <code>exfat</code>, <code>raw</code>) that are never renamed. The format number (in <code>meta</code>) changes only if an older reader would misread something, and newer DiskSalvors read every earlier format. Each save is one transaction, so the file is always the last whole save.</p>
+  <h3>The tables</h3>
+  <div style="overflow-x:auto"><table><tr><th>Table</th><th>One row per</th><th>Fixed columns</th></tr><tr><td><code>meta</code></td><td>setting of the file</td><td><code>key</code>: <code>format</code>, <code>created</code>, <code>written_by</code>, <code>summary</code></td></tr><tr><td><code>drive</code></td><td>the drive</td><td>its model, serial number, size, kind, fingerprint (in <code>doc</code>)</td></tr><tr><td><code>facts</code></td><td>fact about the drive</td><td><code>key</code>: the layout, the health check, the read map, answers, what was copied where</td></tr><tr><td><code>partitions</code></td><td>partition</td><td><code>id</code>, <code>n</code> (order), <code>start</code>, <code>size</code></td></tr><tr><td><code>volumes</code></td><td>file system read</td><td><code>part</code>, <code>fs</code></td></tr><tr><td><code>entries</code></td><td>file or folder</td><td><code>part</code>, <code>id</code>, <code>parent</code>, <code>is_dir</code>, <code>deleted</code> (name, size, times, how it was found in <code>doc</code>)</td></tr><tr><td><code>extents</code></td><td>piece of a file</td><td><code>part</code>, <code>entry</code>, <code>piece</code>, <code>start</code> and <code>end</code> (bytes from the start of the drive), <code>how</code> (file list, content)</td></tr><tr><td><code>ranges</code></td><td>sector range</td><td><code>kind</code> (<code>bad</code>: unreadable; <code>retried</code>), <code>start</code>, <code>end</code> (sectors)</td></tr><tr><td><code>kept</code></td><td>64 KB block read</td><td><code>idx</code>, <code>data</code>: index reads kept so they're never read from the drive again</td></tr></table></div>
+  <p>Values JSON has no type for are tagged: bytes <code>{"$b": base64}</code>, sector sets <code>{"$ss": [[start, end], ...]}</code>, sets <code>{"$set": [...]}</code>, tuples <code>{"$t": [...]}</code>. Ids (<code>id</code>, <code>entry</code>, <code>parent</code>) are stored as JSON, so a text id is in quotes.</p>
+  <h3>Examples</h3>
+  <p>Every file DiskSalvor knows, with its size and whether it was deleted:</p>
+  <pre>SELECT part, json_extract(doc,'$.name') AS name, json_extract(doc,'$.size') AS size, deleted
+FROM entries WHERE is_dir = 0 ORDER BY name;</pre>
+  <p>Which file is at a place on the drive (here byte 1,048,576):</p>
+  <pre>SELECT e.part, json_extract(e.doc,'$.name') FROM extents x
+JOIN entries e ON e.part = x.part AND e.id = x.entry
+WHERE x.start &lt;= 1048576 AND x.end &gt; 1048576;</pre>
+  <p>The unreadable areas: <code>SELECT start, end FROM ranges WHERE kind = 'bad';</code></p>
+  <p>To pull files out for your own processing, read each file's pieces from <code>extents</code> (in <code>piece</code> order) out of the drive or a safe copy of it: the start and end are byte positions on the whole drive, so they work the same on an image. The full reference is <b>docs/saved-data.md</b> in DiskSalvor's source.</p></section>
+<section class="hsec help" id="h-trouble"><h2>Questions and problems</h2>
+  <div class="hqa"><h3>It says Python isn't installed.</h3><p>Install it from python.org (tick "Add python.exe to PATH"), then double-click Run DiskSalvor.bat again.</p></div>
+  <div class="hqa"><h3>The browser didn't open, or I closed the tab.</h3><p>Press <b>O</b> in DiskSalvor's black window: it opens DiskSalvor in your browser again.</p></div>
+  <div class="hqa"><h3>It says "Open DiskSalvor from its window".</h3><p>For your safety, DiskSalvor only works with the browser tab it opened itself, so another program on your computer can't use it. Press <b>O</b> in its black window.</p></div>
+  <div class="hqa"><h3>My drive isn't in the list.</h3><p>Press <b>Refresh</b>. If it still isn't there, Windows doesn't see it either: see <a href="/help/get-help/#h-situations">What's wrong with your drive?</a> (Not detected).</p></div>
+  <div class="hqa"><h3>Windows offers to format or scan the drive while DiskSalvor runs.</h3><p>Click <b>Cancel</b>. <a href="/help/get-help/#h-prompts">Windows pop-ups: what to click</a>.</p></div>
+  <div class="hqa"><h3>The drive disconnected in the middle.</h3><p>Everything so far is kept, and the file being copied when it dropped is never left with zeros in it: it's copied again next time. Plug the drive straight into the computer (no hub) and press <b>Reconnect</b>, or open it again in DiskSalvor, and continue. DiskSalvor checks that it's the same drive and keeps what it learned (its weak spots aren't read again). If it keeps disconnecting, try another cable; for a 2.5" drive, a powered hub.</p></div>
+  <div class="hqa"><h3>Can I look at a file before copying it?</h3><p>Yes: <b>Preview</b>, next to a file in the list, shows photos, PDFs, text, music and video. A file already copied whole is shown from your rescue folder, so the drive isn't read at all. Otherwise a preview reads the file from the drive; on a drive with weak spots DiskSalvor asks first, because copying the file later reads it again. Web pages and drawings from the drive are shown as text, never run.</p></div>
+  <div class="hqa"><h3>It's very slow.</h3><p>On a failing drive that's normal and deliberate: weak spots get a short, patient try instead of minutes of hammering. Copies of healthy areas run at the drive's normal speed.</p></div>
+  <div class="hqa"><h3>Can I use the computer meanwhile?</h3><p>Yes. Just don't open the failing drive in Explorer or another program: two programs reading at once make a weak drive work harder.</p></div>
+  <div class="hqa"><h3>A file came out damaged. Can it be fixed?</h3><p>Run round 4 (careful retry of damaged files): it reads only the missing pieces again. Pieces that never read are zeros; many photos and documents still open with a small flaw.</p></div>
+  <div class="hqa"><h3>How do I report a problem?</h3><p>Email hello@disksalvor.com or open an issue on GitHub. The drive's log helps most (<b>drive log.txt</b>, in the <b>DiskSalvor</b> folder of its rescue; before a destination was chosen, the newest file in <b>%LOCALAPPDATA%\DiskSalvor\logs</b>). It contains your file names, so look through it before sending.</p></div></section></div></div>
+  <p class="updated">Last updated 2026-11-10 · Something wrong or unclear on this page? <a href="mailto:hello@disksalvor.com?subject=Help%20page:%20Using%20DiskSalvor">Tell us</a>.</p>
+</main>
+<footer><div class="wrap">
+  <div class="cols">
+    <div><a class="brand" href="/"><img src="/assets/logo.svg" alt="" style="width:30px;height:30px">DiskSalvor</a>
+      <p>Free, open-source rescue of files from failing drives.</p><p style="font-size:13.5px"><i>Salvor</i> (noun): someone who saves a ship's cargo from a wreck.</p></div>
+    <div><h4>Product</h4><a href="/#how">How it works</a><a href="/#tools">Expert tools</a><a href="/#compare">How it compares</a><a href="/#result">Results</a></div>
+    <div><h4>Help</h4><a href="/help/get-help/">What to do first</a><a href="/help/using-disksalvor/">Using DiskSalvor</a><a href="/help/how-drives-work/">How drives work</a><a href="/help/questions/">FAQ</a><a href="/support/">Support</a></div>
+    <div><h4>Project</h4><a href="/security/">Security</a><a href="https://github.com/disksalvor">GitHub</a><a href="mailto:hello@disksalvor.com">hello@disksalvor.com</a></div>
+  </div>
+  <div class="legal"><span>© 2026 DiskSalvor contributors</span><span>MIT licence</span><span>Provided as is, without warranty.</span><span>Product names belong to their owners.</span></div>
+</div></footer>
+</body>
+</html>

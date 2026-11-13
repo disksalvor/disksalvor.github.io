@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How drives work: an illustrated guide for data recovery | DiskSalvor</title>
+<meta name="description" content="Illustrated: hard disks, SSDs, USB drives and memory cards; sectors, partitions and file systems; bad sectors, S.M.A.R.T. and encryption.">
+<link rel="canonical" href="https://disksalvor.com/help/how-drives-work/">
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/icon-512.png">
+<meta name="theme-color" content="#0f2a4a">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DiskSalvor">
+<meta property="og:url" content="https://disksalvor.com/help/how-drives-work/">
+<meta property="og:title" content="How drives work: an illustrated guide for data recovery | DiskSalvor">
+<meta property="og:description" content="Illustrated: hard disks, SSDs, USB drives and memory cards; sectors, partitions and file systems; bad sectors, S.M.A.R.T. and encryption.">
+<meta property="og:image" content="https://disksalvor.com/assets/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How drives work","name":"How drives work: an illustrated guide for data recovery | DiskSalvor","description":"Illustrated: hard disks, SSDs, USB drives and memory cards; sectors, partitions and file systems; bad sectors, S.M.A.R.T. and encryption.","url":"https://disksalvor.com/help/how-drives-work/","inLanguage":"en","dateModified":"2026-11-10","isPartOf":{"@type":"WebSite","name":"DiskSalvor","url":"https://disksalvor.com/"},"publisher":{"@type":"Organization","@id":"https://disksalvor.com/#org","name":"DiskSalvor","url":"https://disksalvor.com/"},"author":{"@type":"Organization","@id":"https://disksalvor.com/#org","name":"DiskSalvor","url":"https://disksalvor.com/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DiskSalvor","item":"https://disksalvor.com/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://disksalvor.com/help/"},{"@type":"ListItem","position":3,"name":"How drives work","item":"https://disksalvor.com/help/how-drives-work/"}]}]}
+</script>
+<style>
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Plex";src:url(/assets/fonts/ibm-plex-sans-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(/assets/fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"PlexMono";src:url(/assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+:root{
+  --navy:#0f2a4a;--navy2:#13335a;--navy-line:#25466f;--on-navy:#e8eef6;--on-navy-muted:#a9b9cf;
+  --blue:#244fb3;--brass:#c8913e;--brass-ink:#8a5e22;--brass-soft:#f6efe2;
+  --bg:#ffffff;--band:#f4f5f7;--ink:#121c2b;--muted:#556074;--line:#d8dde5;
+  --good:#1f7a4f;--warn:#a2620c;--bad:#a83232;
+  /* names the Help pages (and older styles) use */
+  --panel:var(--bg);--panel2:var(--band);--accent:var(--blue);--accent-soft:#e9eef8;--good-soft:#e3f1e9;--warn-soft:#f8ead3;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0c1522;--band:#111c2b;--ink:#e6ebf2;--muted:#9aa7ba;--line:#24344a;--blue:#7ea3f2;--brass-soft:#2a2216;--brass-ink:#d9a95c;
+  --good:#5cc28d;--warn:#e0a94f;--bad:#ef7b7b;--navy:#08121f;--navy2:#0d1a2c;--navy-line:#22344d;
+  --accent-soft:#1a2740;--good-soft:#173326;--warn-soft:#3a2c14}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.6 "Plex",system-ui,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-underline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mono{font-family:"PlexMono",ui-monospace,Consolas,monospace}
+.eyebrow{font:500 12.5px/1 "PlexMono",ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--brass)}
+h1,h2,h3{font-weight:600;letter-spacing:-.015em;margin:0}
+h1{font-size:52px;line-height:1.08}
+h2{font-size:36px;line-height:1.15;margin-bottom:14px}
+h3{font-size:18px;line-height:1.3;margin-bottom:6px}
+p{margin:0 0 14px}
+.sub{color:var(--muted);font-size:18px;max-width:720px}
+/* header */
+.topbar{background:var(--navy);color:var(--on-navy-muted);font:13px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.04em}
+.topbar .wrap{display:flex;gap:22px;height:34px;align-items:center;overflow:hidden;white-space:nowrap}
+.topbar b{color:var(--brass);font-weight:500}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand img{width:34px;height:34px}
+.nav nav{margin-left:auto;display:flex;gap:26px;align-items:center}
+.nav nav a{color:var(--ink);text-decoration:none;font-size:15px;font-weight:500}
+.nav nav a:hover{color:var(--blue)}
+.nav nav a.cta{background:var(--navy);color:#fff;padding:10px 18px;border-radius:4px}
+.nav nav .soon{color:var(--muted);font-size:15px;font-weight:500;cursor:default;display:inline-flex;align-items:center;gap:6px}
+.nav nav .soon small{font:600 10.5px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:3px 5px}
+@media (prefers-color-scheme:dark){.nav nav a.cta{background:var(--blue);color:#0c1522}}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:4px;font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent}
+.btn.pri{background:var(--brass);color:#1b1206}
+.btn.pri:hover{filter:brightness(1.06)}
+.btn.ghost{border-color:rgba(255,255,255,.35);color:#fff}
+.btn.ghost:hover{border-color:#fff}
+.btn .arr{transition:transform .15s}.btn:hover .arr{transform:translateX(3px)}
+/* hero: navy band */
+.hero{background:var(--navy);color:var(--on-navy);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px;pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center;padding-top:72px;padding-bottom:84px}
+.hero .eyebrow{color:var(--brass)}
+.hero h1{color:#fff}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.hero .lead{color:var(--on-navy-muted);font-size:19px;margin:22px 0 30px;max-width:560px}
+.hero .btns{display:flex;gap:14px;flex-wrap:wrap}
+.hero .fine{color:var(--on-navy-muted);font-size:14px;margin-top:22px;max-width:560px}
+.frame{background:#0a1d34;border:1px solid var(--navy-line);border-radius:6px;padding:10px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.frame .dots{display:flex;gap:6px;padding:2px 2px 10px}.frame .dots i{width:9px;height:9px;border-radius:50%;background:var(--navy-line)}
+.frame img{display:block;width:100%;height:auto;border-radius:3px}
+/* facts strip under the hero */
+.facts{border-bottom:1px solid var(--line)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.facts .wrap>div{padding:22px 20px;border-left:1px solid var(--line);font-size:14.5px;color:var(--muted)}
+.facts .wrap>div:first-child{border-left:none;padding-left:0}
+.facts b{display:block;color:var(--ink);font-weight:600;font-size:15.5px}
+section{padding:96px 0}
+section.band{background:var(--band)}
+/* result: heading left, numbers right */
+.split{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.nums{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink)}
+.nums div{padding:26px 22px 26px 0;border-bottom:1px solid var(--line)}
+.nums div:nth-child(odd){border-right:1px solid var(--line)}
+.nums div:nth-child(even){padding-left:24px}
+.nums b{display:block;font:600 48px/1 "Plex",system-ui,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.025em;color:var(--navy);margin-bottom:10px}
+@media (prefers-color-scheme:dark){.nums b{color:#fff}}
+.nums span{color:var(--muted);font-size:15px}
+/* why: three columns with a brass rule */
+.whys{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:40px}
+.whys div{border-top:3px solid var(--brass);padding-top:22px}
+.whys h3{font-size:20px;margin-bottom:10px}
+.whys p{color:var(--muted);margin:0}
+/* free: text left, definition rows right */
+.rows{border-top:1px solid var(--line)}
+.rows div{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line)}
+.rows h3{font-size:15px;text-transform:uppercase;letter-spacing:.08em;font-family:"PlexMono",monospace;font-weight:500;color:var(--brass-ink)}
+.rows p{margin:0;color:var(--muted)}
+/* how: timeline left, screenshot right */
+.how{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.timeline{list-style:none;margin:28px 0 0;padding:0;counter-reset:s}
+.timeline li{position:relative;padding:0 0 26px 64px}
+.timeline li::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;width:40px;height:40px;border:1px solid var(--line);background:var(--band);display:grid;place-items:center;font:500 14px/1 "PlexMono",monospace;color:var(--brass-ink);border-radius:50%;z-index:1}
+.timeline li::after{content:"";position:absolute;left:20px;top:40px;bottom:0;width:1px;background:var(--line)}
+.timeline li:last-child::after{display:none}
+.timeline p{color:var(--muted);margin:0}
+.sticky{position:sticky;top:110px}
+.sticky .frame{background:var(--navy)}
+.caption{font-size:13.5px;color:var(--muted);margin-top:10px}
+/* built: icon list, two columns, no boxes */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 48px;margin-top:40px}
+.feat .ic{width:48px;height:48px;border-radius:4px;background:var(--brass-soft);color:var(--brass-ink);display:grid;place-items:center;margin-bottom:16px}
+.feat p{color:var(--muted);margin:0;font-size:15.5px}
+/* tools: navy band, ruled grid */
+.dark{background:var(--navy);color:var(--on-navy)}
+.dark h2{color:#fff}.dark .sub{color:var(--on-navy-muted)}.dark .eyebrow{color:var(--brass)}
+.ruled{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;border-top:1px solid var(--navy-line);border-left:1px solid var(--navy-line)}
+.ruled div{padding:28px 26px;border-right:1px solid var(--navy-line);border-bottom:1px solid var(--navy-line)}
+.ruled h3{color:#fff}
+.ruled .k{font:500 12px/1 "PlexMono",monospace;color:var(--brass);letter-spacing:.1em;display:block;margin-bottom:14px}
+.ruled p{color:var(--on-navy-muted);margin:0;font-size:15px}
+/* compare */
+.tablewrap{overflow-x:auto;margin-top:36px;border:1px solid var(--line);border-radius:4px}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:15px;background:var(--bg)}
+th,td{padding:14px 14px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+th:first-child,td:first-child{text-align:left;width:34%}
+thead th{font:500 12.5px/1.35 "PlexMono",monospace;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:var(--band)}
+thead th.us{color:var(--ink);box-shadow:inset 0 3px 0 var(--brass)}
+td.us{background:var(--brass-soft);font-weight:600}
+tr:last-child td{border-bottom:none}
+.y{color:var(--good);font-weight:700}.n{color:var(--muted)}.p{color:var(--warn);font-weight:700}
+.half{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid var(--warn);background:linear-gradient(90deg,var(--warn) 50%,transparent 50%);vertical-align:-2px}
+.note{font-size:13.5px;color:var(--muted);margin-top:12px}
+.ahead{margin-top:56px;display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
+.ahead ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.ahead li{padding:16px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15.5px}
+.ahead li b{color:var(--ink)}
+/* right tool / lab */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
+.pair > div{padding:36px}
+.pair > div + div{border-left:1px solid var(--line)}
+.pair h3{font-size:20px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pair .tag{font:500 11.5px/1 "PlexMono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-radius:3px}
+.pair .ok .tag{background:#e3f1e9;color:var(--good)}.pair .lab .tag{background:#f8ead3;color:var(--warn)}
+@media (prefers-color-scheme:dark){.pair .ok .tag{background:#173326}.pair .lab .tag{background:#3a2c14}}
+.pair ul{margin:0;padding-left:20px;color:var(--muted)}.pair li{margin:6px 0}
+/* contribute */
+.contrib{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:32px}
+.contrib div{border-top:3px solid var(--brass);padding-top:20px}
+.contrib p{color:var(--muted);margin:0}
+/* guides: link list */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-top:32px;border-top:1px solid var(--line)}
+.links a{display:block;padding:20px 28px 20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);position:relative}
+.links a::after{content:"→";position:absolute;right:4px;top:20px;color:var(--brass-ink);transition:transform .15s}
+.links a:hover::after{transform:translateX(3px)}
+.links a:hover h3{color:var(--blue)}
+.links p{color:var(--muted);font-size:15px;margin:0}
+.more{margin-top:24px;font-weight:600}
+/* faq */
+.faq{display:grid;grid-template-columns:.7fr 1.3fr;gap:64px}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+details:first-child{border-top:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 22px/1 "PlexMono",monospace;color:var(--brass-ink)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin:12px 0 0}
+/* footer */
+footer{background:var(--navy);color:var(--on-navy-muted);padding:64px 0 36px;font-size:15px}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+footer h4{font:500 12px/1 "PlexMono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin:6px 0 16px}
+footer a{color:var(--on-navy);text-decoration:none;display:block;margin:0 0 10px}
+footer a:hover{text-decoration:underline}
+footer .brand{color:#fff;margin-bottom:14px}
+footer .legal{border-top:1px solid var(--navy-line);margin-top:44px;padding-top:22px;display:flex;gap:20px;flex-wrap:wrap;font-size:13.5px}
+@media (max-width:980px){
+  .hero .wrap,.split,.how,.ahead,.faq{grid-template-columns:1fr;gap:36px}
+  .feat,.ruled,.links{grid-template-columns:1fr 1fr}
+  .whys{grid-template-columns:1fr;gap:28px}
+  footer .cols{grid-template-columns:1fr 1fr}
+  .sticky{position:static}
+}
+@media (max-width:640px){
+  h1{font-size:38px}h2{font-size:29px}
+  .nav{flex-wrap:wrap;height:auto;gap:8px 20px;padding:10px 0}
+  .nav nav{margin-left:0;width:100%;justify-content:space-between;gap:10px}.nav nav a{font-size:15px}.nav nav a.cta{padding:7px 12px}
+  .nav nav .soon{display:none}
+  section{padding:64px 0}
+  .wrap{padding:0 16px}
+  .hero .wrap{padding-top:48px;padding-bottom:56px}
+  .facts .wrap{grid-template-columns:1fr 1fr}
+  .facts .wrap>div:nth-child(3){border-left:none;padding-left:0}
+  .facts .wrap>div{border-top:1px solid var(--line)}
+  .facts .wrap>div:nth-child(-n+2){border-top:none}
+  .nums{grid-template-columns:1fr}.nums div:nth-child(odd){border-right:none}.nums div:nth-child(even){padding-left:0}
+  .nums b{font-size:38px}
+  .rows div{grid-template-columns:1fr;gap:6px}
+  .feat,.ruled,.links,.contrib,.whys{grid-template-columns:1fr}
+  .pair{grid-template-columns:1fr}.pair > div + div{border-left:none;border-top:1px solid var(--line)}
+  .pair > div{padding:26px}
+  .topbar span:nth-child(n+3){display:none}
+  footer .cols{grid-template-columns:1fr}
+}
+
+:root{--text:var(--ink);--cell-ok:#9fb3cc;--cell-unread:#e9edf2;--cell-bad:#d14b4b}
+@media (prefers-color-scheme:dark){:root{--cell-ok:#4f6684;--cell-unread:#262c37;--cell-bad:#c24848}}
+main.wrap{padding-top:36px;padding-bottom:72px}
+.hsec,.hbooks a,.hubcard,.hnote{border-radius:6px}
+.pagehead{background:var(--navy);position:relative;overflow:hidden}
+.pagehead::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px}
+.pagehead .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:44px}
+.pagehead h1{color:#fff;font-size:42px;margin:6px 0 0}
+.pagehead .crumbs{color:var(--on-navy-muted);font:500 12.5px/1 "PlexMono",ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;margin:0}
+.pagehead .crumbs a{color:var(--brass);text-decoration:none}
+@media (max-width:640px){.pagehead h1{font-size:30px}.pagehead .wrap{padding-top:28px;padding-bottom:30px}}
+
+.help p{color:var(--ink);margin:0 0 14px}
+.help .muted{color:var(--muted)}
+.diagram{overflow-x:auto;margin:10px 0 14px}
+.help svg{width:100%;min-width:620px;height:auto;display:block;overflow:visible}
+.help svg text{fill:var(--ink);font:13px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.help svg .sm{font-size:12.5px;fill:var(--muted)}
+.help svg .b{font-weight:700}
+.help .meta{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.help .idx{fill:#f3e3b5;stroke:#b8902b;stroke-width:1.2}
+.help .data{fill:var(--cell-ok);stroke:var(--line)}
+.help .free{fill:var(--cell-unread);stroke:var(--line)}
+.help .bad{fill:var(--cell-bad);stroke:var(--bad)}
+.help .bak{fill:var(--good-soft);stroke:var(--good);stroke-width:1.2}
+.help .ln{stroke:var(--muted);stroke-width:1.4;fill:none}
+.help .arr{stroke:var(--accent);stroke-width:1.6;fill:none;marker-end:url(#ah)}
+.help .arrb{stroke:var(--bad);stroke-width:1.6;fill:none;marker-end:url(#ahb)}
+@media (prefers-color-scheme:dark){.help .idx{fill:#4a3b12;stroke:#d8b04a}}
+.help table{min-width:560px;font-size:14.5px;margin:6px 0 14px}
+.help th,.help td{text-align:left;vertical-align:top;padding:8px 10px}
+.help th{color:var(--muted);font-size:13px;background:var(--panel2)}
+.help tr:last-child td{border-bottom:1px solid var(--line)}
+.updated{color:var(--muted);font-size:14px;margin-top:8px}
+.qlist{max-width:860px;margin:6px 0 22px}.qlist details p{font-size:16px}
+.box.warn{border-left:4px solid var(--brass);background:var(--panel2);padding:14px 18px;margin:8px 0 22px;border-radius:4px}
+.sup{max-width:860px;margin:30px 0 0}.sup h2{font-size:24px;margin:0 0 8px}.sup p{margin:0 0 10px}
+.hubgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0 10px}
+.hubcard{display:block;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 20px;text-decoration:none;color:var(--ink)}
+.hubcard:hover{border-color:var(--accent)}
+.hubcard b{display:block;font-size:20px;color:var(--accent);margin-bottom:6px}.hubcard span{display:block;color:var(--muted);font-size:15px}
+.hubcard ul{margin:12px 0 0;padding-left:18px;font-size:14.5px}
+.wrap{max-width:1180px}
+@media (max-width:900px){.hubgrid{grid-template-columns:1fr}.nav nav{display:flex}}
+@media (max-width:700px){.diagram::after{content:"Swipe sideways to see the whole diagram";display:block;font-size:12.5px;color:var(--muted);margin-top:4px}}</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap"><span><b>●</b> Free · no file limits · no account</span><span>Open source (MIT)</span><span>Read-only by design</span><span>Windows 10 and 11</span></div></div>
+<header><div class="wrap nav">
+  <a class="brand" href="/"><img src="/assets/logo.svg" alt="">DiskSalvor</a>
+  <nav><span class="soon" title="Coming soon: try DiskSalvor on a simulated failing drive, right here in your browser. Nothing to install." aria-disabled="true">Sandbox<small>soon</small></span><a href="/help/">Help</a><a href="/help/questions/">FAQ</a><a href="/support/">Support</a><a class="cta" href="https://github.com/disksalvor">GitHub</a></nav>
+</div></header>
+<div class="pagehead"><div class="wrap">
+  <p class="crumbs"><a href="/">DiskSalvor</a> › <a href="/help/">Help</a></p>
+  <h1>How drives work</h1>
+</div></div>
+<main class="wrap">
+  <p class="hlead">Illustrated explanations of what's inside a drive and what goes wrong with it. Read them when you want to understand; you don't need them to rescue your files.</p>
+<style>
+.hbooks{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 18px}
+.hbooks a{display:block;flex:1 1 200px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-decoration:none;color:inherit;background:var(--panel)}
+.hbooks a b{display:block;font-size:16px}.hbooks a span{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.hbooks a:hover{border-color:var(--accent)}
+.hbooks a.cur{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.hgrid{display:grid;grid-template-columns:220px minmax(0,1fr);gap:26px;align-items:start}
+.htoc{position:sticky;top:14px;font-size:14.5px;line-height:1.35;max-height:calc(100vh - 28px);overflow:auto}
+.htoc a.hback{display:block;font-weight:650;color:var(--accent);text-decoration:none;margin:0 0 14px;padding:0;border:0}
+.htoc b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:2px 0 8px}
+.htoc a{display:block;padding:5px 0 5px 10px;border-left:2px solid var(--line);color:inherit;text-decoration:none}
+.htoc a:hover{border-left-color:var(--accent);color:var(--accent)}
+.hsec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin:0 0 18px;scroll-margin-top:14px}
+.hsec>h2{margin:0 0 10px;font-size:23px}
+.hsec h3{font-size:17px;margin:18px 0 6px}
+.hsec p,.hsec li{font-size:16px;line-height:1.55}
+.hsec{overflow-wrap:anywhere}.hsec table{overflow-wrap:normal}
+.hsteps{padding-left:22px;margin:8px 0 14px}.hsteps li{margin:0 0 8px;padding-left:4px}
+.hnote{border-left:4px solid var(--info,#4b5568);background:var(--info-soft,#eef1f5);border-radius:8px;padding:10px 14px;margin:12px 0;font-size:15.5px;line-height:1.5}
+.hnote.warn{border-left-color:#b8902b;background:rgba(184,144,43,.12)}
+.hnote.bad{border-left-color:var(--bad);background:rgba(209,75,75,.10)}
+.hshot{margin:14px 0 18px}.hshot img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;display:block}
+.hshot figcaption{font-size:14px;color:var(--muted);margin-top:6px}
+.hqa{border-top:1px solid var(--line);padding-top:4px}.hqa:first-of-type{border-top:0}
+.hqa h3{margin:12px 0 4px}
+.hlead{font-size:17px;color:var(--muted);max-width:820px;margin:0 0 6px}
+.hmain{min-width:0}
+@media (max-width:640px){.hbooks{gap:6px}.hbooks a{flex:1 1 30%;padding:8px 10px}.hbooks a b{font-size:14px}.hbooks a span{display:none}}
+@media (max-width:900px){.hgrid{grid-template-columns:minmax(0,1fr)}.htoc{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:6px}
+ .htoc b{width:100%}.htoc a{border:1px solid var(--line);border-radius:99px;padding:4px 10px}.hsec{padding:16px}}
+</style><div class="hbooks"><a href="/help/get-help/" class=""><b>Get help now</b><span>Something's wrong with a drive</span></a><a href="/help/using-disksalvor/" class=""><b>Using DiskSalvor</b><span>How a rescue goes, screen by screen</span></a><a href="/help/how-drives-work/" class="cur"><b>How drives work</b><span>Illustrated: what's inside, what goes wrong</span></a></div><div class="hgrid"><nav class="htoc"><b>On this page</b><a href="#h-layers" >A drive is a stack of layers</a><a href="#h-types" >Kinds of drives</a><a href="#h-connect" >How a drive connects, and why it matters</a><a href="#h-inside" >Platters and flash</a><a href="#h-sectors" >Sectors and clusters</a><a href="#h-tables" >MBR and GPT partition tables</a><a href="#h-fs" >File systems compared</a><a href="#h-ntfs" >Inside NTFS</a><a href="#h-fat" >Inside FAT32 and exFAT</a><a href="#h-windows" >What Windows does with a drive</a><a href="#h-backups" >What has a backup copy</a><a href="#h-deleted" >Deleted, formatted, wiped</a><a href="#h-damage" >When the file index is damaged</a><a href="#h-bad" >Bad sectors, retries and hangs</a><a href="#h-smart" >The health log (S.M.A.R.T.)</a><a href="#h-crypt" >Encryption</a><a href="#h-diskl" >How DiskSalvor reads a drive</a><a href="#h-gloss" >Glossary</a></nav><div class="hmain"><section class="hsec help" id="h-layers"><h2>A drive is a stack of layers</h2>
+   <p>Every drive, whatever its type, works the same way from the computer's side: it's one long row of numbered blocks. Everything else (partitions, file systems, folders, file names) is just data written into those blocks by convention, and each layer only makes sense if the layer under it can be read.</p>
+   <div class="diagram"><svg viewBox="0 0 920 430"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <rect x="20" y="12" width="420" height="48" rx="6" class="data"/><text x="34" y="33" class="b">Your files and folders</text><text x="34" y="50" class="sm">photo.jpg, Documents\Taxes …</text>
+     <path d="M445 36 H500" class="ln" stroke-dasharray="3 3"/><text x="508" y="40" class="sm">Explorer, apps</text><rect x="20" y="70" width="420" height="48" rx="6" class="idx"/><text x="34" y="91" class="b">File system</text><text x="34" y="108" class="sm">NTFS · exFAT · FAT32 · ReFS · ext4 · APFS</text>
+     <path d="M445 94 H500" class="ln" stroke-dasharray="3 3"/><text x="508" y="98" class="sm">File-system driver (ntfs.sys, exfat.sys, fastfat.sys)</text><rect x="20" y="128" width="420" height="48" rx="6" class="meta"/><text x="34" y="149" class="b">Volume (partition)</text><text x="34" y="166" class="sm">shows up as a drive letter: C:, G:</text>
+     <path d="M445 152 H500" class="ln" stroke-dasharray="3 3"/><text x="508" y="156" class="sm">Volume + mount manager (assigns letters)</text><rect x="20" y="186" width="420" height="48" rx="6" class="meta"/><text x="34" y="207" class="b">Partition table</text><text x="34" y="224" class="sm">GPT or MBR: where each partition starts and ends</text>
+     <path d="M445 210 H500" class="ln" stroke-dasharray="3 3"/><text x="508" y="214" class="sm">Partition manager (partmgr)</text><rect x="20" y="244" width="420" height="48" rx="6" class="free"/><text x="34" y="265" class="b">Disk: numbered sectors</text><text x="34" y="282" class="sm">LBA 0, 1, 2 … billions; 512 bytes or 4 KB each</text>
+     <path d="M445 268 H500" class="ln" stroke-dasharray="3 3"/><text x="508" y="272" class="sm">Disk driver: \\.\PhysicalDrive1, 'Disk 1' in Disk Management</text><rect x="20" y="302" width="420" height="48" rx="6" class="free"/><text x="34" y="323" class="b">Connection</text><text x="34" y="340" class="sm">SATA · NVMe (PCIe) · USB + bridge chip · card reader</text>
+     <path d="M445 326 H500" class="ln" stroke-dasharray="3 3"/><text x="508" y="330" class="sm">Port drivers (storahci, stornvme, USBSTOR/UASPStor, sdstor)</text><rect x="20" y="360" width="420" height="48" rx="6" class="bak"/><text x="34" y="381" class="b">The drive itself</text><text x="34" y="398" class="sm">platters + heads, or flash chips; its own controller</text>
+     <path d="M445 384 H500" class="ln" stroke-dasharray="3 3"/><text x="508" y="388" class="sm">Drive firmware (Windows can't see inside)</text>
+ <path d="M8 40 V400" class="arr"/><text x="20" y="424" class="sm">a request travels down the stack; each layer only works if the one below it does</text>
+ <rect x="14" y="240" width="432" height="60" rx="8" fill="none" stroke="var(--good)" stroke-width="2.5" stroke-dasharray="6 4"/>
+ <text x="430" y="261" text-anchor="end" class="b" style="fill:var(--good)">◀ DiskSalvor reads here</text>
+</svg></div>
+   <p class="muted small">When Windows says "you need to format the disk", usually only the file-system layer is damaged. The layers below (the disk and its sectors) still work, and so do most of the files' contents. That's why recovery tools read the raw sectors themselves instead of asking Windows for files.</p></section>
+<section class="hsec help" id="h-types"><h2>Kinds of drives</h2>
+   <div class="diagram"><svg viewBox="0 0 930 150">
+ <rect x="10" y="20" width="120" height="90" rx="8" class="free"/><circle cx="62" cy="65" r="36" class="meta"/><circle cx="62" cy="65" r="6" class="idx"/><path d="M118 28 L74 58" stroke="var(--text)" stroke-width="4" stroke-linecap="round"/><circle cx="118" cy="28" r="5" class="idx"/><rect x="165" y="20" width="120" height="90" rx="6" class="free"/><rect x="177" y="30" width="44" height="30" class="data"/><rect x="229" y="30" width="44" height="30" class="data"/><rect x="177" y="68" width="44" height="30" class="data"/><rect x="229" y="68" width="44" height="30" class="data"/><rect x="315" y="50" width="130" height="30" rx="3" class="free"/><rect x="323" y="56" width="24" height="18" class="data"/><rect x="353" y="56" width="24" height="18" class="data"/><rect x="383" y="56" width="24" height="18" class="data"/><rect x="415" y="56" width="18" height="18" class="meta"/><rect x="441" y="58" width="6" height="14" fill="var(--bg)"/><rect x="475" y="15" width="130" height="100" rx="10" class="free" stroke-dasharray="5 3"/><rect x="487" y="28" width="80" height="74" rx="6" class="meta"/><circle cx="525" cy="65" r="24" fill="var(--bg)" stroke="var(--accent)"/><rect x="573" y="50" width="26" height="30" class="idx"/><text x="586" y="96" text-anchor="middle" class="sm">bridge</text><rect x="670" y="45" width="80" height="40" rx="8" class="free"/><rect x="640" y="54" width="32" height="22" class="meta"/><rect x="690" y="55" width="30" height="20" class="data"/><path d="M820 25 h48 l14 14 v68 h-62 z" class="free"/><rect x="826" y="30" width="6" height="14" class="idx"/><rect x="836" y="30" width="6" height="14" class="idx"/><rect x="846" y="30" width="6" height="14" class="idx"/><rect x="856" y="30" width="6" height="14" class="idx"/><rect x="866" y="30" width="6" height="14" class="idx"/><rect x="832" y="62" width="34" height="28" class="data"/>
+ <text x="70" y="140" text-anchor="middle" class="b">Hard disk (HDD)</text><text x="225" y="140" text-anchor="middle" class="b">SATA SSD</text><text x="380" y="140" text-anchor="middle" class="b">NVMe SSD (M.2)</text><text x="540" y="140" text-anchor="middle" class="b">External USB drive</text><text x="710" y="140" text-anchor="middle" class="b">USB flash stick</text><text x="850" y="140" text-anchor="middle" class="b">SD / microSD card</text>
+</svg></div>
+   <div style="overflow-x:auto"><table><tr><th>Type</th><th>What's inside</th><th>Typical connection</th><th>How it usually fails</th><th>Deleted files recoverable?</th><th>Health log</th></tr><tr><td><b>Hard disk (HDD)</b><br><span class='muted small'>3.5" desktop, 2.5" laptop/portable</span></td><td>Spinning magnetic platters; heads float nanometres above them on an arm</td><td>SATA, or USB through a bridge</td><td>Slowly: a growing number of bad sectors, slow reads, then clicking (heads) or not spinning (motor). Drops and bumps while running cause most damage.</td><td>Usually yes, until overwritten</td><td>Full S.M.A.R.T.; often blocked by cheap USB adapters</td></tr><tr><td><b>SATA SSD</b><br><span class='muted small'>2.5" box</span></td><td>Flash memory chips + a controller with its own firmware</td><td>SATA, or USB enclosure</td><td>Suddenly: disappears, goes read-only, or reports a tiny wrong size (firmware fault). Wear-out is rare in normal use.</td><td>Rarely: TRIM erases freed space within seconds or minutes</td><td>S.M.A.R.T. with wear and spare-block values</td></tr><tr><td><b>NVMe SSD</b><br><span class='muted small'>M.2 stick</span></td><td>Flash + a fast controller, on PCIe</td><td>M.2 slot; or a USB-NVMe enclosure</td><td>Like SATA SSDs; can also overheat and slow down</td><td>Rarely (TRIM)</td><td>NVMe health log (wear %, spare, media errors)</td></tr><tr><td><b>External USB drive</b><br><span class='muted small'>WD My Passport, Seagate, etc.</span></td><td>An ordinary HDD or SSD plus a USB <b>bridge</b> chip; some have the USB port soldered to the drive's board</td><td>USB (BOT or the faster UAS mode)</td><td>Same as the drive inside; plus bridge or power problems (2.5" drives need enough USB power)</td><td>Same as the drive inside</td><td>Only if the bridge passes it through</td></tr><tr><td><b>USB flash stick</b></td><td>One or two flash chips + a tiny controller</td><td>USB</td><td>Suddenly: not detected, 0 bytes, write-protected, or 'please insert a disk'. Fake-capacity sticks lose data silently.</td><td>Often yes (most don't TRIM)</td><td>None</td></tr><tr><td><b>SD / microSD card</b><br><span class='muted small'>cameras, phones, drones</span></td><td>Flash + tiny controller</td><td>Card reader (built-in or USB)</td><td>Suddenly, like sticks; often becomes read-only by itself to protect data. Removing during writes corrupts the file system.</td><td>Often yes</td><td>None</td></tr><tr><td><b>eMMC / UFS</b><br><span class='muted small'>cheap laptops, phones</span></td><td>Flash soldered to the board</td><td>Internal</td><td>With the device</td><td>Rarely</td><td>Minimal</td></tr><tr><td><b>Disk image</b><br><span class='muted small'>.img, .dd, .vhd</span></td><td>A file holding a sector-by-sector copy of a drive</td><td>Any</td><td>Can't fail mechanically: the safest thing to work on</td><td>Same as the original</td><td>None (it's a file)</td></tr></table></div>
+   <p class="muted small">Memory-card sizes decide their file system: SD (up to 2 GB) uses FAT16, SDHC (4–32 GB) FAT32, SDXC (64 GB and up) exFAT.</p></section>
+<section class="hsec help" id="h-connect"><h2>How a drive connects, and why it matters</h2>
+   <div class="diagram"><svg viewBox="0 0 920 230"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <rect x="10" y="85" width="130" height="60" rx="8" class="meta"/><text x="75" y="112" text-anchor="middle" class="b">Computer</text><text x="75" y="130" text-anchor="middle" class="sm">Windows</text>
+ <path d="M140 100 C200 100 200 30 250 30" class="arr"/><text x="270" y="25" class="b">SATA</text><text x="330" y="25" class="sm">cable inside a PC → HDD or SATA SSD speaks ATA directly</text>
+ <path d="M140 115 H250" class="arr"/><text x="270" y="110" class="b">PCIe</text><text x="330" y="110" class="sm">M.2 slot → NVMe SSD speaks NVMe directly</text>
+ <path d="M140 130 C200 130 200 185 250 185" class="arr"/>
+ <rect x="255" y="165" width="90" height="40" rx="6" class="free"/><text x="300" y="190" text-anchor="middle" class="b">USB port</text>
+ <path d="M345 185 H390" class="arr"/>
+ <rect x="395" y="160" width="190" height="50" rx="6" class="idx"/><text x="490" y="182" text-anchor="middle" class="b">bridge chip</text><text x="490" y="199" text-anchor="middle" class="sm">translates USB ↔ SATA/NVMe</text>
+ <path d="M585 185 H630" class="arr"/>
+ <rect x="635" y="165" width="120" height="40" rx="6" class="meta"/><text x="695" y="190" text-anchor="middle" class="b">drive</text>
+ <text x="770" y="180" class="sm">S.M.A.R.T. passes only</text><text x="770" y="196" class="sm">if the bridge allows it</text>
+ <text x="255" y="225" class="sm">A card reader works the same way: its own little controller sits between USB and the card.</text>
+</svg></div>
+   <p><b>SATA</b> and <b>NVMe</b> drives talk to Windows directly. A <b>USB</b> drive talks through a bridge chip that converts USB commands into the drive's own language. Bridges are why the same disk can behave differently in different enclosures: some hide the health log, some time out and reset the connection when the disk struggles, and some encrypt everything (see Encryption).</p>
+   <div style="overflow-x:auto"><table><tr><th>Link</th><th>Notes for recovery</th></tr><tr><td>SATA (inside a PC, or a SATA dock)</td><td>Most direct and predictable. The best way to connect a failing hard disk, if you can get it out of its case (unless its bridge encrypts it).</td></tr><tr><td>NVMe / PCIe</td><td>Very fast; health log always available.</td></tr><tr><td>USB, BOT mode</td><td>Older, simpler protocol. Slower, but tolerant of slow drives.</td></tr><tr><td>USB, UAS mode</td><td>Faster, queues commands, can pass TRIM. Some bridges reset the whole connection when a failing drive stalls.</td></tr><tr><td>Card reader</td><td>The reader has its own controller. An empty slot still shows a drive letter with no size. Readers rarely pass TRIM.</td></tr><tr><td>Hubs, docks, front-panel ports</td><td>Add another chip and weaker power. Plug a fragile drive straight into the computer.</td></tr></table></div></section>
+<section class="hsec help" id="h-inside"><h2>Platters and flash</h2>
+   <div class="diagram"><svg viewBox="0 0 920 250"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <text x="20" y="20" class="b">Hard disk: each sector number has a fixed spot</text>
+ <rect x="20" y="32" width="52" height="28" class="free"/><text x="46" y="51" text-anchor="middle" class="sm">LBA 100</text><rect x="76" y="32" width="52" height="28" class="free"/><text x="102" y="51" text-anchor="middle" class="sm">LBA 101</text><rect x="132" y="32" width="52" height="28" class="free"/><text x="158" y="51" text-anchor="middle" class="sm">LBA 102</text><rect x="188" y="32" width="52" height="28" class="free"/><text x="214" y="51" text-anchor="middle" class="sm">LBA 103</text><rect x="244" y="32" width="52" height="28" class="free"/><text x="270" y="51" text-anchor="middle" class="sm">LBA 104</text><rect x="300" y="32" width="52" height="28" class="free"/><text x="326" y="51" text-anchor="middle" class="sm">LBA 105</text>
+ <circle cx="190" cy="165" r="70" class="meta"/><circle cx="190" cy="165" r="9" class="idx"/>
+ <path d="M190 103 A62 62 0 0 1 252 165" stroke="var(--good)" stroke-width="10" fill="none"/>
+ <path d="M190 60 V96" class="arr"/>
+ <text x="270" y="120" class="sm">neighbours on the</text><text x="270" y="136" class="sm">same track, in order</text>
+ <line x1="455" y1="10" x2="455" y2="245" stroke="var(--line)"/>
+ <text x="480" y="20" class="b">SSD, card or stick: a lookup table decides</text>
+ <rect x="480" y="32" width="52" height="28" class="free"/><text x="506" y="51" text-anchor="middle" class="sm">LBA 100</text><rect x="536" y="32" width="52" height="28" class="free"/><text x="562" y="51" text-anchor="middle" class="sm">LBA 101</text><rect x="592" y="32" width="52" height="28" class="free"/><text x="618" y="51" text-anchor="middle" class="sm">LBA 102</text><rect x="648" y="32" width="52" height="28" class="free"/><text x="674" y="51" text-anchor="middle" class="sm">LBA 103</text><rect x="704" y="32" width="52" height="28" class="free"/><text x="730" y="51" text-anchor="middle" class="sm">LBA 104</text><rect x="760" y="32" width="52" height="28" class="free"/><text x="786" y="51" text-anchor="middle" class="sm">LBA 105</text>
+ <rect x="480" y="78" width="330" height="30" rx="6" class="idx"/><text x="645" y="98" text-anchor="middle" class="sm">controller's map (FTL): LBA → wherever it put it</text>
+ <rect x="480" y="140" width="76" height="90" rx="4" class="data"/><text x="518" y="245" text-anchor="middle" class="sm">chip 1</text><rect x="566" y="140" width="76" height="90" rx="4" class="data"/><text x="604" y="245" text-anchor="middle" class="sm">chip 2</text><rect x="652" y="140" width="76" height="90" rx="4" class="data"/><text x="690" y="245" text-anchor="middle" class="sm">chip 3</text><rect x="738" y="140" width="76" height="90" rx="4" class="data"/><text x="776" y="245" text-anchor="middle" class="sm">chip 4</text>
+ <path d="M506 108 L560 180" class="arr"/><path d="M618 108 L800 160" class="arr"/><path d="M730 108 L600 205" class="arr"/><path d="M562 108 L700 175" class="arr"/>
+</svg></div>
+   <p>On a hard disk, consecutive sectors sit next to each other on a track, and deleted data stays put until something is written over it. On flash, the controller's map (the flash translation layer) puts data anywhere, moves it around to spread wear, and may erase freed space by itself.</p>
+   <p>So on hard disks physical position matters: the heads travel to each spot, and reading in disk order is faster and gentler than jumping around (DiskSalvor's "disk order" and "one sweep" copy modes use this). On flash, order barely matters.</p>
+   <p>Both kinds keep <b>spare</b> blocks. When a spot goes bad, the drive quietly maps that sector number to a spare. The drive's health log counts these swaps ("reallocated sectors"), and the ones it couldn't read yet ("pending sectors").</p></section>
+<section class="hsec help" id="h-sectors"><h2>Sectors and clusters</h2>
+   <div style="overflow-x:auto"><table><tr><th>Term</th><th>Meaning</th></tr><tr><td><b>Sector</b></td><td>The smallest unit a drive reads or writes: 512 bytes, or 4,096 bytes on newer drives.</td></tr><tr><td><b>LBA</b> (logical block address)</td><td>A sector's number: 0, 1, 2 … The only address the computer uses. A 2 TB drive has about 3.9 billion.</td></tr><tr><td><b>512e / 4Kn</b></td><td>Most hard disks since 2011 store 4 KB physically but pretend to have 512-byte sectors ("512e"). "4Kn" drives show 4 KB sectors directly. That's why one bad physical spot often shows up as 8 bad sectors in a row.</td></tr><tr><td><b>Cluster</b> (allocation unit)</td><td>The file system's unit: a group of sectors, typically 4 KB on NTFS and 32–128 KB on exFAT cards. A file always takes whole clusters.</td></tr><tr><td><b>Alignment</b></td><td>Partitions normally start on a 1 MB boundary (sector 2,048), so clusters line up with physical 4 KB blocks.</td></tr><tr><td><b>Offset</b></td><td>A position in bytes from the start of the disk: LBA × sector size.</td></tr></table></div></section>
+<section class="hsec help" id="h-tables"><h2>MBR and GPT partition tables</h2>
+   <div class="diagram"><svg viewBox="0 0 920 210">
+ <text x="10" y="18" class="b">MBR (older; disks up to 2 TB)</text>
+ <rect x="10" y="28" width="60" height="44" class="meta"/><text x="40" y="54" text-anchor="middle" class="sm">MBR</text>
+ <rect x="70" y="28" width="230" height="44" class="data"/><text x="185" y="54" text-anchor="middle" class="sm">partition 1</text>
+ <rect x="300" y="28" width="200" height="44" class="data"/><text x="400" y="54" text-anchor="middle" class="sm">partition 2</text>
+ <rect x="500" y="28" width="300" height="44" class="idx"/><text x="650" y="47" text-anchor="middle" class="sm">extended: a chain of small tables (EBRs),</text><text x="650" y="62" text-anchor="middle" class="sm">each pointing to one more "logical" partition</text>
+ <rect x="800" y="28" width="110" height="44" class="free"/><text x="855" y="54" text-anchor="middle" class="sm">no backup</text>
+ <text x="10" y="90" class="sm">Sector 0 holds 4 entries (start, length, type code) + the 55 AA signature + a 4-byte disk ID. No checksum, no copy.</text>
+ <text x="10" y="125" class="b">GPT (modern; required for disks over 2 TB and for UEFI boot)</text>
+ <rect x="10" y="135" width="60" height="44" class="meta"/><text x="40" y="155" text-anchor="middle" class="sm">PMBR</text><text x="40" y="170" text-anchor="middle" class="sm">LBA 0</text>
+ <rect x="70" y="135" width="60" height="44" class="meta"/><text x="100" y="155" text-anchor="middle" class="sm">header</text><text x="100" y="170" text-anchor="middle" class="sm">LBA 1</text>
+ <rect x="130" y="135" width="66" height="44" class="meta"/><text x="163" y="155" text-anchor="middle" class="sm">entries</text><text x="163" y="170" text-anchor="middle" class="sm">2–33</text>
+ <rect x="196" y="135" width="528" height="44" class="data"/><text x="460" y="162" text-anchor="middle" class="sm">up to 128 partitions, each with a type GUID, unique GUID and name</text>
+ <rect x="724" y="135" width="66" height="44" class="bak"/><text x="757" y="155" text-anchor="middle" class="sm">entries</text><text x="757" y="170" text-anchor="middle" class="sm">copy</text>
+ <rect x="790" y="135" width="60" height="44" class="bak"/><text x="820" y="155" text-anchor="middle" class="sm">header</text><text x="820" y="170" text-anchor="middle" class="sm">copy</text>
+ <text x="10" y="200" class="sm">Every part has a CRC32 checksum, and a full copy sits in the last sectors. The "protective MBR" stops old tools from thinking the disk is empty.</text>
+</svg></div>
+   <p>A disk can also have <b>no</b> partition table: the file system simply starts at sector 0. That's common on USB sticks and memory cards ("superfloppy"). It's normal, not damage.</p>
+   <p><b>A typical Windows system disk (GPT)</b>: an EFI system partition (100–260 MB, FAT32, the boot loader), a 16 MB Microsoft Reserved partition (empty, no file system), the Windows partition (NTFS, C:), and a Recovery partition (about 0.5–1 GB). External drives usually have one big partition.</p></section>
+<section class="hsec help" id="h-fs"><h2>File systems compared</h2>
+   <p>A <b>file system</b> is the filing scheme inside a partition: a table of contents (where each file's name, dates and pieces are) plus the space the contents live in.</p>
+   <div style="overflow-x:auto"><table><tr><th>File system</th><th>Where you see it</th><th>Limits</th><th>How files are found</th><th>Safety features</th><th>Recovery outlook</th><th>DiskSalvor</th></tr><tr><td><b>NTFS</b></td><td>Windows drives, most external HDDs</td><td>Very large files and volumes</td><td>Master File Table: one 1 KB record per file</td><td>Journal ($LogFile), mirror of the first 4 records, backup boot sector</td><td>Very good: records are self-contained; folders can be rebuilt</td><td>Full: list, copy, deleted files, deep search</td></tr><tr><td><b>FAT32</b></td><td>USB sticks, SDHC cards, EFI partitions</td><td>Files up to 4 GB; Windows formats it up to 32 GB</td><td>Folder entries + the FAT chain</td><td>Two copies of the FAT, backup boot sector at sector 6</td><td>Good for unfragmented files; deleted chains are erased</td><td>Full</td></tr><tr><td><b>FAT12/16</b></td><td>Old or tiny cards, floppies</td><td>Volumes up to 2–4 GB</td><td>Same as FAT32</td><td>Two FAT copies</td><td>Same as FAT32</td><td>Full</td></tr><tr><td><b>exFAT</b></td><td>SDXC cards, cameras, big USB sticks, drives shared with Macs</td><td>Huge files</td><td>Folder entry sets + bitmap; FAT only for fragmented files</td><td>Boot region checksum + full backup; no journal</td><td>Very good for unfragmented files</td><td>Full</td></tr><tr><td><b>ReFS</b></td><td>Windows Server, Storage Spaces</td><td>Very large</td><td>B+ trees, copy-on-write</td><td>Checksums on metadata</td><td>Needs specialist tools</td><td>Identifies it</td></tr><tr><td><b>ext4</b></td><td>Linux, many NAS boxes</td><td>Large</td><td>Inodes in block groups</td><td>Journal; superblock copies throughout the disk</td><td>Good with Linux tools</td><td>Identifies it, reads basic info</td></tr><tr><td><b>APFS / HFS+</b></td><td>Macs, Mac-formatted external drives</td><td>Large</td><td>B-trees</td><td>APFS: copy-on-write, snapshots</td><td>Needs Mac-aware tools</td><td>Identifies it</td></tr><tr><td><b>BitLocker, LUKS</b></td><td>Encrypted volumes (Windows, Linux)</td><td>–</td><td>Encrypted: unreadable without the key</td><td>–</td><td>Only with the key</td><td>Identifies and explains</td></tr></table></div>
+   <p class="muted small">Other things you may find on a disk: Linux swap (no files), LVM and Storage Spaces (containers that hold file systems), and ISO 9660 (CD/DVD images).</p></section>
+<section class="hsec help" id="h-ntfs"><h2>Inside NTFS</h2>
+   <div class="diagram"><svg viewBox="0 0 900 230"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <rect x="20" y="30" width="170" height="70" class="meta" rx="6"/><text x="105" y="58" text-anchor="middle" class="b">Boot sector</text><text x="105" y="78" text-anchor="middle" class="sm">"the MFT starts at</text><text x="105" y="92" text-anchor="middle" class="sm">cluster N"</text>
+ <path d="M190 65 H262" class="arr"/>
+ <rect x="265" y="20" width="250" height="190" class="idx" rx="6"/><text x="390" y="42" text-anchor="middle" class="b">Master File Table (MFT)</text>
+ <text x="280" y="66" class="sm">#0 $MFT: where the MFT itself is</text><text x="280" y="86" class="sm">#1 $MFTMirr · #2 $LogFile · #3 $Volume</text>
+ <text x="280" y="106" class="sm">#5 the top folder ( \ )</text><text x="280" y="126" class="sm">#6 $Bitmap: which clusters are in use</text>
+ <text x="280" y="150" class="sm">#64 "Photos" (a folder)</text><text x="280" y="170" class="sm">#109 "beach.jpg" (a file)</text><text x="280" y="190" class="sm">… one record (1 KB) per file or folder</text>
+ <path d="M515 166 C600 166 600 90 650 90" class="arr"/><path d="M515 170 C610 180 640 175 690 170" class="arr"/>
+ <rect x="640" y="70" width="70" height="40" class="data"/><rect x="680" y="150" width="90" height="40" class="data"/>
+ <text x="780" y="94" class="sm">piece 1 of the photo</text><text x="780" y="174" class="sm">piece 2</text>
+ <text x="700" y="40" text-anchor="middle" class="b">Data area</text>
+</svg></div>
+<div class="diagram"><svg viewBox="0 0 900 150">
+ <rect x="10" y="30" width="150" height="80" class="meta"/><text x="85" y="56" text-anchor="middle" class="b">Header</text><text x="85" y="76" text-anchor="middle" class="sm">"FILE" · record number</text><text x="85" y="92" text-anchor="middle" class="sm">in use / deleted</text>
+ <rect x="160" y="30" width="170" height="80" class="idx"/><text x="245" y="56" text-anchor="middle" class="b">Dates</text><text x="245" y="76" text-anchor="middle" class="sm">created · modified</text><text x="245" y="92" text-anchor="middle" class="sm">accessed · changed</text>
+ <rect x="330" y="30" width="230" height="80" class="idx"/><text x="445" y="56" text-anchor="middle" class="b">Name + parent folder</text><text x="445" y="76" text-anchor="middle" class="sm">"beach.jpg", in folder #64</text><text x="445" y="92" text-anchor="middle" class="sm">(long name and 8.3 short name)</text>
+ <rect x="560" y="30" width="330" height="80" class="data"/><text x="725" y="56" text-anchor="middle" class="b">Data: size + where the pieces are</text><text x="725" y="76" text-anchor="middle" class="sm">"45,312 bytes: 6 clusters at 81,920, 4 at 90,113"</text><text x="725" y="92" text-anchor="middle" class="sm">tiny files (under ~700 bytes) live right here</text>
+ <text x="10" y="134" class="sm">Every record is self-contained and starts with the letters FILE, so a scan can find records anywhere on the disk, even when the MFT's own map is lost.</text>
+</svg></div>
+   <p>The <b>boot sector</b> says where the <b>MFT</b> starts. The MFT holds one record per file or folder, and each record says where that file's contents are in the data area, possibly in several pieces (fragments). Each folder also keeps a sorted list of its contents in <b>INDX</b> blocks, so names are written in two places.</p>
+   <p>A record stores its folder only as a <b>number</b>. To show "Photos\2024\beach.jpg", the folder's own record must be readable too. If it isn't, the file is fine but has lost its place. That's why DiskSalvor can show "Lost folder #N" and then try to restore the real folder names from the INDX blocks (deep search).</p>
+   <p class="muted small">Other system files: $LogFile (a journal of changes in progress, replayed at mount), $Bitmap (which clusters are in use), $UpCase, $Secure (permissions), $Extend\$UsnJrnl (a log of recent changes), and the MFT's own bitmap.</p></section>
+<section class="hsec help" id="h-fat"><h2>Inside FAT32 and exFAT</h2><div class="diagram"><svg viewBox="0 0 920 190"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <rect x="10" y="30" width="70" height="48" class="meta"/><text x="45" y="52" text-anchor="middle" class="sm">boot</text><text x="45" y="67" text-anchor="middle" class="sm">+ backup</text>
+ <rect x="80" y="30" width="110" height="48" class="idx"/><text x="135" y="58" text-anchor="middle" class="sm">FAT 1</text>
+ <rect x="190" y="30" width="110" height="48" class="bak"/><text x="245" y="52" text-anchor="middle" class="sm">FAT 2</text><text x="245" y="67" text-anchor="middle" class="sm">(FAT32 copy)</text>
+ <rect x="300" y="30" width="610" height="48" class="data"/><text x="605" y="58" text-anchor="middle" class="sm">data area: clusters 2, 3, 4 … (folders are files too: lists of 32-byte entries)</text>
+ <text x="10" y="20" class="b">Layout</text>
+ <text x="10" y="110" class="b">How one file is found</text>
+ <rect x="10" y="122" width="230" height="56" rx="6" class="idx"/><text x="125" y="144" text-anchor="middle" class="b">folder entry</text><text x="125" y="162" text-anchor="middle" class="sm">"beach.jpg", 45 KB, starts at cluster 5</text>
+ <path d="M240 150 H285" class="arr"/>
+ <rect x="290" y="126" width="100" height="48" class="meta"/><text x="340" y="146" text-anchor="middle" class="sm">FAT[5]</text><text x="340" y="164" text-anchor="middle" class="b">→ 6</text><rect x="400" y="126" width="100" height="48" class="meta"/><text x="450" y="146" text-anchor="middle" class="sm">FAT[6]</text><text x="450" y="164" text-anchor="middle" class="b">→ 9</text><rect x="510" y="126" width="100" height="48" class="meta"/><text x="560" y="146" text-anchor="middle" class="sm">FAT[9]</text><text x="560" y="164" text-anchor="middle" class="b">end</text>
+ <text x="630" y="146" class="sm">The FAT is a chain: each cluster number</text><text x="630" y="162" class="sm">says which cluster comes next.</text>
+</svg></div>
+   <p>Folders are just files containing a list of 32-byte entries (name, size, dates, first cluster). Long names are stored in extra entries in front of the short one.</p>
+   <p><b>Deleting on FAT32</b> replaces the name's first letter and sets its chain to 0. The start cluster survives, so unfragmented files come back whole; fragmented ones only partly. <b>exFAT</b> keeps a "stored in one piece" flag per file and a bitmap of used clusters, so deleted files there are often fully recoverable.</p>
+   <p class="muted small">Backups: FAT32's boot sector is copied at sector 6 and the FAT is usually stored twice. exFAT's boot region (sectors 0–11) has a checksum and a full copy at sectors 12–23, but usually only one FAT.</p></section>
+<section class="hsec help" id="h-windows"><h2>What Windows does with a drive</h2>
+   <div class="diagram"><svg viewBox="0 0 930 300"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <rect x="10" y="20" width="160" height="70" rx="8" class="meta"/><text x="90" y="42" text-anchor="middle" class="b">Plug in</text><text x="90" y="60" text-anchor="middle" class="sm">driver identifies it:</text><text x="90" y="76" text-anchor="middle" class="sm">model, size, serial</text><path d="M170 55 H186" class="arr"/><rect x="188" y="20" width="160" height="70" rx="8" class="meta"/><text x="268" y="42" text-anchor="middle" class="b">Disk N appears</text><text x="268" y="60" text-anchor="middle" class="sm">Disk Management,</text><text x="268" y="76" text-anchor="middle" class="sm">\\.\PhysicalDriveN</text><path d="M348 55 H364" class="arr"/><rect x="366" y="20" width="160" height="70" rx="8" class="meta"/><text x="446" y="42" text-anchor="middle" class="b">Read sector 0–33</text><text x="446" y="60" text-anchor="middle" class="sm">MBR or GPT?</text><text x="446" y="76" text-anchor="middle" class="sm">list partitions</text><path d="M526 55 H542" class="arr"/><rect x="544" y="20" width="160" height="70" rx="8" class="meta"/><text x="624" y="42" text-anchor="middle" class="b">Each partition:</text><text x="624" y="60" text-anchor="middle" class="sm">recognise its</text><text x="624" y="76" text-anchor="middle" class="sm">file system?</text>
+ <path d="M630 90 C630 130 720 130 740 130" class="arr"/><path d="M600 90 C600 200 300 200 260 210" class="arrb"/>
+ <rect x="745" y="105" width="175" height="80" rx="8" class="bak"/><text x="832" y="128" text-anchor="middle" class="b">Yes: mount it</text><text x="832" y="146" text-anchor="middle" class="sm">gives it a letter (G:)</text><text x="832" y="162" text-anchor="middle" class="sm">dirty flag set? →</text><text x="832" y="177" text-anchor="middle" class="sm">"Scan and fix?" pop-up</text>
+ <rect x="20" y="190" width="235" height="80" rx="8" class="bad"/><text x="137" y="213" text-anchor="middle" class="b" style="fill:#fff">No: shown as RAW</text><text x="137" y="232" text-anchor="middle" class="sm" style="fill:#fff">"You need to format the disk</text><text x="137" y="248" text-anchor="middle" class="sm" style="fill:#fff">before you can use it"</text><text x="137" y="264" text-anchor="middle" class="b" style="fill:#fff">→ click Cancel</text>
+ <text x="745" y="208" class="sm">Then, in the background:</text><text x="745" y="224" class="sm">indexing, antivirus,</text><text x="745" y="240" class="sm">thumbnails, AutoPlay;</text><text x="745" y="256" class="sm">Recycle Bin and System</text><text x="745" y="272" class="sm">Volume Information (writes!)</text>
+ <text x="290" y="235" class="sm">No partition table at all? Disk Management may ask to</text><text x="290" y="251" class="sm">"Initialize disk": that writes a new, empty table. Cancel.</text>
+</svg></div>
+   <div style="overflow-x:auto"><table><tr><th>Windows part</th><th>What it does</th><th>Why it matters for recovery</th></tr><tr><td>Storage drivers</td><td>Identify the drive and pass commands to it</td><td>Retries failed reads several times before giving up, so one bad spot can freeze things for minutes.</td></tr><tr><td>Disk Management (diskmgmt.msc)</td><td>Shows Disk 0, Disk 1… with their partitions</td><td>Offers to Initialize a disk with no recognised table, and to Format RAW partitions. Both write. Use it only to look.</td></tr><tr><td>Mount manager</td><td>Gives each recognised volume a drive letter</td><td>An unrecognised (damaged) volume still gets a letter but shows as RAW.</td></tr><tr><td>File-system drivers</td><td>Read and write NTFS, exFAT, FAT, ReFS</td><td>On mount NTFS replays its journal: that writes to the drive even if you only open it.</td></tr><tr><td>Dirty flag</td><td>Set while a volume has writes in progress; cleared on clean eject</td><td>Still set at next plug-in → "Scan and fix?" prompt.</td></tr><tr><td>Write cache / removal policy</td><td>"Quick removal" (default for USB) writes immediately; "Better performance" caches</td><td>Unplugging or rebooting while files are being written can leave half-written sectors and a damaged index.</td></tr><tr><td>Safely remove / Eject</td><td>Flushes and closes the volume</td><td>Fails if anything has a file open (Explorer preview, antivirus, a copy). Forcing it by pulling the plug or rebooting mid-write is a classic cause of damage.</td></tr><tr><td>Background services</td><td>Search indexing, Defender, thumbnails, AutoPlay, Recycle Bin, System Volume Information</td><td>Read (and sometimes write) the drive without asking. On a fragile drive, close Explorer windows on it.</td></tr><tr><td>CHKDSK / "Scan and fix"</td><td>Repairs file-system structures in place</td><td>Writes; on a damaged index it may move or delete what it can't place. Never on a failing drive before your data is copied.</td></tr><tr><td>TRIM / Optimize Drives</td><td>Tells SSDs which space is free</td><td>Makes deleted files on SSDs unrecoverable. Quick-formatting an SSD trims the whole volume.</td></tr><tr><td>BitLocker</td><td>Unlocks encrypted volumes</td><td>A locked volume reads as noise until unlocked.</td></tr><tr><td>Disk signatures</td><td>Each disk has an ID</td><td>Two disks with the same ID (a clone) → Windows sets one offline.</td></tr></table></div></section>
+<section class="hsec help" id="h-backups"><h2>What has a backup copy</h2>
+   <div style="overflow-x:auto"><table><tr><th>Structure</th><th>What it does</th><th>Backup?</th></tr><tr><td>MBR partition table</td><td>Lists up to 4 partitions</td><td>✗ None (sector 0 only)</td></tr><tr><td>GPT partition table</td><td>Lists partitions, with checksums</td><td>✓ Full copy at the end of the disk</td></tr><tr><td>NTFS boot sector</td><td>What the partition is; where the MFT starts</td><td>✓ Copy in the partition's last sector</td></tr><tr><td>NTFS MFT records #0–#3</td><td>The MFT's own map, the mirror, the journal, volume info</td><td>✓ The MFT mirror ($MFTMirr)</td></tr><tr><td>All other MFT records</td><td>One per file and folder</td><td>✗ No copy. Losing a file's record loses that file; losing a folder's record loses the names above its files (they're found as a lost folder); a big, fragmented file can lose a piece of its map</td></tr><tr><td>NTFS folder listings (INDX)</td><td>Each folder's list of names</td><td>~ Not a backup, but a second place where names are written</td></tr><tr><td>FAT32 boot sector</td><td>Geometry, where the FAT and root are</td><td>✓ Copy at sector 6</td></tr><tr><td>FAT table</td><td>The cluster chains</td><td>✓ Usually two copies</td></tr><tr><td>exFAT boot region</td><td>Geometry + checksum</td><td>✓ Full copy at sectors 12–23</td></tr><tr><td>exFAT FAT and bitmap</td><td>Chains and used space</td><td>✗ Usually one copy</td></tr><tr><td>ext4 superblock</td><td>Geometry</td><td>✓ Many copies spread over the disk</td></tr><tr><td>Your files' contents</td><td>The data itself</td><td>✗ Only the copies you make</td></tr></table></div></section>
+<section class="hsec help" id="h-deleted"><h2>Deleted, formatted, wiped</h2>
+   <div class="diagram"><svg viewBox="0 0 900 110">
+ <rect x="20" y="30" width="220" height="50" class="idx"/><text x="130" y="52" text-anchor="middle">index entry: <tspan class="b">"not in use"</tspan></text><text x="130" y="70" text-anchor="middle" class="sm">name and location still readable</text>
+ <rect x="270" y="30" width="200" height="50" class="free"/><text x="370" y="52" text-anchor="middle">space marked "free"</text><text x="370" y="70" text-anchor="middle" class="sm">contents still there…</text>
+ <rect x="500" y="30" width="380" height="50" class="data"/><text x="690" y="52" text-anchor="middle">…until something new is written over them</text><text x="690" y="70" text-anchor="middle" class="sm">so: stop writing to the drive as soon as you notice</text>
+</svg></div>
+   <div style="overflow-x:auto"><table><tr><th>What happened</th><th>What's actually changed</th><th>Chances</th></tr><tr><td>File deleted (Recycle Bin emptied)</td><td>Index entry marked unused; space marked free</td><td>Good on HDDs, cards and sticks until overwritten; poor on SSDs (TRIM)</td></tr><tr><td>Quick format</td><td>A new, empty file system written over the start</td><td>Good on HDDs, cards and sticks (scan for the old one, or carve); usually none on SSDs (whole volume trimmed)</td></tr><tr><td>Full format (Windows Vista and later)</td><td>Every sector overwritten with zeros</td><td>None</td></tr><tr><td>Partition deleted</td><td>Only the table entry removed</td><td>Very good: a lost-partition scan finds it</td></tr><tr><td>"Initialize disk" clicked</td><td>New empty partition table</td><td>Very good, if nothing was formatted afterwards</td></tr><tr><td>Secure erase / wipe tools</td><td>Everything overwritten or the SSD's key thrown away</td><td>None</td></tr></table></div></section>
+<section class="hsec help" id="h-damage"><h2>When the file index is damaged</h2>
+   <div class="diagram"><svg viewBox="0 0 900 170"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <rect x="20" y="40" width="90" height="50" class="meta"/><text x="65" y="70" text-anchor="middle">boot ✓</text>
+ <rect x="130" y="40" width="70" height="50" class="bad"/><text x="165" y="64" text-anchor="middle" style="fill:#fff" class="b">first</text><text x="165" y="80" text-anchor="middle" style="fill:#fff" class="sm">records ✗</text>
+ <rect x="200" y="40" width="320" height="50" class="idx"/><text x="360" y="70" text-anchor="middle">the rest of the index ✓ (most files)</text>
+ <rect x="540" y="40" width="340" height="50" class="data"/><text x="710" y="70" text-anchor="middle">file contents ✓ (untouched)</text>
+ <path d="M65 40 C65 10 165 10 165 38" class="arrb"/><text x="115" y="14" text-anchor="middle" class="sm">points here: unreadable</text>
+ <text x="20" y="120" class="sm">✗ The records that describe the index itself, the top folder and the free-space map are gone, so Windows can't mount the volume (RAW).</text>
+ <text x="20" y="140" class="sm">✓ Every other record carries its own name and place. A scan finds them by signature and rebuilds the folder tree.</text>
+ <text x="20" y="160" class="sm">~ Files whose own records were in the bad patch lose their names; their contents can often be found by file type (carving).</text>
+</svg></div>
+   <p>This is the most common reason a drive suddenly shows as RAW after a power cut, a forced reboot or an unplug during copying: the writes that were in flight were to the index, so the index is what's half-written. The file contents are usually untouched. Recovery means reading the surviving index records directly (and, for the missing ones, finding files by their content type).</p></section>
+<section class="hsec help" id="h-bad"><h2>Bad sectors, retries and hangs</h2>
+   <p>Every sector carries an error-correcting code. When the data doesn't match it, the drive retries, then reports a read error.</p>
+   <div class="diagram"><svg viewBox="0 0 920 165"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <rect x="10" y="40" width="180" height="56" rx="6" class="meta"/><text x="100" y="64" text-anchor="middle" class="b">App asks for 64 KB</text><text x="100" y="82" text-anchor="middle" class="sm">one bad sector inside</text>
+ <path d="M190 68 H230" class="arr"/>
+ <rect x="235" y="30" width="300" height="76" rx="6" class="bad"/><text x="385" y="56" text-anchor="middle" class="b" style="fill:#fff">drive retries internally</text><text x="385" y="74" text-anchor="middle" class="sm" style="fill:#fff">desktop drives: up to 30 s or more</text><text x="385" y="90" text-anchor="middle" class="sm" style="fill:#fff">NAS drives with ERC/TLER: ~7 s</text>
+ <path d="M535 68 H570" class="arr"/>
+ <rect x="575" y="30" width="185" height="76" rx="6" class="idx"/><text x="667" y="56" text-anchor="middle" class="b">Windows retries</text><text x="667" y="74" text-anchor="middle" class="sm">the whole request,</text><text x="667" y="90" text-anchor="middle" class="sm">several times</text>
+ <path d="M760 68 H792" class="arr"/><text x="798" y="64" class="b">minutes of</text><text x="798" y="82" class="sm">"Not responding"</text>
+ <text x="10" y="134" class="sm">That's why copying in Explorer "hangs" on a failing drive, and why each retry wears it further.</text>
+ <text x="10" y="153" class="sm">A USB bridge may also give up and reset the connection ("drive disconnected").</text>
+</svg></div>
+   <div class="diagram"><svg viewBox="0 0 900 90">
+    <rect x="20" y="20" width="250" height="44" class="bad"/><text x="145" y="47" text-anchor="middle" style="fill:#fff">physically damaged sector</text>
+    <rect x="300" y="20" width="270" height="44" class="free" style="stroke:var(--bad)"/><text x="435" y="47" text-anchor="middle">half-written sector (power cut)</text>
+    <text x="600" y="38" class="sm">Both read as errors. The second kind is "soft": the</text><text x="600" y="56" class="sm">surface is fine, and rewriting the sector clears it.</text>
+   </svg></div>
+   <p>DiskSalvor reads <b>gently</b>: on an error it skips the block and comes back later in small steps, one physical sector (usually 4 KB) at a time; when the drive stops responding it moves on instead of waiting; it keeps a map of every problem; and it warns you when errors repeat.</p></section>
+<section class="hsec help" id="h-smart"><h2>The health log (S.M.A.R.T.)</h2>
+   <p>Drives keep their own statistics. DiskSalvor reads them directly (the same way CrystalDiskInfo does): NVMe SSDs always, SATA drives directly, and USB drives when the bridge allows it. Memory cards and most sticks have no health log.</p>
+   <p>Each item has a <b>count</b> (the real number of events) and a <b>score</b> (the drive's own 1–253 rating; lower is worse). The drive only calls itself "failing" when a score drops to its <b>fail line</b>, which is often too late. The counts are more useful:</p>
+   <div style="overflow-x:auto"><table><tr><th>Item</th><th>Healthy</th><th>Meaning when it's above zero</th></tr><tr><td>197 Pending sectors</td><td>0</td><td>Sectors unreadable right now. The key number for recovery: copy first, gently.</td></tr><tr><td>198 Uncorrectable (offline)</td><td>0</td><td>Sectors that failed the drive's own scan.</td></tr><tr><td>5 Reallocated sectors</td><td>0 (a few can be stable)</td><td>Bad spots already swapped for spares. Growing = deteriorating.</td></tr><tr><td>187 Reported uncorrectable</td><td>0</td><td>Reads the drive couldn't correct.</td></tr><tr><td>188 Command timeouts</td><td>0</td><td>The drive stopped answering: weak power, cable, or the drive.</td></tr><tr><td>199 Interface CRC errors</td><td>0</td><td>Transfer errors: almost always the cable, port or USB adapter, not the disk.</td></tr><tr><td>10 Spin retries</td><td>0</td><td>The motor struggled to spin up.</td></tr><tr><td>9 Power-on hours, 194 Temperature</td><td>–</td><td>Age, and heat (above 50–55 °C speeds failure).</td></tr><tr><td>NVMe: Percentage used</td><td>under 100%</td><td>Rated write endurance used up.</td></tr><tr><td>NVMe: Available spare / Media errors / Critical warning</td><td>high / 0 / none</td><td>Spare flash left; unreadable data; serious condition.</td></tr></table></div>
+   <p class="muted small">Self-tests: the drive can test itself (short ≈ 2 min, extended = the whole surface). Its log of past results is shown too. An extended test on a failing drive takes hours and adds wear, so copy your data first.</p></section>
+<section class="hsec help" id="h-crypt"><h2>Encryption</h2>
+   <div class="diagram"><svg viewBox="0 0 920 120"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--bad)"/></marker></defs>
+ <text x="10" y="18" class="b">BitLocker (Windows, software)</text>
+ <rect x="10" y="30" width="400" height="50" class="meta"/><text x="210" y="52" text-anchor="middle" class="sm">volume starts with "-FVE-FS-";</text><text x="210" y="69" text-anchor="middle" class="sm">contents scrambled with your key</text>
+ <text x="480" y="18" class="b">Hardware encryption (in the drive or its USB bridge)</text>
+ <rect x="480" y="30" width="140" height="50" rx="6" class="idx"/><text x="550" y="60" text-anchor="middle" class="sm">USB bridge + key</text>
+ <path d="M620 55 H660" class="arr"/>
+ <rect x="665" y="30" width="245" height="50" class="free"/><text x="787" y="60" text-anchor="middle" class="sm">disk contents look like noise</text>
+ <text x="10" y="108" class="sm">How DiskSalvor spots either: the first sectors look random (high entropy) instead of having a partition table or a file-system signature.</text>
+</svg></div>
+   <p><b>BitLocker</b> is unlocked by Windows with your password or the 48-digit recovery key; once unlocked the disk works in any PC. <b>Many WD My Passport / My Book drives</b> encrypt everything in their USB bridge, even with no password set: take the disk out of its case and it reads as noise, so it only works through its own (or an identical) bridge.</p>
+   <div style="overflow-x:auto"><table><tr><th>Kind</th><th>Where the key is</th><th>Recovery</th></tr><tr><td>BitLocker / BitLocker To Go</td><td>Your password, TPM, or the 48-digit recovery key (often in your Microsoft account)</td><td>Unlock first, then recover normally</td></tr><tr><td>VeraCrypt and similar</td><td>Your password</td><td>Mount with the same software first</td></tr><tr><td>Bridge encryption (many WD externals)</td><td>Inside the USB bridge chip</td><td>Only through the original (or identical) bridge</td></tr><tr><td>Self-encrypting drive (SED/Opal)</td><td>Inside the drive</td><td>Unlock with its password or management software</td></tr></table></div></section>
+<section class="hsec help" id="h-diskl"><h2>How DiskSalvor reads a drive</h2>
+   <p>DiskSalvor opens the disk as raw sectors (\\.\PhysicalDriveN) and reads the layers itself: partition table, then each file system, then the files. It never writes to the drive it's examining, works even when Windows calls the volume RAW, and reads gently with a full record of every problem. Its guided steps follow the safe order: <b>look → check health → copy (whole drive or your files) → find what's missing → repair last</b>.</p></section>
+<section class="hsec help" id="h-gloss"><h2>Glossary</h2>
+   <div style="overflow-x:auto"><table><tr><th>Word</th><th>Meaning</th></tr><tr><td>Bridge</td><td>The chip in a USB enclosure or adapter that converts USB to SATA or NVMe.</td></tr><tr><td>Carving</td><td>Finding files by their content (a JPEG's header and end) when the index is lost; names and folders can't be recovered this way.</td></tr><tr><td>CHKDSK</td><td>Windows' file-system repair tool. Writes to the drive.</td></tr><tr><td>Cluster</td><td>A file system's allocation unit; a group of sectors.</td></tr><tr><td>Dirty flag</td><td>A marker saying the volume wasn't closed cleanly.</td></tr><tr><td>ECC</td><td>Error-correcting code stored with every sector.</td></tr><tr><td>ERC / TLER</td><td>A setting that limits how long a drive retries a bad sector (about 7 seconds on NAS drives).</td></tr><tr><td>Firmware</td><td>The drive's own built-in software.</td></tr><tr><td>FTL</td><td>Flash translation layer: an SSD's map from sector numbers to flash locations.</td></tr><tr><td>GPT / MBR</td><td>The two partition-table formats.</td></tr><tr><td>Image</td><td>A file containing a sector-by-sector copy of a drive.</td></tr><tr><td>INDX</td><td>NTFS folder listings.</td></tr><tr><td>LBA</td><td>Logical block address: a sector's number.</td></tr><tr><td>MFT</td><td>NTFS's Master File Table: one record per file.</td></tr><tr><td>Partition / volume</td><td>A slice of a disk / the file system in it (usually a drive letter).</td></tr><tr><td>RAW</td><td>Windows' label for a volume whose file system it can't recognise.</td></tr><tr><td>S.M.A.R.T.</td><td>The drive's own health log.</td></tr><tr><td>SAT</td><td>SCSI-ATA translation: how health commands get through USB bridges.</td></tr><tr><td>Sector</td><td>The smallest block a drive reads or writes (512 B or 4 KB).</td></tr><tr><td>Superfloppy</td><td>A drive with no partition table; the file system starts at sector 0.</td></tr><tr><td>TRIM</td><td>An SSD command marking space free; the SSD then erases it.</td></tr><tr><td>UAS / BOT</td><td>The two USB storage protocols (fast / simple).</td></tr></table></div></section></div></div>
+  <p class="updated">Last updated 2026-11-10 · Something wrong or unclear on this page? <a href="mailto:hello@disksalvor.com?subject=Help%20page:%20How%20drives%20work">Tell us</a>.</p>
+</main>
+<footer><div class="wrap">
+  <div class="cols">
+    <div><a class="brand" href="/"><img src="/assets/logo.svg" alt="" style="width:30px;height:30px">DiskSalvor</a>
+      <p>Free, open-source rescue of files from failing drives.</p><p style="font-size:13.5px"><i>Salvor</i> (noun): someone who saves a ship's cargo from a wreck.</p></div>
+    <div><h4>Product</h4><a href="/#how">How it works</a><a href="/#tools">Expert tools</a><a href="/#compare">How it compares</a><a href="/#result">Results</a></div>
+    <div><h4>Help</h4><a href="/help/get-help/">What to do first</a><a href="/help/using-disksalvor/">Using DiskSalvor</a><a href="/help/how-drives-work/">How drives work</a><a href="/help/questions/">FAQ</a><a href="/support/">Support</a></div>
+    <div><h4>Project</h4><a href="/security/">Security</a><a href="https://github.com/disksalvor">GitHub</a><a href="mailto:hello@disksalvor.com">hello@disksalvor.com</a></div>
+  </div>
+  <div class="legal"><span>© 2026 DiskSalvor contributors</span><span>MIT licence</span><span>Provided as is, without warranty.</span><span>Product names belong to their owners.</span></div>
+</div></footer>
+</body>
+</html>
